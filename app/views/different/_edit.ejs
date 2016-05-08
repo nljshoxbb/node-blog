@@ -1,0 +1,16 @@
+<div class="container">
+	<form class="form-horizontal" method="post" accept-charset="utf-8">
+		<div class="form-group">
+			<label for="" class="col-md-2 col-md-offset-2 control-label">文章标题：</label>
+			<div class="col-md-4">
+				<input class="form-control" type="text" name='title' value='<%= paper.title%>' >
+			</div>
+		</div>
+		<div class="col-md-8 col-md-offset-2">
+			<textarea name="content" rows="10" cols="3" class="form-control col-md-6"><%=paper.content%></textarea>
+		</div>
+		<br/>
+		<button type="submit" class="col-md-2 col-md-offset-5 btn btn-primary">保存更改</button>
+	</form>
+</div>
+

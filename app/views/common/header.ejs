@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="/javascripts/user_main.js" ></script>
+    <script src="/javascripts/index.js"></script>
+    <script src="/javascripts/user_list.js" ></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+/*    	body {
+    	  padding-top: 40px;
+    	  padding-bottom: 40px;
+    	  background-color: #eee;
+    	}*/
+
+    	.form-signin {
+    	  max-width: 330px;
+    	  padding: 15px;
+    	  margin: 0 auto;
+    	}
+    	.form-signin .form-signin-heading,
+    	.form-signin .checkbox {
+    	  margin-bottom: 10px;
+    	}
+    	.form-signin .checkbox {
+    	  font-weight: normal;
+    	}
+    	.form-signin .form-control {
+    	  position: relative;
+    	  height: auto;
+    	  -webkit-box-sizing: border-box;
+    	     -moz-box-sizing: border-box;
+    	          box-sizing: border-box;
+    	  padding: 10px;
+    	  font-size: 16px;
+    	}
+    	.form-signin .form-control:focus {
+    	  z-index: 2;
+    	}
+    	.form-signin input[type="text"] {
+    	  margin-bottom: -1px;
+    	  border-bottom-right-radius: 0;
+    	  border-bottom-left-radius: 0;
+    	}
+    	.form-signin input[type="password"] {
+    	  margin-bottom: 10px;
+    	  border-top-left-radius: 0;
+    	  border-top-right-radius: 0;
+    	}
+    	.error{
+    		color: red;
+    	}
+    </style>
+  </head>
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">@_@</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/">主页</a></li>
+          <!-- 用户登录后才显示发表和上传菜单 -->
+          <% if(user) { %>
+            <li><a href="/post">发表</a></li>
+            <li><a href="/upload">上传</a></li>
+            <li><a href="/logout">退出</a></li>
+            <% if(user.role>=50){%>
+            <li><a href="/admin">进入管理界面</a></li>
+            <% } %>
+          <% } %>
+          <!-- 用户未登录才显示的登录和注册菜单 -->
+          <% if(!user) { %>
+            <li><a href="/signin">登录</a></li>
+            <li><a href="/signup">注册</a></li>
+          <% } %>
+        </ul>
+        <form action="/search" class="navbar-form navbar-right" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="keyword">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+      </div>
+    </div>
+  </nav>
