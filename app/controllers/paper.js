@@ -1,6 +1,7 @@
 var Paper = require('../models/paper'),
 	Comment = require('../models/comment');
 
+// 发表文章
 exports.post=function(req,res){
 	var date = new Date();
 	var _paper={
@@ -21,24 +22,22 @@ exports.post=function(req,res){
 			var paper=new Paper(_paper);
 			paper.save(function(err){
 				if(err){
-					// req.flash('error','文章存储失败！');
 					res.redirect('/post');
 				}
 				// paper.update({$push:{paper:paper}},function(err,paper){})
-				// req.flash('success','发布成功！');
 				res.redirect('/')
 			})
 		}
 	})
 }
+// 展示文章
 exports.showPost=function(req,res){
 	res.render('combine/post',{
 	  	title:'发表页面',
   		user:req.session.user,
-       // 	success: req.flash('success').toString(),
-      	// error: req.flash('error').toString()
 	 })
 }
+// 修改文章
 exports.edit=function(req,res){
 	Paper.findOne({
 		author:req.query.author,
@@ -52,11 +51,10 @@ exports.edit=function(req,res){
 			title: '编辑页面',
 			user:req.session.user,
 			paper:paper,
-    		// success: req.flash('success').toString(),
-    		// error: req.flash('error').toString()
 		});
 	});
 }
+// 保存修改文章
 exports.saveEdit=function(req,res){
 	// console.log(req.body.title,req.session.user.name)
 	Paper.findOneAndUpdate({
@@ -66,15 +64,14 @@ exports.saveEdit=function(req,res){
 		if(err){
 			return;
 		}
-		// console.log(paper)
 		if(paper){
-			// req.flash('success','修改成功！');
 			res.redirect('/')
 		}
 	})
 }
+
+// 删除文章
 exports.delete=function(req,res){
-	// console.log(req.body.title,req.session.user.name)
 	Paper.findOneAndRemove({
 		title:req.query.title,
 		author:req.query.author
@@ -82,46 +79,29 @@ exports.delete=function(req,res){
 		if(err){
 			return;
 		}
-		// console.log(paper)
 		if(paper){
-			// req.flash('success','删除成功！');
 			res.redirect('/')
 		}
 	})
 }
 
-exports.userDelete=function(req,res){
-	// console.log(req.body.title,req.session.user.name)
-	Paper.findOneAndRemove({
-		title:req.query.title,
-		author:req.query.author
-	},function(err,paper){
-		if(err){
-			return;
-		}
-		// console.log(paper)
-		if(paper){
-			// req.flash('success','删除成功！');
-			res.redirect('/user')
-		}
-	})
-}
+// 删除留言 待完善
+// exports.deleteComment = function (req,res) {
+// 	Comment.findOneAndRemove({
+// 		content:req.query.content,
+// 		name:req.query.name
+// 	},function (err,comment) {
+// 		if (err) {
+// 			return;
+// 		}
+// 		if (comment) {
+// 			console.log('删除评论成功')
+// 			res.redirect('/_paper_detail')
+// 		}
+// 	})
+// }
 
-exports.deleteComment = function (req,res) {
-	Comment.findOneAndRemove({
-		content:req.query.content,
-		name:req.query.name
-	},function (err,comment) {
-		if (err) {
-			return;
-		}
-		if (comment) {
-			console.log('删除评论成功')
-			res.redirect('/_paper_detail')
-		}
-	})
-}
-
+// 获取文章详细页
 exports.getPaper=function(req,res){
 	var user=req.session.user;
 	var date=new Date();
@@ -144,12 +124,11 @@ exports.getPaper=function(req,res){
 			title: '文章页面',
 			user: user,
 			paper:paper,
-			// comments:comments
-    		// success: req.flash('success').toString(),
-    		// error: req.flash('error').toString()
 		});
 	});
 }
+
+// 文章留言功能
 exports.comment=function(req,res){
 	var date=new Date();
 	var _comment={
@@ -170,13 +149,14 @@ exports.comment=function(req,res){
 		paper.update({$push:{comments:comment}},function(err,paper){})
 
 		if(paper){
-			// req.flash('success','评论成功！');
 			console.log('success')
 			res.redirect('back');
 		}
 	    }
 	)
 }
+
+// 文章转载功能
 exports.reprint=function(req,res){
 	var title=req.query.title,
 	      author=req.query.author,
@@ -191,7 +171,6 @@ exports.reprint=function(req,res){
 		if(err)
 			return;
 		paper.update({$push:{reprint_to:reprint_to}},function(err,paper){});
-		// console.log(paper)
 		var _paper={
 			title:paper.title,
 			type:'',
@@ -215,26 +194,23 @@ exports.reprint=function(req,res){
 
 			if(!paper){
 				var re_paper=new Paper(_paper);
-				// console.log(re_paper)
 				re_paper.save(function(err){
 					if (err) {
 						console.log(err)
 						return;
 					}
-					// req.flash('success','转载成功！');
 					res.redirect('/')
 				})
 			}
 			else{
-				// req.flash('error','已转载过该文章！');
 				res.redirect('back')
 			}
 		})
 	})
 }
 
+// 搜索功能
 exports.search = function (req,res) {
-	// var user = user.session.user;
 	var date = new Date();
 	var keyword = req.query.keyword;
 	var pattern = new RegExp(keyword,'i');
@@ -249,7 +225,6 @@ exports.search = function (req,res) {
 			time:time,
 			paper:paper,
 			author:paper.author
-			// user:user.session.user
 		})
 	})
 }

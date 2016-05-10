@@ -1,5 +1,7 @@
 var User = require('../models/user'),
 	Paper = require('../models/paper');
+	Notice = require('../models/notice.js')
+	
 // 首页控制器
 exports.showIndex = function (req,res) {
 	var totalpaper = 0;
@@ -18,14 +20,18 @@ exports.showIndex = function (req,res) {
 	}
 	page = parseInt(page);
 	var papers;
+	// 每一页显示的文章数
 	Paper.find({},null,{skip:(page-1)*2,limit:2},function (err,papers) {
 		if (err) {
 			papers = [];
 			return;
 		}
-		console.log('totalpaper='+totalpaper);
-		
-		res.render('./combine/index',{
+		var notices;
+		Notice.find({},function (err,notices) {
+			if (err) {
+				notices = [];
+			}
+			res.render('./combine/index',{
 			title:'主页',
 			user:req.session.user,
 			papers:papers,
@@ -33,6 +39,11 @@ exports.showIndex = function (req,res) {
 			isFirst:(page-1) == 0,
 			isLast:page == totalpaper,
 			pagenow:page,
-		});
+			notices:notices
+			})
+			console.log(papers)
+		})
 	})
 }
+
+

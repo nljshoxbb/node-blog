@@ -1,24 +1,24 @@
-<div class="col-md-12 ">
-	<% if(user){%>
-	<div class="thumbnail">
-		<div class="caption">
-			<img src="" alt="">
-			<h2>个人资料</h2>
-			<% } %>
-			<div>
-				<% var url = null;
-					if(user){
-						url = user.head;
-					}else{
-						url = 'imgs/logo.jpg';
-					}%>
-				<ul>
-					<% if(user) {%>
-					<li>昵称：<a href="/user?name=<%=user.name%>"><%=user.name %></a></li>
-					<li>访问：</li>
-					<% } %>
-				</ul>
-			</div>
+
+<% if(user){%>
+<div class="thumbnail">
+	<div class="caption">
+		<img src="" alt="">
+		<h2>个人资料</h2>
+		<% } %>
+		<div>
+			<% var url = null;
+				if(user){
+					url = user.head;
+				}else{
+					url = 'imgs/logo.jpg';
+				}%>
+			<ul>
+				<% if(user) {%>
+				<li>账号：<a href="/user?name=<%=user.name%>"><%=user.name %></a></li>
+				<li>文章数：</li>
+				<% } %>
+			</ul>
 		</div>
 	</div>
 </div>
+

@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
     moment = require('moment'),
     service_qq = require('../email_services/qq_active'),
     service_163 = require('../email_services/163_active');
+    // config = require('config');
 
 // 页面权限控制中间件
 exports.checkLogin = function(req, res, next) {
@@ -13,7 +14,6 @@ exports.checkLogin = function(req, res, next) {
     }
     next();
 }
-
 exports.checkNotLogin = function (req,res,next) {
   if (req.session.user) {
     req.json({login:true})
@@ -22,6 +22,7 @@ exports.checkNotLogin = function (req,res,next) {
   next();
 }
 
+// 用户主页
 exports.getUser = function function_name(req,res) {
     var totalpaper = 0;
     Paper.find({author:req.session.user},function (err,papers) {
@@ -67,13 +68,13 @@ exports.signup = function(req, res) {
   var _user = req.body.user;
   var url = 'http://localhost:3000/active?username=' + _user.name;
   var options_qq = {
-    from: "BBS<382895635@qq.com>", //发件地址
+    from: "@_@<382895635@qq.com>", //发件地址
     to: _user.email, //收件列表
     subject: "账号激活",
     html: "<b>欢迎注册，请点击以下链接完成注册</b><br /><a href=" + url + ">" + url + "</a>"
   }
   var options_163 = {
-    from: "BBS<nongluojian@163.com>",
+    from: "@_@<nongluojian@163.com>",
     to: _user.email,
     subject: "账号激活",
     html: "<b>欢迎注册，请点击以下链接完成注册</b><br /><a href=" + url + ">" + url + "</a>"
@@ -127,7 +128,7 @@ exports.signin = function(req, res) {
     if (!user) {
       return res.json({data: 0}); // 用户不存在
     } else {
-      if (user.active) {
+      if (!user.active) {
         // 使用user实例方法对用户名密码进行比较
         user.comparePassword(_user.password, function(err, isMatch) {
           if (err) {
@@ -173,7 +174,8 @@ exports.signinRequired = function(req, res, next) {
 exports.detail = function(req, res) {
   res.render('detail', {
     title: '我的主页'
-
   })
+  
+  
 }
 

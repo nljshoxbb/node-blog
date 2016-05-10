@@ -1,14 +1,13 @@
 var mongoose = require('mongoose'),
 	NoticeSchema = new mongoose.Schema({
-		_id:{
-			type:String,
-			unique:true,
-		},
+		// _id:{
+		// 	type:String,
+		// 	unique:true,
+		// },
+		title:String,
+		content:String,
 		name:String,
-		state:{
-			type:String,
-			default:'1'
-		},
+		time:String,
 		meta: {
 		    createAt: {
 		      type: Date,
@@ -30,8 +29,13 @@ var mongoose = require('mongoose'),
 	  next();
 	});
 
-	// AdSchema.static = {
-	// 	getOneAd:function (res,) {
-	// 		// body...
-	// 	}
-	// }
+NoticeSchema.statics = {
+	fetch:function (cb) {
+		return this
+			.find({})
+			.sort('meta.updateAt')
+			.exec(cb);
+	}
+}
+
+module.exports = NoticeSchema;

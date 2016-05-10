@@ -1,16 +1,4 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-3 col-md-2 sidebar">
-      <ul class="nav nav-sidebar">
-        <li class="active"><a href="/admin/user/list">用户<span class="sr-only">(current)</span></a></li>
-        <li><a href="#">消息</a></li>
-        <li><a href="#">公告</a></li>
-        <li><a href="#">图片</a></li>
-        <li><a href="#">广告</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
+
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
   <h1 class="page-header">用户列表</h1>
   <div class="row placeholders">
@@ -22,7 +10,9 @@
           <th>姓名</th>
           <th>注册时间</th>
           <th>邮箱</th>
-          <th>等级</th>
+          <th>文章</th>
+          <th>回复</th>
+          <th>用户</th>
           <th>操作</th>
           <th>查看</th>
         </tr>
@@ -33,10 +23,22 @@
           <td><%= users.name %></td>
           <td><%= time %></td>
           <td><%= users.email %></td>
-          <td><%= users.role %></td>
-          <td><button type="button" class="btn btn-danger userDel" data-id="<%= users.id %>">删除</button>
+          <th><%= users.papers %></th>
+          <th>回复</th>
+          <% if(users.role >= 50){ %>
+          <td>管理员</td>
+          <% }else if(user.role > 10 && user.role < 50){ %>
+          <td>禁言用户</td>
+          <% }else { %>
+          <td>普通用户</td>
+          <% } %>
+          <% if(user.name !== users.name){ %>
+            <td><button type="button" class="btn btn-danger userDel>" data-id="<%= users.id %>">删除</button>
+          <% }else{ %>
+            <td><button type="button" class="btn btn-danger userDel disabled" data-id="<%= users.id %>">删除</button>
+          <% } %>
 		  </td>
-		  <td><button type="button" class="btn btn-primary">查看</button></td>
+		  <td><button type="button" class="btn btn-primary ">查看</button></td>
         </tr>
       </tbody>
       <% }) %>

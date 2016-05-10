@@ -1,5 +1,5 @@
 {
-  "name": "bbs",
+  "name": "node-blog",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -24,5 +24,8 @@
     "should": "^7.1.0",
     "underscore": "^1.8.3",
     "nodemailer": "^0.7.0"
+  },
+  "devDependencies": {
+    "bcryptjs": "^2.3.0"
   }
 }

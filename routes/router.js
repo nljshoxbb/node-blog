@@ -41,7 +41,7 @@ module.exports = function (app) {
 
 	// //删除
 	app.get('/delete',User.signinRequired,Paper.delete);
-	app.get('/userDelete',User.signinRequired,Paper.userDelete);
+	app.get('/userDelete',User.signinRequired,Paper.delete);
 	app.get('/deleteComment',User.signinRequired,Comment.deleteComment);
 	// // 提交评论
 	app.post('/comment',Paper.comment);
@@ -50,7 +50,7 @@ module.exports = function (app) {
 	// // 获取个人主页
 	app.get('/user',User.signinRequired,User.getUser);
 	// // 获取文章具体内容
-	app.get('/paper',Paper.getPaper);
+	app.get('/paper',User.signinRequired,Paper.getPaper);
 	// 搜索
 	app.get('/search',Paper.search);
 
@@ -60,9 +60,10 @@ module.exports = function (app) {
 	// 用户管理路由
 	app.get('/admin/user/list',User.signinRequired,Admin.adminRequired,Admin.list);
 	// 删除用户账号路由
-	app.delete('/admin/user/list',User.signinRequired,Admin.adminRequired);
+	app.delete('/admin/user/list',User.signinRequired,Admin.adminRequired,Admin.del);
 	// 删除全部用户文章
 	app.delete('/admin/Paper/deleteAll',User.signinRequired,Admin.adminRequired,Admin.deleteAllPaper);
-
-
+	// 公告编辑
+	app.get('/admin/notice',User.signinRequired,Admin.adminRequired,Admin.showNotice);
+	app.post('/admin/notice',User.signinRequired,Admin.adminRequired,Admin.notice);
 }

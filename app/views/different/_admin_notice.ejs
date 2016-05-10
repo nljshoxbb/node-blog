@@ -1,0 +1,49 @@
+<div class="container">
+<div class="col-sm-9 col-md-12">
+  <h1 class="page-header">公告列表</h1>
+  <div class="row placeholders">
+  </div>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>发布管理员</th>
+          <th>发布时间</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <% notices.forEach(function(notices,index){  %>
+      <tbody>
+        <tr class="notices-id-<%= notices.id  %>">      
+          <td><%= notices.name %></td>
+          <td><%= time %></td>
+          <% if(user.name !== notices.name){ %>
+            <td><button type="button" class="btn btn-danger userDel>" data-id="<%= notices.id %>">删除</button>
+          <% }else{ %>
+            <td><button type="button" class="btn btn-danger userDel disabled" data-id="<%= notices.id %>">删除</button>
+          <% } %>
+		  </td>
+		  <td><button type="button" class="btn btn-primary ">查看</button></td>
+        </tr>
+      </tbody>
+      <% }) %>
+    </table>
+  </div>
+</div>
+
+<form class="form-horizontal" method="post" accept-charset="utf-8">
+	<div class="form-group">
+		<label for="inputTitle" class="col-md-1 col-sm-6 control-label">文章标题</label>
+		<div class="col-md-3">
+			<input type="text" name="title" class="form-control" id="inputTitle" placeholder="文章标题" required>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<textarea rows="10" name="content" class="form-control"></textarea>
+	</div>
+	<div class="col-md-5">
+	<br>
+	<button type="submit" class="col-md-6 btn btn-primary button">发布</button>
+</form>
+</div>
+
