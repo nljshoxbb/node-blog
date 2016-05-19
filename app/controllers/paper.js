@@ -25,7 +25,7 @@ exports.post=function(req,res){
 					res.redirect('/post');
 				}
 				// paper.update({$push:{paper:paper}},function(err,paper){})
-				res.redirect('/')
+				res.redirect('/index')
 			})
 		}
 	})
@@ -65,7 +65,7 @@ exports.saveEdit=function(req,res){
 			return;
 		}
 		if(paper){
-			res.redirect('/')
+			res.redirect('/index')
 		}
 	})
 }
@@ -80,7 +80,7 @@ exports.delete=function(req,res){
 			return;
 		}
 		if(paper){
-			res.redirect('/')
+			res.redirect('/index')
 		}
 	})
 }
@@ -103,8 +103,8 @@ exports.delete=function(req,res){
 
 // 获取文章详细页
 exports.getPaper=function(req,res){
-	var user=req.session.user;
-	var date=new Date();
+	var user = req.session.user;
+	var date = new Date();
 	Paper.findOne({
 		author:req.query.author,
 		title:req.query.title,
@@ -159,8 +159,8 @@ exports.comment=function(req,res){
 // 文章转载功能
 exports.reprint=function(req,res){
 	var title=req.query.title,
-	      author=req.query.author,
-	      currentUser=req.session.user;
+	    author=req.query.author,
+	    currentUser=req.session.user;
 	var reprint_to={
 		name:currentUser.name
 	}
@@ -168,8 +168,9 @@ exports.reprint=function(req,res){
 		title:title,
 		author:author
 	},function(err,paper){
-		if(err)
+		if(err){
 			return;
+		}
 		paper.update({$push:{reprint_to:reprint_to}},function(err,paper){});
 		var _paper={
 			title:paper.title,
@@ -193,13 +194,13 @@ exports.reprint=function(req,res){
 			}
 
 			if(!paper){
-				var re_paper=new Paper(_paper);
+				var re_paper = new Paper(_paper);
 				re_paper.save(function(err){
 					if (err) {
 						console.log(err)
 						return;
 					}
-					res.redirect('/')
+					res.redirect('/index')
 				})
 			}
 			else{
@@ -225,6 +226,7 @@ exports.search = function (req,res) {
 			time:time,
 			paper:paper,
 			author:paper.author
+
 		})
 	})
 }

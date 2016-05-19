@@ -10,7 +10,7 @@
 			  	<a class="btn btn-info" href="/edit?author=<%= paper.author %>&title=<%= paper.title %>">编辑</a>&nbsp;&nbsp;
 			  	<a class="btn btn-danger" href="/delete?author=<%= paper.author %>&title=<%= paper.title %>">删除</a>
 			  <% }else{ %>
-			  	<a href="/reprint?title=<%= paper.title %>&author=<%= paper.author %>" title = "">转载此文</a>
+			  	 <a href="/reprint?title=<%=paper.title%>&author=<%=paper.author%>" title="">[转载此文]</a>
 			  <% } %>
 			  	作者：<a href='/user?name=<%=paper.author%>'><%=paper.author%></a>
 			  	<span class="badge">

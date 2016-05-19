@@ -1,22 +1,20 @@
-
-<nav>
   <ul class="pagination">	
     <li>
     <%if(!isFirst){%>
-      <a href="/?page=<% (pagenow-1) %>" aria-label="Previous">
+      <a href="/index/?page=<% (pagenow-1) %>" aria-label="Previous">
     <%}%>
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
 		 <% for(var i = 0;i< total ;i++) { %>
-				<li><a href="/?page=<%= (i+1) %>"><%= (i+1) %></a></li>
+				<li><a href="/index/?page=<%= (i+1) %>"><%= (i+1) %></a></li>
 		<% } %>
     <li>
     <%if(!isLast){%>
-      <a href="/?page=<%= total %>" aria-label="Next">
+      <a href="/index/?page=<%= total %>" aria-label="Next">
     <%}%>
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>
   </ul>
-</nav>
+

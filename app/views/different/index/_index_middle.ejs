@@ -1,0 +1,31 @@
+
+<% if(papers){
+papers.forEach(function(paper,index) { %>
+<div class="middle">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3>
+				<a href="/paper?author=<%= paper.author %>
+					&title=
+					<%= paper.title %>
+					">
+					<%= paper.title %></a>
+			</h3> <i class="fa fa-user"></i>
+			<a href="/user?name=<%= paper.author %>
+				">
+				<%= paper.author %></a>
+			<%=paper.time%></div>
+		<div class="panel-body">
+			<p>
+				<%- paper.content %></p>
+			<div class="col-md-4 col-md-offset-2 ">
+				&nbsp;|&nbsp; <i class="fa fa-eye"></i>
+				<%=paper.pv%>
+				&nbsp;|&nbsp;
+				<i class="fa fa-comments"></i>
+				<%=paper.comments.length%></div>
+		</div>
+	</div>
+</div>
+<% })} %>
+<% include _index_pagination.ejs %>

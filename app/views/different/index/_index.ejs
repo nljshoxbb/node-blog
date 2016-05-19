@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container">
   <div class="row">
     <% if(user){ %>
       <div class="col-md-2">
@@ -11,15 +11,12 @@
           <% include _index_right.ejs %>
       </div>
     <% }else{ %>
-       <div class="col-md-1">
-        <% include _index_left.ejs %>
-      </div>
-      <div class="col-md-7 col-md-offset-1">
-        <% include _index_middle.ejs %>
-      </div>
-      <div class="col-md-3">
+        <div class="col-md-7 col-md-offset-1">
+          <% include _index_middle.ejs %>
+        </div>
+        <div class="col-md-3">
           <% include _index_right.ejs %>
-      </div>
+        </div>
     <% } %>
   </div>
 </div>

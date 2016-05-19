@@ -10,7 +10,7 @@ var mongoose = require('mongoose'),
 exports.checkLogin = function(req, res, next) {
     if (!req.session.user) {
       req.json({login:false});
-      return res.redirect('/signin')
+      return res.redirect('/')
     }
     next();
 }
@@ -25,7 +25,7 @@ exports.checkNotLogin = function (req,res,next) {
 // 用户主页
 exports.getUser = function function_name(req,res) {
     var totalpaper = 0;
-    Paper.find({author:req.session.user},function (err,papers) {
+    Paper.find({author:req.session.user.name},function (err,papers) {
       if (papers.length % 5 != 0) {
         totalpaper = parseInt(papers.length / 5)+1;
       }else{
@@ -38,13 +38,13 @@ exports.getUser = function function_name(req,res) {
     }
     page = parseInt(page);
     var papers;
-    Paper.find({},null,{skip:(page-1)*5,limit:5},function (err,papers) {
+    Paper.find({author:req.session.user.name},null,{skip:(page-1)*5,limit:5},function (err,papers) {
       if (err) {
         papers = [];
         return;
       }
       res.render('./combine/user',{
-        title:'用户页面',
+        title:req.session.user.name + '|Nljshoxbb',
         user:req.session.user,
         papers:papers,
         total:totalpaper,
@@ -58,7 +58,7 @@ exports.getUser = function function_name(req,res) {
 
 // 用户注册页面渲染控制器
 exports.showSignup = function(req, res) {
-  res.render('./combine/signup', {
+  res.render('./combine/signin', {
     title: '注册页面'
   });
 };
@@ -112,7 +112,7 @@ exports.signup = function(req, res) {
 // 用户登录页面渲染控制器
 exports.showSignin = function(req, res) {
   res.render('./combine/signin', {
-    title: '登录页面'
+    title: 'nljshoxbb | 登录'
   });
 };
 
@@ -165,7 +165,7 @@ exports.logout = function(req, res) {
 exports.signinRequired = function(req, res, next) {
   var user = req.session.user;
   if (!user) {
-    return res.redirect('/signin');
+    return res.redirect('/');
   }
   next();
 };
@@ -175,7 +175,6 @@ exports.detail = function(req, res) {
   res.render('detail', {
     title: '我的主页'
   })
-  
   
 }
 

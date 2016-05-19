@@ -1,0 +1,55 @@
+.navbar{
+	height: 90px;
+	background-color: #fff;
+	margin: 0;
+	padding: 0;
+	.container{
+		margin-top: 20px;
+		.navbar-brand{
+			font:italic bold 40px/20px Arial;
+			color: $main-color;
+			span{
+				color: $sm-color;
+			}
+		}
+		.navbar-collapse{
+			
+			.navbar-nav{
+				a{
+					color: $main-color;
+					@include trans(0.4s);
+					font-weight: blod;
+					font-size: 16px;
+					i{
+						margin-right: 5px;
+					}
+				}
+				li{
+					margin-right: 38px;
+					&:hover{
+						a{
+							color: $sm-color;
+						}
+					}
+				}
+			}
+		}
+		.navbar-form{
+			.form-control{
+				width: 100px;			
+				@include trans(0.4s);
+				&:focus{
+					width: 200px;
+				}
+			}
+			i{
+				position: relative;
+				vertical-align: middle;
+				left: -20px;
+			}
+			.btn-default{
+				border-radius: 50%;
+			}
+		}
+	}
+}

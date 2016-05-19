@@ -1,0 +1,22 @@
+.sig_footer{
+	z-index: 999;
+	position: absolute;
+	top:800px;
+	left: 50%;
+	transform:translate(-50%,0);
+	p{
+		font-size: 20px;
+		color: #fff;
+		text-align: center;
+		a{
+					
+			text-align: center;
+			color: #fff;
+			margin-left: 10px;
+		}
+		span{
+			color: #fff;
+			margin-right: 10px;
+		}
+	}
+}

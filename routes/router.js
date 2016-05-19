@@ -13,15 +13,15 @@ module.exports = function (app) {
 	});
 
 	//首页
-	app.get('/',Index.showIndex);
+	app.get('/index',Index.showIndex);
 
 //**********************用户操作********************
 	// 用户注册
-	app.get('/signup',User.showSignup);
+	// app.get('/',User.showSignup);
 	app.post('/signup',User.signup);
 
 	// 用户登录
-	app.get('/signin',User.showSignin);
+	app.get('/',User.showSignin);
 	app.post('/signin',User.signin);
 
 	// 用户登出

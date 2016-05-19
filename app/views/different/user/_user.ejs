@@ -1,0 +1,67 @@
+
+  <div class="container">
+    <img src="/images/p1.jpg" alt="">
+  </div>
+
+<div class="profile-navbar container-fluid">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2"><%= user.name %></div>
+			<div class="col-md-4 profile-navbar-items">
+				<ul>
+					<li><a href=""><span>吐槽</span><span>10</span></a></li>
+					<li><a href=""><span>喜欢</span><span>5</span></a></li>
+					<li><a href=""><span>关注</span><span>10</span></a></li>
+				</ul>
+			</div>
+			<div class="col-md-2 col-md-offset-4 user-edit">
+				<button>编辑个人资料</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-7 col-md-offset-2">
+			<% if(papers){ 
+			papers.forEach(function(paper,index){ %>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3>
+						<a href="/paper?author=<%= paper.author %>
+							&title=
+							<%= paper.title %>
+							">
+							<%= paper.title %></a>
+					</h3> <i class="fa fa-user"></i>
+					<a href="/user?name=<%= paper.author %>
+						">
+						<%= paper.author %></a>
+					<%= paper.time%></div>
+				<div class="panel-body">
+					<p>
+						<%- paper.content %></p>
+					<div class="col-md-4 col-md-offset-2 ">
+						&nbsp;|&nbsp; <i class="fa fa-eye"></i>
+						<%=paper.pv%>
+						&nbsp;|&nbsp;
+						<i class="fa fa-comments"></i>
+						<%=paper.comments.length%>
+						<a href="/userDelete?author=<%= paper.author %>&title=<%= paper.title %>">删除</a>
+					</div>
+				</div>
+			</div>
+			<% })} %>
+		</div>
+		<div class="col-md-3">
+			<div class="panel panel-default">
+			  <div class="panel-body">
+			    <h3>推荐关注</h3>
+			    Panel content
+			  </div>
+			  <div class="panel-footer">在nljshoxbb上投放广告</div>
+			</div>
+		</div>
+	</div>
+	<% include _user_pagination.ejs %>
+</div>

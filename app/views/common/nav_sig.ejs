@@ -1,0 +1,23 @@
+<% include header.ejs %>
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div><!-- navbar-header -->
+      <form action="/search" class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control"  name="keyword"><i class="fa fa-search"></i>
+        </div>
+      </form>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/index"><i class="fa fa-home"></i>主页</a></li>
+          <li><a href="#">关于</a></li>
+        </ul>   
+      </div>
+    </div>
+  </nav>

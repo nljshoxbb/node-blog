@@ -1,0 +1,17 @@
+
+@import 'base';
+@import 'nav';
+@import 'index_middle';
+@import 'index_left';
+@import 'index_right';
+@import 'footer';
+@import 'sign';
+@import 'sign_footer';
+@import 'user';
+
+
+
+// =====================================
+body{
+	background-color: $bg-color;
+}

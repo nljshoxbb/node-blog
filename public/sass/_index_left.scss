@@ -1,0 +1,33 @@
+.dashboard{
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	.dashboard-username{
+		height: 50px;
+		margin: 5px;
+		a{
+			color: $main-color;
+			font-size: 20px;
+		}
+	}
+	.dashboard-user-detail{
+		font-size: 0;
+		margin: 5px;
+		padding: 0;
+		li{
+			margin-right: 20px;
+			display: inline-block;
+			a{
+				color: $main-color;
+				font-size: 16px;
+				.dashboard-user-detail-n{
+					color: $sm-color;
+				}
+				span{
+					color: $title-color;
+					display: block;
+				}
+			}
+		}
+	}
+}

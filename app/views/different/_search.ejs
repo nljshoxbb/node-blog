@@ -5,6 +5,7 @@
     <li><h3><%= paper.time.year %></h3></li>
   <% lastYear = paper.time.year } %>
     <li><time><%= paper.time.day %></time></li> -->
-    <li><a href="/paper?author=<%= paper.author %>&title=<%= paper.title %>"><%= paper.title %></a></li>
+    <li><a href="/paper?author=<%= paper.author %>&title=<%= paper.title %>">
+    <%= paper.title %></a></li>
 <% }) %>
 </ul>

@@ -1,0 +1,29 @@
+<div class=" dashboard">
+	<img src="" alt="">
+	<div>
+		<% var url = null;
+			if(user){
+				url = user.head;
+			}else{
+				url = 'imgs/logo.jpg';
+			}%>
+		<div class="dashboard-username">
+			<a href="/user?name=<%=user.name%>"><%=user.name %></a>
+		</div>
+		<ul class="dashboard-user-detail">
+			<li>
+				<a href="#">
+					<span>吐槽数</span>
+					<span class="dashboard-user-detail-n">12</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<span>关注者</span>
+					<span class="dashboard-user-detail-n">12</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+

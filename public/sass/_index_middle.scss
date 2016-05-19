@@ -1,0 +1,49 @@
+.container{
+	margin-top: 20px;
+}
+.middle{
+
+	.panel{
+		border: 1px solid $border-color;
+		border-radius: 5px;
+		@include trans(.4s);
+		.panel-heading{
+			background-color: #fff;
+			h3{
+				a{
+					color: $main-color;
+				}
+				@include trans(0.4s);
+				&:hover{
+					color: $sm-color;
+				}
+			}
+		}
+		.panel-body{
+			p{
+				font-size: 14px;
+			}
+			.fa-user{
+				@include trans(.2s);
+				&:hover{
+					color:$sm-color;
+				}
+			}
+			.fa-flag{
+				@include trans(.2s);
+				&:hover{
+					color: red;
+				}
+			}
+			.fa-comments{
+				@include trans(.2s);
+				&:hover{
+					color: $sm-color;
+				}
+			}
+		}
+		&:hover{
+			border-top: 1px solid $sm-color;
+		}
+	}
+}

@@ -74,18 +74,8 @@ $(function () {
 							break;
 						default:
 							//跳转首页
-							function showIndex(count) {
-								setTimeout(function () {
-									count--;
-									if (count>0) {
-										$('.msg').html('登录成功，'+count+'秒后跳转至首页').show();
-										showIndex(count);
-									}else{
-										$('a')[1].click();
-									}
-								},1000)
-							}
-							showIndex(5)
+							$('.msg').html('登录成功').show();
+							$('a')[0].click();
 						}
 					});
 				}		
@@ -107,7 +97,8 @@ $(function () {
 					},
 					'confirm-password':{
 						equalTo:$(obj).find('input:eq(1)')
-					}
+					},
+					'email':true
 				},
 				messages:{
 					'name':{
@@ -120,7 +111,8 @@ $(function () {
 						minlength:'密码最小2位',
 						maxlength:'密码最大15位'
 					},
-					'confirm-password':'两次输入的密码不相同'
+					'confirm-password':'两次输入的密码不相同',
+					'email':'请输入正确格式的电子邮件'
 				},
 				submitHandler:function () {
 					$.ajax({

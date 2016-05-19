@@ -8,10 +8,10 @@ exports.showIndex = function (req,res) {
 
 	// 获取所有文章数
 	Paper.find({},function (err,papers) {
-		if (papers.length % 2 !=0 ) {
-			totalpaper = parseInt(papers.length / 2)+1;
+		if (papers.length % 7 !=0 ) {
+			totalpaper = parseInt(papers.length / 7)+1;
 		}else{
-			totalpaper = parseInt(papers.length / 2);
+			totalpaper = parseInt(papers.length / 7);
 		}
 	})
 	var page = 1;
@@ -21,7 +21,7 @@ exports.showIndex = function (req,res) {
 	page = parseInt(page);
 	var papers;
 	// 每一页显示的文章数
-	Paper.find({},null,{skip:(page-1)*2,limit:2},function (err,papers) {
+	Paper.find({},null,{skip:(page-1)*7,limit:7},function (err,papers) {
 		if (err) {
 			papers = [];
 			return;
@@ -32,7 +32,7 @@ exports.showIndex = function (req,res) {
 				notices = [];
 			}
 			res.render('./combine/index',{
-			title:'主页',
+			title:'Nljshoxbb',
 			user:req.session.user,
 			papers:papers,
 			total:totalpaper,
@@ -41,7 +41,6 @@ exports.showIndex = function (req,res) {
 			pagenow:page,
 			notices:notices
 			})
-			console.log(papers)
 		})
 	})
 }

@@ -1,0 +1,63 @@
+  <div class=" banner">
+      <div class="slide" id="slide">
+          <div class="slide-bd">
+              <ul>
+                  <li><a href="#1"><img src="images/p5.jpg" alt=""/></a></li>
+                  <li><a href="#2"><img src="images/p2.png" alt=""/></a></li>
+              </ul>
+          </div> 
+      </div>
+      <div class="banner-msg" >
+        <h1>欢迎使用</h1>
+        <p>联系你的好友和发布更多的精彩</p>
+      </div>
+      <form id="signinForm" class="form-signin" action="" method="POST">
+        <input  class="form-control" id="signinName" type="text"  name="name" placeholder="用户名称" autofocus>
+        <label for="signinName" class="error"></label>
+        <br/>
+        <input id="signinPassword" type="password"  name="password" class="form-control signin-password" placeholder="密码" >
+        <label for="signinPassword" class="error"></label>
+        <br/>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me">记住我</label>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">登录</button>
+        <a href="/">
+          <h5 class="center-block msg"></h5>
+        </a>
+      </form>
+
+      <form id="signupForm" class="form-signup" action="" method="POST">
+        <input class="form-control" id="signupName" type="text"  name="name" placeholder="账号" autofocus>
+        <br>
+        <input id="signupPassword" type="password"  name="password" class="form-control" placeholder="密码">
+        <br>
+        <input id="confirm_password" type="password"  name="confirm-password" class="form-control" placeholder="确认密码">
+        <br>
+        <input id="email" class="form-control" type="email" name="email" placeholder="邮箱(仅支持qq和163)">
+        <br>
+        <button class="btn btn-primary btn-block" type="submit">注册</button>
+        <a href="/"><h5 class="center-block msg"></h5></a>
+      </form>
+
+  </div>
+<script type="text/javascript" src="/javascripts/slider.js"></script>
+<script src="/javascripts/user_main.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+<script>
+    var slideWrap = document.getElementById('slide');
+
+    var slide = new Slider({
+        dom: slideWrap,
+        duration: 5000,
+        speed: 600,
+        effect: 'fade',
+        isAutoPlay: true,
+        trigger: 'click',
+        pagination: false,
+        navigation: false,
+        pauseOnHover: true
+    });
+</script>
+
