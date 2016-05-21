@@ -1,6 +1,7 @@
-var User = require('../models/user'),
-	Paper = require('../models/paper');
-	Notice = require('../models/notice.js')
+var mongoose = require('mongoose'),
+	User 	 = mongoose.model('User'),
+	Paper 	 = mongoose.model('Paper'),
+	Notice 	 = mongoose.model('Notice')
 	
 // 首页控制器
 exports.showIndex = function (req,res) {

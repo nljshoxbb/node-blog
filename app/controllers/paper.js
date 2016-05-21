@@ -1,42 +1,19 @@
-var Paper = require('../models/paper'),
-	Comment = require('../models/comment');
+var mongoose = require('mongoose'),
+	Paper 	 = mongoose.model('Paper'),
+	Category = mongoose.model('Category'),
+	Comment  = mongoose.model('Comment'),			
+	_		 = require('underscore'),                 //该模块用来对变化字段进行更新
+	fs       = require('fs'),						 //读写文件模块
+	path	 = require('path');						 //路径模块
 
-// 发表文章
-exports.post=function(req,res){
-	var date = new Date();
-	var _paper={
-		title:req.body.title,
-		author:req.session.user.name,
-		content:req.body.content,
-		time:date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()+ "-"+
-             date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
-	}
-	Paper.findOne({
-		title:_paper.title,
-		author:_paper.author
-	},function(err,paper){
-		if(err){
-			return;
-		}
-		if(!paper){
-			var paper=new Paper(_paper);
-			paper.save(function(err){
-				if(err){
-					res.redirect('/post');
-				}
-				// paper.update({$push:{paper:paper}},function(err,paper){})
-				res.redirect('/index')
-			})
-		}
-	})
-}
 // 展示文章
 exports.showPost=function(req,res){
 	res.render('combine/post',{
 	  	title:'发表页面',
-  		user:req.session.user,
+  		user:req.session.user
 	 })
 }
+
 // 修改文章
 exports.edit=function(req,res){
 	Paper.findOne({
@@ -85,22 +62,6 @@ exports.delete=function(req,res){
 	})
 }
 
-// 删除留言 待完善
-// exports.deleteComment = function (req,res) {
-// 	Comment.findOneAndRemove({
-// 		content:req.query.content,
-// 		name:req.query.name
-// 	},function (err,comment) {
-// 		if (err) {
-// 			return;
-// 		}
-// 		if (comment) {
-// 			console.log('删除评论成功')
-// 			res.redirect('/_paper_detail')
-// 		}
-// 	})
-// }
-
 // 获取文章详细页
 exports.getPaper=function(req,res){
 	var user = req.session.user;
@@ -117,44 +78,50 @@ exports.getPaper=function(req,res){
 			if(err)
 				console.log(err);
 		})
-		//解析 markdown 为 html
-		// paper.content = markdown.toHTML(paper.content);
-		// console.log(req.session.user)
 		res.render('combine/paper_detail',{ 
 			title: '文章页面',
 			user: user,
 			paper:paper,
+			
 		});
 	});
 }
 
-// 文章留言功能
-exports.comment=function(req,res){
-	var date=new Date();
-	var _comment={
-		name:req.body.name,
-		title:req.body.title,
-		time:date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()+ "-"+
-             date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()),
-		content:req.body.content
-	}
-	var comment=new Comment(_comment);
-	Paper.findOne({
-		title:req.body.title,
-		author:req.body.author
-	},function(err,paper){
-		if(err){
-			return;
-		}
-		paper.update({$push:{comments:comment}},function(err,paper){})
+// 获取文章详细页
+// exports.getPaper = function (req,res) {
+// 	var _id = req.params.id;
+// 	var user = req.session.user;
+// 	// 用户访问统计，每次访问文章详情页，pv增加1
+// 	Paper.update({_id:_id},{$inc:{pv:1}},function (err) {
+// 		if (err) {
+// 			console.log(err);
+// 		}
+// 	});
+// 	//Comment存储到数据库中的paper属性值与相应的paper _id值相同
+// 	Paper.findById(_id,function (err,paper) {
+// 		if (err) {
+// 			console.log(err);
+// 		}
+// 		// 查找该_id值所对应的评论信息
+// 		Comment.find({paper:_id})
+// 			   .populate('from','name')
+// 			   .populate('reply.from reply.to','name') //查找评论人和回复人的名字
+// 			   .exec(function (err,comments) {
+// 			   		if (err) {
+// 			   			console.log(err);
+// 			   		}
+// 			   		res.render('combine/paper_detail',{
+// 			   			title:'文章页面',
+// 			   			paper:paper,
+// 			   			user:user,
+// 			   			comments:comments
+// 			   		})
+// 			   		console.log(comments);
+// 			   })
+// 	})	
+// }
 
-		if(paper){
-			console.log('success')
-			res.redirect('back');
-		}
-	    }
-	)
-}
+
 
 // 文章转载功能
 exports.reprint=function(req,res){
@@ -229,4 +196,77 @@ exports.search = function (req,res) {
 
 		})
 	})
+}
+// 上传图片
+exports.saveImage = function(req, res, next) {
+  // 如果有文件上传通过connect-multiparty中间件生成临时文件并通过req.files进行访问
+  // 并且当提交表单中有文件上传请求时表单要使用enctype="multipart/form-data"编码格式
+  var imageData        = req.files.uploadImage,                    // 上传文件
+      filePath         = imageData.path,                             // 文件路径
+      originalFilename = imageData.originalFilename;         // 原始名字
+  // 如果有自定义上传图片，则存在文件名
+  if(originalFilename) {
+    fs.readFile(filePath, function(err,data) {
+      if(err) {
+        console.log(err);
+        return;
+      }
+      var timestamp = Date.now(),                             // 获取时间
+          type      = imageData.type.split('/')[1],               // 获取图片类型 如jpg png
+          image     = timestamp + '.' + type,                    // 上传海报新名字
+          // 将新创建的图片存储到/public/upload 文件夹下
+          newPath = path.join(__dirname,'../../','/public/upload/' + image);
+      // 写入文件
+      fs.writeFile(newPath,data,function(err) {
+        if(err) {
+          console.log(err);
+          return;
+        }
+        req.image = image;
+        next();
+      });
+    });
+  }else {
+    // 没有自定义上传海报
+    next();
+  }
+};
+// 发表文章
+exports.post=function(req,res){
+	var date = new Date();
+	var paperNow = {
+		title:req.body.title,
+		author:req.session.user.name,
+		content:req.body.content,
+		image:req.image,
+		time:date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()+ "-"+
+             date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
+	}	
+	
+	// if (req.image) {
+	// 	paperNow.image = req.image;
+	// }
+	Paper.findOne({
+		title:paperNow.title,
+		author:paperNow.author
+	},function(err,paper){
+		if(err){
+			return;
+		}
+		if(!paper){
+			var paper=new Paper(paperNow);
+			paper.save(function(err){
+				if(err){
+					res.redirect('/post');
+				}
+				// paper.update({$push:{paper:paper}},function(err,paper){})
+				res.redirect('/index')
+			})
+		}
+	})
+}
+
+
+exports.showImage  = function (req,res) {
+	res.sendfile(path.resolve('public/upload/'))
 }

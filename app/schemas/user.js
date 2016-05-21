@@ -11,6 +11,7 @@ var UserSchema = new mongoose.Schema({
 		type: String,
 		required:true
 	},
+	avatar:String,
 	active:{
 		type:Boolean,
 		default:false

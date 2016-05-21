@@ -1,12 +1,17 @@
-
-  <div class="container">
-    <img src="/images/p1.jpg" alt="">
+<div class="container-fluid profile-background">
+<!-- 	<div class="row">
+		<div class="col-md-12">
+			<img src="/images/p1.jpg" alt="">
+		</div>
+	</div> -->
   </div>
 
 <div class="profile-navbar container-fluid">
+
 	<div class="container">
 		<div class="row">
-			<div class="col-md-2"><%= user.name %></div>
+		<div class="col-md-1 col-md-offset-1 profile-image "><img class="img-circle" src="/images/IMG_2587.PNG"></div>
+		<div class="col-md-1 profile-name"><%= user.name %></div>
 			<div class="col-md-4 profile-navbar-items">
 				<ul>
 					<li><a href=""><span>吐槽</span><span>10</span></a></li>
@@ -14,7 +19,7 @@
 					<li><a href=""><span>关注</span><span>10</span></a></li>
 				</ul>
 			</div>
-			<div class="col-md-2 col-md-offset-4 user-edit">
+			<div class="col-md-2 col-md-offset-2 user-edit">
 				<button>编辑个人资料</button>
 			</div>
 		</div>

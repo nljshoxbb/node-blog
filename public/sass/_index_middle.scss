@@ -41,6 +41,10 @@
 					color: $sm-color;
 				}
 			}
+			.img-thumbnail{
+				display: table;
+				margin: 0 auto;
+			}
 		}
 		&:hover{
 			border-top: 1px solid $sm-color;

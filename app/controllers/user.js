@@ -1,8 +1,8 @@
-var mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    Paper = mongoose.model('Paper'),
-    moment = require('moment'),
-    service_qq = require('../email_services/qq_active'),
+var mongoose    = require('mongoose'),
+    User        = mongoose.model('User'),
+    Paper       = mongoose.model('Paper'),
+    moment      = require('moment'),
+    service_qq  = require('../email_services/qq_active'),
     service_163 = require('../email_services/163_active');
     // config = require('config');
 
@@ -175,6 +175,16 @@ exports.detail = function(req, res) {
   res.render('detail', {
     title: '我的主页'
   })
-  
 }
 
+// 用户设置
+exports.setting = function (req,res) {
+  var user = req.session.user;
+
+}
+
+// 保存头像
+exports.saveAvatar = function (req,res) {
+  var user = req.session.user;
+
+}

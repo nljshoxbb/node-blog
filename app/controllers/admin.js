@@ -1,8 +1,9 @@
-var Comment = require('../models/comment'),
-	Paper = require('../models/paper'),
-	User = require('../models/user'),
-	Notice = require('../models/notice'),
-  moment = require('moment');
+var mongoose  = require('mongoose'),
+    Comment   = mongoose.model('Comment'),
+	  Paper     = mongoose.model('Paper'),
+	  User      = mongoose.model('User'),
+	  Notice    = mongoose.model('Notice'),
+    moment    = require('moment');
 
 // 首页控制器
 exports.adminIndex = function (req,res) {

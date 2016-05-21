@@ -1,10 +1,12 @@
-var Admin = require('../app/controllers/admin'),
-	User = require('../app/controllers/user'),
-	Index= require('../app/controllers/index'),
-	Active = require('../app/controllers/active'),
-	Paper = require('../app/controllers/paper'),
+var Admin 	= require('../app/controllers/admin'),
+	User 	= require('../app/controllers/user'),
+	Index 	= require('../app/controllers/index'),
+	Active 	= require('../app/controllers/active'),
+	Paper 	= require('../app/controllers/paper'),
 	Comment = require('../app/controllers/comment')
 
+var multipart = require('connect-multiparty'),											  // 处理文件上传中间件
+	multipartMiddleware = multipart();	
 
 module.exports = function (app) {
 	app.use(function (req,res,next) {
@@ -17,7 +19,7 @@ module.exports = function (app) {
 
 //**********************用户操作********************
 	// 用户注册
-	// app.get('/',User.showSignup);
+	app.get('/',User.showSignup);
 	app.post('/signup',User.signup);
 
 	// 用户登录
@@ -33,7 +35,7 @@ module.exports = function (app) {
 
 	// 发表文章
 	app.get('/post',User.signinRequired,Paper.showPost);
-	app.post('/post',Paper.post);
+	app.post('/post',multipartMiddleware,User.signinRequired,Paper.saveImage,Paper.post);
 
 	// 修改功能
 	app.get('/edit',User.signinRequired,Paper.edit);
@@ -44,13 +46,13 @@ module.exports = function (app) {
 	app.get('/userDelete',User.signinRequired,Paper.delete);
 	app.get('/deleteComment',User.signinRequired,Comment.deleteComment);
 	// // 提交评论
-	app.post('/comment',Paper.comment);
+	app.post('/comment',Comment.comment);
 	// //转载文章
 	app.get('/reprint',User.signinRequired,Paper.reprint);
 	// // 获取个人主页
 	app.get('/user',User.signinRequired,User.getUser);
 	// // 获取文章具体内容
-	app.get('/paper',User.signinRequired,Paper.getPaper);
+	app.get('/paper/:id',User.signinRequired,Paper.getPaper);
 	// 搜索
 	app.get('/search',Paper.search);
 

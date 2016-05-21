@@ -25,8 +25,8 @@ app.set('views', path.join(__dirname, './app/views/'));
 
 // use
 app.use(logger('dev'));
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.locals.moment = require('moment');  // 引入moment模块并设置为app.locals属性,用来格式化时间
@@ -45,9 +45,9 @@ app.use(session({
   })
 }));
 
+var models_path = __dirname + '/app/models';            // 模型所在路径
 // 路径加载函数，加载各模型的路径,所以可以直接通过mongoose.model加载各模型 这样即使模型路径改变也无需更改路径
 // models loading
-var models_path = __dirname + '/app/models';           // 加载模型所在路径
 var walk = function(path) {
   fs
     .readdirSync(path)

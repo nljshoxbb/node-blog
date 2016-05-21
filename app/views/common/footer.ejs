@@ -10,5 +10,24 @@
 	<script src="/javascripts/user_main.js" ></script>
 	<script src="/javascripts/index.js"></script>
 	<script src="/javascripts/user_list.js" ></script>
+	<script src="/javascripts/kindeditor/kindeditor-all-min.js"></script>
+	<script src="/javascripts/kindeditor/lang/zh-CN.js"></script>
+	<script src="/javascripts/kindeditor/themes/simple"></script>
+	<script>
+		var editor;
+		KindEditor.ready(function(K) {
+		  editor = K.create('textarea', {
+		  themeType:'simple',
+		  allowImageUpload : true,
+		  items : [
+		'source', '|', 'undo', 'redo', '|', 'preview', 'code', 'cut', 'copy', 'paste','plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright','justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+        'superscript', 'clearhtml', 'selectall', '|', 'fullscreen', '/',
+        'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+        'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 
+        'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
+        'anchor', 'link']
+		  });
+		});
+	</script>
 	</body>
 </html>
