@@ -5,6 +5,7 @@ var Schema   = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var PaperSchema = new mongoose.Schema({
+
   title:String,
   author:String,//作者
   type:{//默认是原创，false表转载
@@ -14,22 +15,13 @@ var PaperSchema = new mongoose.Schema({
   image:String,
   content:String,//内容
   time:String,//发表时间
-  comments:[{
-    type:ObjectId,
-    ref:'Comment'
-  }],
   pv:0,//浏览次数
   reprint_from:[], //转载统计
   reprint_to:[],//转载统计
+  // comments:{type:ObjectId,ref:'comment'},
   meta: {
-    createAt: {
-      type: Date,
-      default: Date.now()
-    },
-    updateAt: {
-      type: Date,
-      default: Date.now()
-    }
+    createAt: {type: Date,default: Date.now()},
+    updateAt: {type: Date,default: Date.now()}
   }
 });
 // 模式保存前执行下面函数,如果当前数据是新创建，则创建时间和更新时间都是当前时间，否则更新时间是当前时间

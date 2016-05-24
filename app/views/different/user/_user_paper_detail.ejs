@@ -1,80 +1,374 @@
-<div class="container">
-		<h1>文章详情页</h1>
-		<% if(paper){ %>
-			
-		<div class="panel panel-default">
-		  <div class="panel-heading">
-			  <h3 class="text-center"><%= paper.title %></h3>
-			<% if(user){ %>
-			  <% if(user.name == paper.author){ %>
-			  	<a class="btn btn-info" href="/edit?author=<%= paper.author %>&title=<%= paper.title %>">编辑</a>&nbsp;&nbsp;
-			  	<a class="btn btn-danger" href="/delete?author=<%= paper.author %>&title=<%= paper.title %>">删除</a>
-			  <% }else{ %>
-			  	 <a href="/reprint?title=<%=paper.title%>&author=<%=paper.author%>" title="">[转载此文]</a>
-			  <% } %>
-			  	作者：<a href='/user?name=<%=paper.author%>'><%=paper.author%></a>
-			  	<span class="badge">
-			  		<%=paper.time%>&nbsp;|&nbsp;阅读：<%=paper.pv%>&nbsp;|&nbsp;评论：<%=paper.comments.length%>
-			  	</span>
-			<% }else{ %>
-				作者：<a href='/user?name=<%=paper.author%>'><%=paper.author%></a>
-			  	<span class="badge">
-			  		<%=paper.time%>&nbsp;|&nbsp;阅读：<%=paper.pv%>&nbsp;|&nbsp;评论：<%=paper.comments.length%>
-			  	</span>
-			<% } %>
-		  </div>
-		  <div class="panel-body">
-		    <%- paper.content%>
-		  </div>
-		</div>			
-		<% } %>
-	
-	<!-- 显示评论 -->
-	<% var comments = paper.comments;
-		if(comments.length)
-			comments.forEach(function(comment,index){ %>
-
+<div class="paper-detail container">
 	<div class="row">
-	  	<div class="col-sm-8 col-md-8">
-<!-- 	    <div class="thumbnail">
-	      <div class="caption">
-	        <h3></h3>
-	        <p>评论内容：<%- comment.content %></p>
-	        <p>评论人：<%- comment.name %></p>
-	        <p>评论日期：<%= comment.time %></p>
-	        <% if(user.name == comment.name){ %>
-			<p><a href="#" class="btn btn-default" role="button">回复</a></p>
-	        <% } %>
-	      </div>
-	    </div> -->
-	    <ul class="media-list">
-	      	<li class="media">
-	        	<div class="media-left">
-	          		<a href="#">
-	            	<img class="media-object" src="..." alt="...">
-	          	</a>
-	        	</div>
-		        <div class="media-body">
-		        	<h4 class="media-heading">Media heading</h4>
-			        <p>评论内容：<%- comment.content %></p>
-			        <p>评论人：<%- comment.name %></p>
-			        <p>评论日期：<%= comment.time %></p>
-			        <% if(user.name == comment.name){ %>
-			        	<p><a href="#" class="btn btn-default" role="button">回复</a></p>
-		        	<% } %>
-		        </div>
-	      	</li>
-	    </ul>
-	  	</div>
-	</div>
-
-	<% }) %>
-
-	<!-- 填写评论人信息 -->
-	<div class="col-md-6">
-		<form action="/comment" method="post" class="form-horizontal" accept-charset="utf-8">
-			<textarea class="form-control" name="content" rows="8" cols="100" ></textarea>
-			<button class="btn btn-primary" type="submit" >提交评论</button>
-		</form>
+		<div class="col-md-8 col-md-offset-2">
+		<!-- 显示文章内容 -->
+		<% if(paper){ %>
+			<div class="panel">
+			  <div class="panel-heading">
+				  <h3 class="text-center"><%= paper.title %></h3>
+			  </div>
+			  <div class="panel-body">
+			    <p><%- paper.content%></p>
+			    <img src="/upload/<%= paper.image %>" alt="">
+			  </div>
+			  <div class="panel-footer">
+			  	<% if(user){ %>
+			  	  <% if(user.name == paper.author){ %>
+			  	  	<a href="/edit?author=<%= paper.author %>&title=<%= paper.title %>"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>&nbsp;&nbsp;
+			  	  	<a href="/user/paper/delete?author=<%= paper.author %>&title=<%= paper.title %>"  title="删除"><i class="fa fa-trash"></i>&nbsp;删除</a>
+			  	  <% }else{ %>
+			  	  	 <a href="/reprint?title=<%=paper.title%>&author=<%=paper.author%>"><i class="fa fa-share"></i>分享</a>
+			  	  <% } %>
+			  	<% }else{ %>
+			  		作者：<a href='/user?name=<%=paper.author%>'><%=paper.author%></a>
+			  	  	<span class="badge">
+			  	  		<%=paper.time%>&nbsp;|&nbsp;阅读：<%=paper.pv%>&nbsp;|&nbsp;评论：<%=comments.length%>
+			  	  	</span>
+			  	<% } %>
+			  </div>
+			</div>			
+		<% } %>
+		
+	<!-- 评论区 -->
+	
+			<div class="detaile-content">
+				<!-- head -->
+				<div class="panel">		
+					<!-- 评论显示区 -->
+					<div class="panel-body">
+						<ul class="media-list" id="mediaList">
+							<% if(comments) 
+								comments.forEach(function(comment){%>
+									<% if(comment.from){ %>
+										<li class="media">
+											<div class="media-left">
+												<img src="/images/headImg.png" alt="" class="media-object" style="width: 40px;height: 40px;">
+											</div>
+											<div class="media-body">
+												<h4 class="media-heading"><%= comment.from.name %></h4>
+												<p><%= comment.content %></p>
+												<span class="createAt">time</span>
+												&nbsp;&nbsp;&nbsp;&nbsp;
+												<a href="#comments" class="comment" data-cid="<%= comment._id %>" data-tid="<%= comment.from._id %>">回复</a>
+												<% if(user && comment.from.name === user.name){ %>
+													<a href="javascript:;" class="comment-del" data-cid="<%= comment._id %>">&nbsp;|&nbsp;<i class="fa fa-trash"></i></a>
+												<% } %>
+												<% if(comment.reply && comment.reply.length > 0) 
+													comment.reply.forEach(function(reply) {%>
+														<div class="media">
+															<div class="media-left">
+																<img src="/images/headImg.png" alt="" class="media-object" style="width: 30px;height: 30px;">
+															</div>
+															<div class="media-body">
+																<h4 class="media-heading">
+																	<%= reply.from.name %>
+																	<span> &nbsp;@&nbsp;<%= reply.to.name %></span>
+																</h4>
+																<p><%= reply.content %></p>
+																<span class="createAt">time</span>
+																&nbsp;&nbsp;&nbsp;&nbsp;
+																<a href="#comments" class="comment" data-cid="<%= comment._id %>" data-tid="<%= reply.to._id %>">回复</a>
+																<% if(user && reply.from.name === user.name){ %>
+																	<a href="javascipt:;" class="comment-del" data-cid="<= comment._id>" data-did="<%= reply._id %>"> &nbsp;|<i class="fa fa-trash"></i>&nbsp;删除</a>
+																<% } %>
+															</div>
+														</div>
+												<% }) %>
+											</div>
+										<hr>
+										</li>
+									<% } %>
+							<% }) %>
+						</ul>
+					</div><!-- 评论显示区 -->		
+					<!-- 输入评论区 -->
+					<div class="panel-heading">
+						<h4>评论区</h4>
+						<div id="comments">
+							<% if(paper){ %>
+								<form method="POST" action="/comment" id="commentForm">
+									<input  type="hidden" name="comment[paper]" value="<%= paper._id %>">
+									<!-- <% if(user){ %> -->
+										<input  type="hidden" name="comment[from]" value="<%= user._id %>">
+									<!-- <% } %> -->
+									<div class="form-group">
+										<textarea id="commentContent" name="comment[content]" class="form-control"></textarea>
+									</div>
+									<button class="btn " type="submit">提交</button>
+								</form>
+							<% } %>
+						</div>
+					</div><!-- 输入评论区 -->
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	var blog = {};
+
+	// 工具对象
+	blog.tool = {};
+
+	blog.tool.EventUtil = {
+		// 添加事件
+		addEvent:function (element,type,handler) {
+			if (element.addEventListener) {
+				element.addEventListener(type,handler,false);
+			}else if (element.attachEvent) {
+				element.attachEvent('on' + type,handler);
+			}else{
+				element['on' + type] = handler;
+			}
+		},
+		getEvent:function (event) {
+			return window.event || event;
+		},
+		getTarget:function (event) {
+			return event.target || event.srcElement;
+		},
+		delegateEvent:function (element,tag,eventType,handler) {
+			blog.tool.EventUtil.addEvent(element,eventType,function (e) {
+				var event  = blog.tool.EventUtil.getEvent(e),
+					target = blog.tool.EventUtil.getTarget(e);
+				if (target && target.tagName === tag.toUpperCase()) {
+					handler.call(target,event)
+				}
+			})
+		}
+	};
+
+	blog.tool.ajax = function ajax(obj) {
+		var xhr = (function() {
+			/*创建XMLHttpRequest对象*/
+			if (XMLHttpRequest) {
+				// code for IE7+, Firefox, Chrome, Opera, Safari
+				return new XMLHttpRequest();
+			} else if (ActiveXObject) {
+				// code for IE6, IE5
+				var version = [
+					'MSXML2.XMLHttp.6.0',
+					'MSXML2.XMLHttp.3.0',
+					'MSXML2.XMLHttp'
+				];
+				for (var i = 0; version.length; i++) {
+					try {
+						return new ActiveXObject(version[i]);
+					} catch (e) {
+						//跳过
+					}
+				}
+			} else {
+				throw new Error('您的系统或浏览器不支持XHR对象！');
+			}
+		})();
+		// url加随机参数，防止缓存
+		obj.url = obj.url + '?rand=' + Math.random();
+		// 请求参数格式化，encodeURIComponent编码参数可以出现&
+		obj.data = (function(data) {
+			var arr = [];
+			var result = [];
+			for (var j = 0; j < data.length; i++) {
+				var o = {};
+				var obj = data[i];
+				for(var p in obj){
+					if (typeof obj[p] !== 'undefined') {
+						o[p] = obj[p];
+					}
+				}
+				result.push(o);
+			}
+			arr.concat(result);
+			for(var i in data) {
+				arr.push(encodeURIComponent(i) + '=' + encodeURIComponent(data[i]));
+			}
+			return arr.join('&');
+		})(obj.data);
+		if (obj.method === 'get')
+			obj.url += obj.url.indexOf('?') == -1 ? '?' + obj.data : '&' + obj.data;
+		if (obj.async === true) {
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4) {
+					callback();
+				}
+			};
+		}
+		xhr.open(obj.method, obj.url, obj.async);
+		if (obj.method === 'post') {
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xhr.send(obj.data);
+		} else {
+			xhr.send(null);
+		}
+		if (obj.async === false) {
+			callback();
+		}
+
+		function callback() {
+			if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+				obj.success(xhr.responseText); // 回调传递参数
+			} else {
+				alert('获取数据错误！错误代号：' + xhr.status + '，错误信息：' + xhr.statusText);
+			}
+		}
+	}
+
+	blog.ui = {};
+
+	blog.ui.padding = function (number) {
+		return number < 10 ? '0' + number : '' + number;
+	}
+
+	blog.ui.format = function (date) {
+		return blog.ui.padding(date.getMonth() + 1) + '-' + blog.ui.padding(date.getDate()) + ' ' + blog.ui.padding(date.getHours()) + ':' + blog.ui.padding(date.getMinutes());
+	}
+
+	blog.ui.getReply = function (obj) {
+		
+	}
+
+	blog.ui.getComment = function (obj) {
+		var mediaList     = document.getElementById('mediaList');
+		var comment      = document.getElementById('comments'),
+			button       = comment.getElementsByTagName('button')[0];
+		var commentDel   = document.querySelector('.comment-del');  
+
+		blog.tool.EventUtil.addEvent(mediaList,'click',function (event) {
+			var event  	= window.event || event,
+				target 	= event.target || event.srcElement;
+				toId 	= document.getElementById('toId'),
+			commentId 	= document.getElementById('commentId'),
+			commentForm = document.getElementById('commentForm');
+			// 给当前要叠楼回复的楼主添加id值
+			if (target.parentNode.getAttribute('class') === 'media-body' ) {
+				target.parentNode.setAttribute('id','mediaBody');
+			}
+
+
+			if (target.className === 'comment') {
+				if (toId) {
+					toId.value = target.dataset.tid;
+				}else{
+					var toInput   = document.createElement('INPUT');
+					toInput.setAttribute('type','hidden');
+					toInput.setAttribute('id','toId');
+					toInput.setAttribute('name','comment[tid]');
+					toInput.setAttribute('value',target.dataset.tid);
+					commentForm.appendChild(toInput);
+				}
+				if (commentId) {
+					commentId.value = target.dataset.cid;
+				}else{
+					var tCinput = document.createElement('INPUT');
+					tCinput.setAttribute('type','hidden');
+					tCinput.setAttribute('id','commentId');
+					tCinput.setAttribute('name','comment[cid]');
+					tCinput.setAttribute('value',target.dataset.cid);
+					commentForm.appendChild(tCinput);
+				}
+			}
+		})
+
+		blog.tool.EventUtil.addEvent(button,'click',function (event) {
+			event.preventDefault();
+			var event = window.event || event;
+			var target = event.target || event.srcElement;
+			var commentForm  = document.getElementById('commentForm');
+			var content = document.getElementById('commentContent');
+			var paper        = comment.getElementsByTagName('input')[0];
+			var fro          = comment.getElementsByTagName('input')[1];	
+
+			if (target.parentNode.getAttribute('class') === 'media-body' ) {
+				target.parentNode.setAttribute('id','mediaBody');
+			}
+
+			if (document.getElementById('toId')&&document.getElementById('commentId')) {
+				var tid = document.getElementById('toId').value;
+				var cid = document.getElementById('commentId').value;
+
+				var data = {
+					'comment[paper]':paper.value,
+					'comment[from]':fro.value,
+					'comment[content]':content.value,
+					// 如果点击回复按钮对评论进行回复，就会产生来个隐藏的表单
+					// 分别有被回复人的Id和点击该条评论人的Id
+					'comment[tid]':tid,
+					'comment[cid]':cid
+				}
+			}else{
+				var data = {
+					'comment[paper]':paper.value,
+					'comment[from]':fro.value,
+					'comment[content]':content.value,
+				}
+			}
+			blog.tool.ajax({
+				url:'/comment',
+				method:'post',
+				data:data,
+				async:true,
+				success:function (results) {
+					var data  		 = JSON.parse(results).data || {},			
+						commentForm  = document.getElementById('commentForm'),
+						commentTid = commentForm.getElementsByTagName('input')[2],
+						commentCid = commentForm.getElementsByTagName('input')[3],
+						mediaBody 	 = document.getElementById('mediaBody');
+
+					// 如果是对评论进行回复
+	
+					if (data.reply.length) {
+						var	len = data.reply.length;
+						var media = document.createElement('DIV');
+						media.setAttribute('class','media');
+						media.innerHTML = '<div class="media-left"><img src="/images/headImg.png" style="width:30px;height:30px"/></div><div class="media-body"><h4 class="media-heading">'
+						+ data.reply[len-1].from.name + '<span>&nbsp;@&nbsp;</span>' + data.reply[len-1].to.name + '</h4><p>' + data.reply[len-1].content + '</p><span class="createAt">'
+						+ blog.ui.format(new Date()) + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<a class="comment" href="#comments" data-cid=' + data._id + ' data-tid=' + data.reply[len-1].to._id
+						+'>回复</a>&nbsp;|&nbsp;<a class="comment-del" href="javascript:;" data-cid=' + data._id + 'data-tid=' + data.reply[len-1]._id + '><i class="fa fa-trash"></i>&nbsp删除</a></div>';
+
+						if (mediaBody.parentNode.tagName === 'LI') {
+							mediaBody.appendChild(media);
+						}else if (mediaBody.parentNode.tagName === 'DIV') {
+							mediaBody.parentNode.parentNode.appendChild(media);
+						}
+						
+						
+					}else{
+						var media = document.createElement('LI');
+						var m = media.nextSbiling
+						media.setAttribute('class','media');
+
+						media.innerHTML = '<div class="media-left"><img src="/images/headImg.png" style="width:40px;height:40px;"/></div><div class="media-body"><h4 class="media-heading">'
+						+ data.from.name + '</h4><p>' + data.content + '</p><span class="createAt">' + blog.ui.format(new Date()) + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<a class="comment" href="#comments" data-cid='
+						+ data._id + ' data-tid=' + data.from._id + '>回复</a>&nbsp;|&nbsp;<a class="comment-del" href="javascript:;" data-cid='
+						+ data._id +'><i class="fa fa-trash"></i>&nbsp;删除</a></div><hr>'
+
+						mediaList.appendChild(media);
+					}
+					
+					// 给叠楼回复内容完后要删除给叠楼楼主添加的id值，方便下次点击其他叠楼楼主继续添加该id
+					mediaBody.setAttribute('id','');
+					//将叠楼评论中新建的两个隐藏表单清空，方便下次回复新内容时不会堆叠到此楼
+					commentForm.removeChild(commentTid);
+					commentForm.removeChild(commentCid);
+					content.value = '';
+				}
+			})
+			
+		})
+
+		blog.tool.EventUtil.addEvent(commentDel,'click',function (event) {
+			var event = window.event || event;
+			var target = event.target || event.srcElement;
+		})
+	}
+
+	blog.app = {};
+
+	blog.app.comment = (function () {
+		blog.ui.getComment();
+
+		// 删除评论功能
+		
+
+	})();
+</script>

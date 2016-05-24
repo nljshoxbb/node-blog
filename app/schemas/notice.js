@@ -9,14 +9,8 @@ var mongoose = require('mongoose'),
 		name:String,
 		time:String,
 		meta: {
-		    createAt: {
-		      type: Date,
-		      default: Date.now()
-		    },
-		    updateAt: {
-		      type: Date,
-		      default: Date.now()
-		    }
+		    createAt: {type: Date,default: Date.now()},
+		    updateAt: {type: Date,default: Date.now()}
 		 }
 	})
 	NoticeSchema.pre('save', function(next) {

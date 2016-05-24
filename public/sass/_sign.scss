@@ -93,12 +93,14 @@
 	}
 	.btn{
 		position: absolute;
+		border: none;
 		left: 200px;
 		width: 30%;
 		top:240px;
+		background-color: $sm-color;
 		@include trans(.2s);
 		&:hover{
-			background-color: $sm-color;
+			background-color: $main-color;
 		}
 	}
 }

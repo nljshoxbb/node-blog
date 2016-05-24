@@ -1,7 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    CategorySchema = require('../schemas/paper_category');
+    CategorySchema = require('../schemas/category');
 
 // 使用mongoose的模型方法编译生成模型
 var Category = mongoose.model('Category',CategorySchema);

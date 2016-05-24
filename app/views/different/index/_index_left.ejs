@@ -1,12 +1,15 @@
 <div class=" dashboard">
-	<img src="" alt="">
-	<div>
-		<% var url = null;
-			if(user){
-				url = user.head;
-			}else{
-				url = 'imgs/logo.jpg';
-			}%>
+	<% var url = null;
+		if(user){
+			url = user.head;
+		}else{
+			url = 'imgs/logo.jpg';
+		}%>
+	<div class="dashboard-bg"></div>
+	<div class="dashboard-content">
+		<div class="dashboard-avatar">
+			<a href="javascript:;"><img src="/images/headImg.png" alt=""></a>
+		</div>
 		<div class="dashboard-username">
 			<a href="/user?name=<%=user.name%>"><%=user.name %></a>
 		</div>
@@ -24,6 +27,15 @@
 				</a>
 			</li>
 		</ul>
+	</div>
+</div>
+<br>
+<div class="panel">
+	<div class="panel-heading">
+		<h3>趋势</h3><span>最近加入</span>
+	</div>
+	<div class="panel-body">
+		
 	</div>
 </div>
 

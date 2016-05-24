@@ -8,7 +8,7 @@ exports.showIndex = function (req,res) {
 	var totalpaper = 0;
 
 	// 获取所有文章数
-	Paper.find({},function (err,papers) {
+	Paper.find({}).sort('-meta.createAt').exec(function (err,papers) {
 		if (papers.length % 7 !=0 ) {
 			totalpaper = parseInt(papers.length / 7)+1;
 		}else{
@@ -22,11 +22,12 @@ exports.showIndex = function (req,res) {
 	page = parseInt(page);
 	var papers;
 	// 每一页显示的文章数
-	Paper.find({},null,{skip:(page-1)*7,limit:7},function (err,papers) {
+	Paper.find({},null,{skip:(page-1)*7,limit:7}).sort('-meta.createAt').exec(function (err,papers) {
 		if (err) {
 			papers = [];
 			return;
 		}
+		console.log(papers)
 		var notices;
 		Notice.find({},function (err,notices) {
 			if (err) {

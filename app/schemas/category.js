@@ -1,22 +1,16 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
+    Schema   = mongoose.Schema,
     ObjectId = Schema.Types.ObjectId;
 
 var CategorySchema = new Schema({
-
+  _id: String,
   name: String,
   movies: [{type: ObjectId, ref: 'Paper'}],
   meta: {
-    createAt: {
-      type: Date,
-      default: Date.now()
-    },
-    updateAt: {
-      type: Date,
-      default: Date.now()
-    }
+    createAt: {type: Date,default: Date.now()},
+    updateAt: {type: Date,default: Date.now()}
   }
 });
 

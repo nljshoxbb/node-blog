@@ -8,7 +8,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">n<span>l</span>jshoxbb</a>
+        <a class="navbar-brand shake shake-slow shake-constant shake-constant--hover " href="#">n<span>l</span>jshoxbb</a>
       </div><!-- navbar-header -->
 <!--       <form action="/search" class="navbar-form navbar-right" role="search">
         <div class="form-group">
@@ -17,13 +17,13 @@
       </form> -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/index"><i class="fa fa-home"></i>主页</a></li>
+          <li class="shake shake-little" ><a href="/index"><i class="fa fa-home"></i>主页</a></li>
           <!-- 用户登录后才显示发表和上传菜单 -->
           <% if(user) { %>
-            <li><a href="/post"><i class="fa fa-pencil-square-o"></i>吐槽</a></li>
+            <li class="shake shake-rotate"><a href="/post"><i class="fa fa-pencil-square-o"></i>吐槽</a></li>
             <!-- <li><a href="/upload">上传</a></li> -->
-            <li><a href="#"><i class="fa fa-envelope-o"></i>通知</a></li>
-            <li><a href="/logout">退出</a></li>
+            <li class="shake shake-rotate" ><a href="#"><i class="fa fa-envelope-o"></i>通知</a></li>
+            <li class="shake shake-crazy"><a href="/logout">退出</a></li>
             <% if(user.role>=50){%>
             <li><a href="/admin">进入管理界面</a></li>
             <% } %>

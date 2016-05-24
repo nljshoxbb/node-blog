@@ -1,0 +1,23 @@
+<div class="container">
+	<form class="form-horizontal" method="post" enctype="multipart/form-data">
+		<% if(user){ %>
+		<input type="hidden" name="user[_id]" class="form-control" value=user._id>
+		<% } %>
+		<div class="form-group">
+			<label for="uploadAvatar" class="col-md-2 control-label">头像设置</label>
+			<div class="col-md-2">
+				<input type="file" id="uploadAvatar" name="uploadAvatar">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="uploadBackgound" class="col-md-2 control-label">个人主页背景图片设置</label>
+			<div class="col-md-2">
+				<input type="file" id="uploadBackgound" name="uploadBackgound">
+			</div>
+		</div>
+		<div class="col-md-5 col-md-offset-4">
+			<br>
+			<button type="submit" class="col-md-6 btn btn-primary button">发布</button>
+		</div>
+	</form>
+</div>

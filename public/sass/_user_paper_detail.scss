@@ -1,0 +1,34 @@
+.paper-detail{
+	
+	.panel{
+		border: 1px solid $border-color;
+		border-radius: 3px;
+	}
+	.panel-footer{
+		background-color: $main-color;
+		a{
+			color: #fff;
+			text-decoration: none;
+			@include trans(.2s);
+			&:hover{
+				color: $sm-color;
+			}
+		}
+	}
+	.detaile-content{
+		a{
+			color:$main-color;
+			text-decoration: none;
+		}
+		.panel-heading{
+			button{
+				background-color: $main-color;
+				color: #fff;
+				@include trans(.2s);
+				&:hover{
+					background-color:$sm-color;
+				}
+			}
+		}
+	}
+}

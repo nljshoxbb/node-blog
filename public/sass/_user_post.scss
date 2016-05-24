@@ -1,0 +1,50 @@
+.user-post{
+
+	.input-title{
+		width: 100px;
+		@include trans(.4s);
+		&:focus{
+			width: 200px;
+		}
+	}
+
+	.upload-image{
+		display: inline-block;
+		background-color: $main-color;		
+		position: relative;
+		overflow: hidden;
+		width: 100px;
+		height: 20px;
+		line-height: 20px;
+		border-radius: 3px;
+		color: #fff;
+		text-align: center;
+		text-decoration: none;
+		@include trans(.2s);
+		&:hover{
+			background-color: $sm-color;
+		}
+
+		input{
+			
+			cursor: pointer;
+			position: absolute;
+			right: 0;
+			top: 0;
+			font-size: 100px;
+			// opacity: 0;
+			// filter:alpha(opacity=0)
+		}
+	}
+	button{
+		background-color: $main-color;
+		width: 100px;
+		color: #fff;
+		margin-bottom: 20px;
+		@include trans(0.2s);
+		&:hover{
+			background-color: $sm-color;
+			color: #fff;
+		}
+	}
+}

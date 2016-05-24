@@ -1,19 +1,21 @@
 .container{
 	margin-top: 20px;
+	position: relative;
 }
 .middle{
-
 	.panel{
 		border: 1px solid $border-color;
+		border-bottom: none;
 		border-radius: 5px;
+		margin-bottom: 0;
 		@include trans(.4s);
 		.panel-heading{
-			background-color: #fff;
-			h3{
-				a{
-					color: $main-color;
-				}
-				@include trans(0.4s);
+			border-bottom: none;
+			a{
+
+				font-size: 16px;
+				color: $main-color;
+				@include trans(.2s);
 				&:hover{
 					color: $sm-color;
 				}
@@ -48,6 +50,17 @@
 		}
 		&:hover{
 			border-top: 1px solid $sm-color;
+		}
+		.panel-footer{
+			border-top: none;
+			background-color: #fff;
+			a{
+				color: $main-color;
+				@include trans(.2s);
+				&:hover{
+					color: $sm-color;
+				}
+			}
 		}
 	}
 }

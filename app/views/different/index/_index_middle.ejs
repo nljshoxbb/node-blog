@@ -1,16 +1,17 @@
 <% if(papers){
 papers.forEach(function(paper,index) { %>
 <div class="middle">
-	<div class="panel panel-default">
+	<div class="panel">
 		<div class="panel-heading">
-			<h3>
-				<a href="/paper/paper._id">
-					<%= paper.title %></a>
-			</h3> <i class="fa fa-user"></i>
-			<a href="/user?name=<%= paper.author %>
-				">
-				<%= paper.author %></a>
-			<%=paper.time%></div>
+			<a href="/user?name=<%= paper.author %>">
+				<img src="/images/headImg.png" alt="" style="width: 40px;height: 40px;">
+				<%= paper.author %>
+			</a>
+			<a href="/paper/<%- paper._id%>" class="shake shake-rotate">
+				<%= paper.title %></a>
+			
+			<%=paper.time%>
+		</div>
 		<div class="panel-body">
 			<p><%- paper.content %></p>
 			<% if(paper.image){ %>
@@ -19,10 +20,10 @@ papers.forEach(function(paper,index) { %>
 		</div>
 		<div class="panel-footer">	
 			&nbsp;&nbsp; <i class="fa fa-eye"></i>
-			<%=paper.pv%>
+			<%= paper.pv %>
 			&nbsp;&nbsp;
-			<i class="fa fa-comments"></i>
-			<%=paper.comments.length%>
+			<a href="/paper/<%- paper._id%>/#comments"><i class="fa fa-comments"></i><%= paper.comments %></a>
+
 		</div>
 	</div>
 </div>

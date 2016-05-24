@@ -1,24 +1,29 @@
 <div class="footer">
-	<p>Copyright@nljshoxbb</p>
-	<p>网站基于nodeJS</p>
+	<p>@nljshoxbb</p>
+	<div class="intro">
+		<p class="shake-little shake-constant shake-constant--hover">网站由nodeJS强力驱动</p>
+	</div>
+	
 	<p>
 	<a href="https://github.com/nljshoxbb"><i class="fa fa-github"></i></a>&nbsp;&nbsp;<a href=""><i class="fa fa-twitter"></i></a>&nbsp;&nbsp;</p>
 </div>
 
-	
+	<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 	<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	<script src="/javascripts/user_main.js" ></script>
 	<script src="/javascripts/index.js"></script>
 	<script src="/javascripts/user_list.js" ></script>
 	<script src="/javascripts/kindeditor/kindeditor-all-min.js"></script>
 	<script src="/javascripts/kindeditor/lang/zh-CN.js"></script>
-	<script src="/javascripts/kindeditor/themes/simple"></script>
 	<script>
 		var editor;
 		KindEditor.ready(function(K) {
-		  editor = K.create('textarea', {
+		  window.editor = K.create('textarea', {
 		  themeType:'simple',
-		  allowImageUpload : true,
+		  allowImageUpload : false,
+		  resizeType:1,
+		  width:'100%',
+		  afterBlur: function(){this.sync();},
 		  items : [
 		'source', '|', 'undo', 'redo', '|', 'preview', 'code', 'cut', 'copy', 'paste','plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright','justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
         'superscript', 'clearhtml', 'selectall', '|', 'fullscreen', '/',

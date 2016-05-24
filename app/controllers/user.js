@@ -2,25 +2,12 @@ var mongoose    = require('mongoose'),
     User        = mongoose.model('User'),
     Paper       = mongoose.model('Paper'),
     moment      = require('moment'),
+    fs          = require('fs'),
+    path        = require('path'),
+    _           = require('underscore'),
     service_qq  = require('../email_services/qq_active'),
     service_163 = require('../email_services/163_active');
     // config = require('config');
-
-// 页面权限控制中间件
-exports.checkLogin = function(req, res, next) {
-    if (!req.session.user) {
-      req.json({login:false});
-      return res.redirect('/')
-    }
-    next();
-}
-exports.checkNotLogin = function (req,res,next) {
-  if (req.session.user) {
-    req.json({login:true})
-    return res.redirect('back')
-  }
-  next();
-}
 
 // 用户主页
 exports.getUser = function function_name(req,res) {
@@ -170,21 +157,83 @@ exports.signinRequired = function(req, res, next) {
   next();
 };
 
-// 用户详细页
-exports.detail = function(req, res) {
-  res.render('detail', {
-    title: '我的主页'
+exports.showSetting = function (req,res) {
+  console.log(req.session.user._id);
+    User.find({},function (err,avatar) {
+    if (err) {
+      console.log(err);
+    }
+    res.render('combine/user_setting',{
+      title:'设置',
+      user:req.session.user,
+      avatar:{}
+    })
   })
 }
 
-// 用户设置
-exports.setting = function (req,res) {
-  var user = req.session.user;
-
-}
 
 // 保存头像
-exports.saveAvatar = function (req,res) {
-  var user = req.session.user;
+exports.saveAvatar = function(req, res, next) {
+  // 如果有文件上传通过connect-multiparty中间件生成临时文件并通过req.files进行访问
+  // 并且当提交表单中有文件上传请求时表单要使用enctype="multipart/form-data"编码格式
+  var avatarData        = req.files.uploadAvatar,                    // 上传文件
+      filePath         = avatarData.path,                             // 文件路径
+      originalFilename = avatarData.originalFilename;         // 原始名字
+  
+  // 如果有自定义上传图片，则存在文件名
+  if(originalFilename) {
+    fs.readFile(filePath, function(err,data) {
+      if(err) {
+        console.log(err);
+        return;
+      }
+      var timestamp = Date.now(),                             // 获取时间
+          type      = avatarData.type.split('/')[1],               // 获取图片类型 如jpg png
+          avatar     = timestamp + '.' + type,                    // 上传海报新名字
+          // 将新创建的图片存储到/public/upload 文件夹下
+          newPath = path.join(__dirname,'../../','/public/upload/avatar/' + avatar);
+      // 写入文件
+      fs.writeFile(newPath,data,function(err) {
+        if(err) {
+          console.log(err);
+          return;
+        }
+        req.avatar = avatar;
+        next();
+      });
+    });
+  }else {
+    // 没有自定义上传海报
+    next();
+  }
+};
 
+
+// 用户设置
+exports.setting = function (req,res) {
+  var settingObj = req.body.user;
+  if (req.avatar) {
+    settingObj.avatar = req.avatar;
+
+    User.findOne({avatar:settingObj.avatar},function (err,_user) {
+      if (err) {
+        console.log(err);
+      }
+      if (_user) {
+        console.log('头像已存在')        
+        res.redirect('/user/setting');
+
+      }else{
+        var newAvatar = new User(settingObj);
+        newAvatar.save(function (err,_newAvatar) {
+          if (err) {
+            console.log(err);
+          }
+          res.redirect('/user/setting');
+        })
+      }
+    })
+  }else{
+    res.redirect('/user/setting');
+  }
 }

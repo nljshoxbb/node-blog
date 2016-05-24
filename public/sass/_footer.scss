@@ -1,6 +1,7 @@
 .footer{
 	background-color: $main-color;
 	height: 150px;
+	width: 100%;
 	p{	
 		text-align: center;
 		&:nth-of-type(1){
@@ -9,11 +10,8 @@
 			padding-top: 20px;
 		}
 		&:nth-of-type(2){
-			font-size: 16px;
-			color: $sm-color;
-		}
-		&:nth-of-type(3){
 			font-size: 25px;	
+			margin-bottom: 0;
 			a{
 				color: #fff;
 				@include trans(.2s);
@@ -21,6 +19,13 @@
 				color: $sm-color;
 				}
 			}
+		}
+	}
+	.intro{
+		text-align: center;
+		p{
+			font-size: 16px;
+			color: $sm-color;
 		}
 	}
 }

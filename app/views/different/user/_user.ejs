@@ -6,12 +6,12 @@
 	</div> -->
   </div>
 
+<!-- 个人信息展示区 -->
 <div class="profile-navbar container-fluid">
-
 	<div class="container">
 		<div class="row">
 		<div class="col-md-1 col-md-offset-1 profile-image "><img class="img-circle" src="/images/IMG_2587.PNG"></div>
-		<div class="col-md-1 profile-name"><%= user.name %></div>
+		<div class="col-md-1 profile-name">@<%= user.name %></div>
 			<div class="col-md-4 profile-navbar-items">
 				<ul>
 					<li><a href=""><span>吐槽</span><span>10</span></a></li>
@@ -20,27 +20,32 @@
 				</ul>
 			</div>
 			<div class="col-md-2 col-md-offset-2 user-edit">
-				<button>编辑个人资料</button>
+				<a href="/user/setting">编辑个人资料</a>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="container">
+<!-- 文章展示区 -->
+<div class="container profile-paper">
 	<div class="row">
 		<div class="col-md-7 col-md-offset-2">
+			<div class="panel">
+				<div class="panel-heading">
+				<h4>吐槽</h4>
+				</div>
+			</div>
 			<% if(papers){ 
 			papers.forEach(function(paper,index){ %>
-			<div class="panel panel-default">
+			<div class="panel">
 				<div class="panel-heading">
 					<h3>
-						<a href="/paper?author=<%= paper.author %>
-							&title=
-							<%= paper.title %>
-							">
+						<a href="/paper/<%- paper._id%>">
 							<%= paper.title %></a>
-					</h3> <i class="fa fa-user"></i>
+					</h3> 
+					<!-- <i class="fa fa-user"></i> -->
 					<a href="/user?name=<%= paper.author %>
 						">
+						<img src="/images/headImg.png" alt="" style="width: 40px;height: 40px;">
 						<%= paper.author %></a>
 					<%= paper.time%></div>
 				<div class="panel-body">
@@ -50,9 +55,11 @@
 						&nbsp;|&nbsp; <i class="fa fa-eye"></i>
 						<%=paper.pv%>
 						&nbsp;|&nbsp;
-						<i class="fa fa-comments"></i>
-						<%=paper.comments.length%>
-						<a href="/userDelete?author=<%= paper.author %>&title=<%= paper.title %>">删除</a>
+						<a href="/paper/<%- paper._id%>/#comments">
+							<i class="fa fa-comments"></i>
+						</a>
+						&nbsp;|&nbsp;
+						<a class="uLdelete" data-id="<%- paper._id %>">删除</a>
 					</div>
 				</div>
 			</div>
@@ -70,3 +77,28 @@
 	</div>
 	<% include _user_pagination.ejs %>
 </div>
+<script>
+	$(function () {
+		$('.uLdelete').on('click',function (event) {
+			event.preventDefault();
+			var target = $(event.target);
+			var id = target.data('id');
+			console.log(target.parents());
+
+			$.ajax({
+				type:'delete',
+				url:'/user/paper/list?id=' + id
+			})
+			.done(function (result) {
+				if (result.success === 1 && target.tagName === 'DIV') {
+
+					
+					
+					var div = target.tagName.
+					div.remove();
+									
+				}
+			})
+		})
+	})
+</script>

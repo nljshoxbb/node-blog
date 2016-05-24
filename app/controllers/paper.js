@@ -2,16 +2,23 @@ var mongoose = require('mongoose'),
 	Paper 	 = mongoose.model('Paper'),
 	Category = mongoose.model('Category'),
 	Comment  = mongoose.model('Comment'),			
-	_		 = require('underscore'),                 //该模块用来对变化字段进行更新
+	_ 		 = require('underscore'),                //该模块用来对变化字段进行更新
 	fs       = require('fs'),						 //读写文件模块
 	path	 = require('path');						 //路径模块
 
-// 展示文章
+// 文章发表页面
 exports.showPost=function(req,res){
-	res.render('combine/post',{
+	Paper.find({},function(err,paper){
+		if (err) {
+			console.log(err);
+		}
+		res.render('combine/post',{
 	  	title:'发表页面',
-  		user:req.session.user
-	 })
+  		user:req.session.user,
+  		paper:{}
+	 	})
+	})
+
 }
 
 // 修改文章
@@ -57,69 +64,63 @@ exports.delete=function(req,res){
 			return;
 		}
 		if(paper){
-			res.redirect('/index')
+			res.redirect('/user')
 		}
 	})
 }
 
-// 获取文章详细页
-exports.getPaper=function(req,res){
-	var user = req.session.user;
-	var date = new Date();
-	Paper.findOne({
-		author:req.query.author,
-		title:req.query.title,
-	},function(err,paper){
-		if(err){
-			console.log(err)
-			return;
-		}
-		paper.update({$inc:{pv:1}}).exec(function(err){
-			if(err)
+
+// 用户文章列表中删除文章
+exports.userDelete = function (req,res) {
+	// 获取ajax发送的请求id值
+	var id = req.query.id;
+	console.log(id);
+	// 如果id值存在，服务器将该条数据删除并返回json格式的删除成功信息
+	if (id) {
+		Paper.remove({_id:id},function (err) {
+			if (err) {
 				console.log(err);
+				return;
+			}
+			res.json({success:1});
 		})
-		res.render('combine/paper_detail',{ 
-			title: '文章页面',
-			user: user,
-			paper:paper,
-			
-		});
-	});
+	}
+
 }
 
+
 // 获取文章详细页
-// exports.getPaper = function (req,res) {
-// 	var _id = req.params.id;
-// 	var user = req.session.user;
-// 	// 用户访问统计，每次访问文章详情页，pv增加1
-// 	Paper.update({_id:_id},{$inc:{pv:1}},function (err) {
-// 		if (err) {
-// 			console.log(err);
-// 		}
-// 	});
-// 	//Comment存储到数据库中的paper属性值与相应的paper _id值相同
-// 	Paper.findById(_id,function (err,paper) {
-// 		if (err) {
-// 			console.log(err);
-// 		}
-// 		// 查找该_id值所对应的评论信息
-// 		Comment.find({paper:_id})
-// 			   .populate('from','name')
-// 			   .populate('reply.from reply.to','name') //查找评论人和回复人的名字
-// 			   .exec(function (err,comments) {
-// 			   		if (err) {
-// 			   			console.log(err);
-// 			   		}
-// 			   		res.render('combine/paper_detail',{
-// 			   			title:'文章页面',
-// 			   			paper:paper,
-// 			   			user:user,
-// 			   			comments:comments
-// 			   		})
-// 			   		console.log(comments);
-// 			   })
-// 	})	
-// }
+exports.getPaper = function (req,res) {
+	var _id = req.params.id;
+	var user = req.session.user;
+	// 用户访问统计，每次访问文章详情页，pv增加1
+	Paper.update({_id:_id},{$inc:{pv:1}},function (err) {
+		if (err) {
+			console.log(err);
+		}
+	});
+	//Comment存储到数据库中的paper属性值与相应的paper _id值相同
+	Paper.findById(_id,function (err,paper) {
+		if (err) {
+			console.log(err);
+		}
+		// 查找该_id值所对应的评论信息
+		Comment.find({paper:_id})
+			   .populate('from','name')
+			   .populate('reply.from reply.to','name') //查找评论人和回复人的名字
+			   .exec(function (err,comments) {
+			   		if (err) {
+			   			console.log(err);
+			   		}
+			   		res.render('combine/paper_detail',{
+			   			title:'文章页面',
+			   			paper:paper,
+			   			user:user,
+			   			comments:comments
+			   		})
+			   })
+	})	
+}
 
 
 
@@ -231,42 +232,39 @@ exports.saveImage = function(req, res, next) {
     next();
   }
 };
-// 发表文章
-exports.post=function(req,res){
-	var date = new Date();
-	var paperNow = {
-		title:req.body.title,
-		author:req.session.user.name,
-		content:req.body.content,
-		image:req.image,
-		time:date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()+ "-"+
-             date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
-	}	
-	
-	// if (req.image) {
-	// 	paperNow.image = req.image;
-	// }
-	Paper.findOne({
-		title:paperNow.title,
-		author:paperNow.author
-	},function(err,paper){
-		if(err){
-			return;
-		}
-		if(!paper){
-			var paper=new Paper(paperNow);
-			paper.save(function(err){
-				if(err){
-					res.redirect('/post');
-				}
-				// paper.update({$push:{paper:paper}},function(err,paper){})
-				res.redirect('/index')
-			})
-		}
-	})
-}
 
+exports.post = function(req,res) {
+  var paperObj 		  = req.body.paper,
+  	  user     		  = req.session.user;
 
-exports.showImage  = function (req,res) {
-	res.sendfile(path.resolve('public/upload/'))
-}
+  paperObj.author  = user.name;
+  // 如果有自定义上传海报  将paperObj中的海报地址改成自定义上传海报的地址
+  if(req.image) {
+    paperObj.image = req.image;
+  }
+  if(paperObj.title) {
+    // 查找该文章名称是否已存在
+    Paper.findOne({title:paperObj.title},function(err,_paper) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (_paper) {
+        console.log('文章标题已存在');
+        res.redirect('/post');
+      }else {
+        // 创建一个新文章数据
+        var newPaper = new Paper(paperObj);
+        newPaper.save(function(err,_newPaper) {
+          if(err){
+            console.log(err);
+            return;
+          }
+            res.redirect('/index');
+        });
+      }
+    });
+  }else {
+    res.redirect('/post');
+  }
+};

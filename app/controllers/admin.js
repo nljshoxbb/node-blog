@@ -97,9 +97,7 @@ exports.deleteAllPaper = function (req,res) {
 		if (err) {
 			return;
 		}
-		res.json({
-			success:1
-		})
+		res.json({success:1})
 	})
 }
 
@@ -140,7 +138,7 @@ exports.notice = function (req,res) {
         if (err) {
           res.redirect('/admin/notice');
         }
-        res.redirect('/')
+        res.redirect('/admin')
       })
     }
   })

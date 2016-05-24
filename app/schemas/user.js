@@ -1,7 +1,7 @@
 'use strict';
 
-var mongoose = require('mongoose'),
-	bcryptjs = require('bcryptjs'), // 用于密码加密
+var mongoose 		 = require('mongoose'),
+	bcryptjs 		 = require('bcryptjs'), // 用于密码加密
 	SALT_WORK_FACTOR = 10; 	// 密码破解需要的强度，越大破解需要时间越长
 
 // 
@@ -12,6 +12,7 @@ var UserSchema = new mongoose.Schema({
 		required:true
 	},
 	avatar:String,
+	background:String,
 	active:{
 		type:Boolean,
 		default:false
@@ -24,14 +25,8 @@ var UserSchema = new mongoose.Schema({
 		default: 0
 	},
   	meta: {
-	  	createAt: {
-	    	type: Date,
-	    	default: Date.now()
-  	},
-	    updateAt: {
-		    type: Date,
-		    default: Date.now()
-	 	}
+	  	createAt: {type: Date,default: Date.now()},
+	    updateAt: {type: Date,default: Date.now()}
 	}
 });
 
@@ -76,7 +71,7 @@ UserSchema.statics = {
 	fetch: function(cb) {
 		return this
 			.find({})
-			.sort('meta.updateAt')
+			.sort('-meta.updateAt')
 			.exec(cb);
 	},
 	findById: function(id,cb) {
