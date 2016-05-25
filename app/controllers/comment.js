@@ -57,6 +57,7 @@ exports.saveComment = function(req,res) {
 
 exports.deleteComment = function(req,res) {
     // 获取客户端Ajax发送的URL值中的id值
+    console.log(req.query)
     var cid = req.query.cid,                     // 获取该评论的id值
         did = req.query.did;                     // 获取各条回复评论的id值
     // 如果点击的是叠楼中的回复评论的删除按钮
