@@ -25,7 +25,9 @@ app.set('views', path.join(__dirname, './app/views/'));
 
 // use
 app.use(logger('dev'));
+// 对application/x-www-form-urlencoded格式内容进行解析
 app.use(bodyParser.urlencoded({extended:true}));
+// 对application/json格式进行解析
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -33,7 +35,7 @@ app.locals.moment = require('moment');  // 引入moment模块并设置为app.loc
 
 
 app.use(session({
-  secret:config.secret,
+  secret:config.session_secret,
   // 指每次请求都重新设置session cookie，假设你的cookie是10分钟过期，每次请求都会再设置10分钟
   resave: false,
   // 是指无论有没有session cookie，每次请求都设置个session cookie ，默认给个标示为 connect.sid

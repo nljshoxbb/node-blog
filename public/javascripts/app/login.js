@@ -1,20 +1,20 @@
-$.support.cors = true;
-// 表单验证
-$(function () {
-	
+define(['jquery','validate'],function (jquery,validate) {
+	$.support.cors = true;
+	// 表单验证
+	validator = $(function () {
 	jQuery.prototype.serializeObject=function(){  
-					    var a,o,h,i,e;  
-					    a=this.serializeArray();  
-					    o={};  
-					    h=o.hasOwnProperty;  
-					    for(i=0;i<a.length;i++){  
-					        e=a[i];  
-					        if(!h.call(o,e.name)){  
-					            o[e.name]=e.value;  
-					        }  
-					    }  
-					    return o;  
-					}; 
+	    var a,o,h,i,e;  
+	    a=this.serializeArray();  
+	    o={};  
+	    h=o.hasOwnProperty;  
+	    for(i=0;i<a.length;i++){  
+	        e=a[i];  
+	        if(!h.call(o,e.name)){  
+	            o[e.name]=e.value;  
+	        }  
+	    }  
+	    return o;  
+	}; 
 	// 用户登录及对象注册方法
 	var signObject = {
 
@@ -70,11 +70,11 @@ $(function () {
 							break;
 							// 没有验证邮箱
 						case 2:
-							$('.msg').html("请到注册邮箱激活").show();
+							$('.signin-msg').html("请到注册邮箱激活").show();
 							break;
 						default:
 							//跳转首页
-							$('.msg').html('登录成功').show();
+							$('.signin-msg').html('登录成功').show();
 							$('a')[0].click();
 						}
 					});
@@ -127,14 +127,13 @@ $(function () {
 						switch(results.data){
 							case 0:
 								// 用户名已存在
-								if ($(obj).find('input:eq(0)').val().length>1) {
-									$(obj).find('.error:eq(0)').html('用户已存在').show();
-								}
+								// if ($(obj).find('input:eq(0)').val().length>1) {
+									$('.signup-msg').html('用户已存在').show();
+								// }
 								break;
-							// case 1:
 								
 							default:
-								$('.msg').html('注册成功,请到注册邮箱完成账号激活').show();
+								$('.signup-msg').html('注册成功,请到注册邮箱完成账号激活').show();
 
 						}
 					});
@@ -146,5 +145,7 @@ $(function () {
 
 	signObject.signUp('#signupForm');
 
+	});
 
-});
+})
+	

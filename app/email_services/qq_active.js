@@ -1,10 +1,12 @@
 module.exports = function (options) {
-	var nodemailer = require('nodemailer'),
+
+	var nodemailer    = require('nodemailer'),
+		config     	  = require('config'),
 		smtpTransport = nodemailer.createTransport("SMTP",{
-		host:'smtp.qq.com',
+		host:config.mail_opt.mailqq.host,
 		auth:{
-			user:"382895635@qq.com",
-			pass:"bzgpfxqxgfnkbjhe"
+			user:config.mail_opt.mailqq.auth.user,
+			pass:config.mail_opt.mailqq.auth.pass
 		}
 	});
 	// 发送邮件

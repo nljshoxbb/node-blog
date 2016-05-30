@@ -14,11 +14,17 @@
 			a{
 
 				font-size: 16px;
+				font-weight: bold;
 				color: $main-color;
 				@include trans(.2s);
 				&:hover{
 					color: $sm-color;
 				}
+			}
+			.middle-title{
+				font-size: 14px;
+				color: rgb(136, 153, 166);
+
 			}
 		}
 		.panel-body{
@@ -43,6 +49,7 @@
 					color: $sm-color;
 				}
 			}
+
 			.img-thumbnail{
 				display: table;
 				margin: 0 auto;

@@ -42,8 +42,8 @@ module.exports = function (app) {
 
 	// //删除
 	app.get('/user/paper/delete',User.signinRequired,Paper.delete);
-	// app.get('/userDelete',User.signinRequired,Paper.delete);
-	app.post('/comment/:id',User.signinRequired,Comment.deleteComment);
+
+	app.delete('/comment/:id',User.signinRequired,Comment.deleteComment);
 
 	// 在用户列表中删除文章
 	app.delete('/user/paper/list',User.signinRequired,Paper.userDelete);

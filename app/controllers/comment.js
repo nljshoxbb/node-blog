@@ -2,14 +2,21 @@ var mongoose = require('mongoose'),
 	  Comment  = mongoose.model('Comment'),
  	  Paper 	 = mongoose.model('Paper');
 
-
+/**
+ * 保存评论控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.saveComment = function(req,res) {
   var _comment = req.body.comment;        					 // 获取post发送的数据
-  console.log(_comment);
+   
+  // console.log(_comment);
   // 如果存在cid说明是对评论人进行回复
   if(_comment.cid) {
-    // 通过点击回复一条电影评论的id，找到这条评论的内容
+    // 通过点击回复一条文章评论的id，找到这条评论的内容
     Comment.findById(_comment.cid,function(err,comment) {
+
       var reply = {
         from:_comment.from,                			 		// 回复人
         to:_comment.tid,                   					// 被回复人
@@ -19,9 +26,10 @@ exports.saveComment = function(req,res) {
         }
       };
       comment.reply.push(reply);          					// 添加到评论的数组中
-      console.log(reply);
+
       // 保存该条评论的回复内容
       comment.save(function(err,comment) {
+        
         if(err) {
           console.log(err);
         }
@@ -55,6 +63,12 @@ exports.saveComment = function(req,res) {
   }
 };
 
+/**
+ * 删除评论控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.deleteComment = function(req,res) {
     // 获取客户端Ajax发送的URL值中的id值
     console.log(req.query)

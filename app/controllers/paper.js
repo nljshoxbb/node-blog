@@ -1,12 +1,17 @@
 var mongoose = require('mongoose'),
 	Paper 	 = mongoose.model('Paper'),
-	Category = mongoose.model('Category'),
 	Comment  = mongoose.model('Comment'),			
 	_ 		 = require('underscore'),                //该模块用来对变化字段进行更新
 	fs       = require('fs'),						 //读写文件模块
-	path	 = require('path');						 //路径模块
+	path	 = require('path'),						 //路径模块
+	moment    = require('moment');
 
-// 文章发表页面
+/**
+ * 获取发表页面控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.showPost=function(req,res){
 	Paper.find({},function(err,paper){
 		if (err) {
@@ -21,7 +26,12 @@ exports.showPost=function(req,res){
 
 }
 
-// 修改文章
+/**
+ * 获取修改文章页面控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.edit=function(req,res){
 	Paper.findOne({
 		author:req.query.author,
@@ -38,7 +48,13 @@ exports.edit=function(req,res){
 		});
 	});
 }
-// 保存修改文章
+
+/**
+ * 修改文章控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.saveEdit=function(req,res){
 	// console.log(req.body.title,req.session.user.name)
 	Paper.findOneAndUpdate({
@@ -54,7 +70,12 @@ exports.saveEdit=function(req,res){
 	})
 }
 
-// 删除文章
+/**
+ * 删除文章控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.delete=function(req,res){
 	Paper.findOneAndRemove({
 		title:req.query.title,
@@ -63,14 +84,38 @@ exports.delete=function(req,res){
 		if(err){
 			return;
 		}
+
 		if(paper){
 			res.redirect('/user')
 		}
 	})
 }
 
+// exports.delete=function(req,res){
+// 	var newPath = path.join(__dirname,'../../','/public/upload/');
+// 	Paper.remove({title:req.query.title,author:req.query.author},function(err,paper){
+// 		if(err){
+// 			return console.log(err);
+// 		}
+// 		if(paper){
+// 			fs.unlink(newPath,function (err) {
+// 				if (err) {
+// 					 console.log(err);
+// 				}
+// 				res.redirect('/user')
+// 			})
+			
+// 		}
+// 	})
+// }
 
-// 用户文章列表中删除文章
+
+/**
+ * 在用户文章列表中直接删除文章控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.userDelete = function (req,res) {
 	// 获取ajax发送的请求id值
 	var id = req.query.id;
@@ -89,7 +134,12 @@ exports.userDelete = function (req,res) {
 }
 
 
-// 获取文章详细页
+/**
+ * 获取用户详细文章控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.getPaper = function (req,res) {
 	var _id = req.params.id;
 	var user = req.session.user;
@@ -101,6 +151,7 @@ exports.getPaper = function (req,res) {
 	});
 	//Comment存储到数据库中的paper属性值与相应的paper _id值相同
 	Paper.findById(_id,function (err,paper) {
+
 		if (err) {
 			console.log(err);
 		}
@@ -109,14 +160,17 @@ exports.getPaper = function (req,res) {
 			   .populate('from','name')
 			   .populate('reply.from reply.to','name') //查找评论人和回复人的名字
 			   .exec(function (err,comments) {
+			   		// var time  = moment(comments.reply.meta.createAt).format('YYYY-MM-DD');
 			   		if (err) {
 			   			console.log(err);
+			   			return;
 			   		}
 			   		res.render('combine/paper_detail',{
 			   			title:'文章页面',
 			   			paper:paper,
 			   			user:user,
 			   			comments:comments
+			   			// time:meta.updateAt
 			   		})
 			   })
 	})	
@@ -124,7 +178,12 @@ exports.getPaper = function (req,res) {
 
 
 
-// 文章转载功能
+/**
+ * 转载控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.reprint=function(req,res){
 	var title=req.query.title,
 	    author=req.query.author,
@@ -178,7 +237,12 @@ exports.reprint=function(req,res){
 	})
 }
 
-// 搜索功能
+/**
+ * 搜索控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.search = function (req,res) {
 	var date = new Date();
 	var keyword = req.query.keyword;
@@ -198,7 +262,14 @@ exports.search = function (req,res) {
 		})
 	})
 }
-// 上传图片
+
+/**
+ * 图片上传控制器
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 exports.saveImage = function(req, res, next) {
   // 如果有文件上传通过connect-multiparty中间件生成临时文件并通过req.files进行访问
   // 并且当提交表单中有文件上传请求时表单要使用enctype="multipart/form-data"编码格式
@@ -233,6 +304,12 @@ exports.saveImage = function(req, res, next) {
   }
 };
 
+/**
+ * 发送文章控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.post = function(req,res) {
   var paperObj 		  = req.body.paper,
   	  user     		  = req.session.user;

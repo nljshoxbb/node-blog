@@ -5,12 +5,11 @@ papers.forEach(function(paper,index) { %>
 		<div class="panel-heading">
 			<a href="/user?name=<%= paper.author %>">
 				<img src="/images/headImg.png" alt="" style="width: 40px;height: 40px;">
-				<%= paper.author %>
+				@<%= paper.author %>&nbsp;&nbsp;
 			</a>
-			<a href="/paper/<%- paper._id%>" class="shake shake-rotate">
-				<%= paper.title %></a>
-			
-			<%=paper.time%>
+			<a href="/paper/<%- paper._id%>" class="middle-title shake shake-rotate">
+				<%= paper.title %>&nbsp;&nbsp;</a>
+			<span class="middle-title"><%= moment(paper.meta.createAt).format('YYYY-MM-DD HH:mm') %></span>
 		</div>
 		<div class="panel-body">
 			<p><%- paper.content %></p>

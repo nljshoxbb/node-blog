@@ -1,5 +1,5 @@
 <div class="container">
-<div class="col-sm-9 col-md-12">
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2">
   <h1 class="page-header">公告列表</h1>
   <div class="row placeholders">
   </div>
@@ -30,21 +30,21 @@
     </table>
   </div>
 
+  <form class="form-horizontal" method="post" accept-charset="utf-8">
+  <h1 class="page-header">编辑公告</h1>
+  	<div class="form-group">
+  		<label for="inputTitle" class="col-md-1 col-sm-6 control-label">文章标题</label>
+  		<div class="col-md-3">
+  			<input type="text" name="title" class="form-control" id="inputTitle" placeholder="文章标题" required>
+  		</div>
+  	</div>
+  	<div class="col-md-8">
+  		<textarea rows="10" name="content" class="form-control"></textarea>
+  	</div>
+  	<div class="col-md-5">
+  	<br>
+  	<button type="submit" class="col-md-6 btn btn-primary button">发布</button>
+  </form>
 
-<form class="form-horizontal" method="post" accept-charset="utf-8">
-<h1 class="page-header">编辑公告</h1>
-	<div class="form-group">
-		<label for="inputTitle" class="col-md-1 col-sm-6 control-label">文章标题</label>
-		<div class="col-md-3">
-			<input type="text" name="title" class="form-control" id="inputTitle" placeholder="文章标题" required>
-		</div>
-	</div>
-	<div class="col-md-8">
-		<textarea rows="10" name="content" class="form-control"></textarea>
-	</div>
-	<div class="col-md-5">
-	<br>
-	<button type="submit" class="col-md-6 btn btn-primary button">发布</button>
-</form>
 </div>
 </div>

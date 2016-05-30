@@ -10,13 +10,13 @@
 <div class="profile-navbar container-fluid">
 	<div class="container">
 		<div class="row">
-		<div class="col-md-1 col-md-offset-1 profile-image "><img class="img-circle" src="/images/IMG_2587.PNG"></div>
+		<div class="col-md-1 col-md-offset-1 profile-image "><img class="img-circle" src="/images/headImg.png"></div>
 		<div class="col-md-1 profile-name">@<%= user.name %></div>
 			<div class="col-md-4 profile-navbar-items">
 				<ul>
-					<li><a href=""><span>吐槽</span><span>10</span></a></li>
-					<li><a href=""><span>喜欢</span><span>5</span></a></li>
-					<li><a href=""><span>关注</span><span>10</span></a></li>
+					<li><a href="#"><span>吐槽</span><span>0</span></a></li>
+					<li><a href="#"><span>喜欢</span><span>0</span></a></li>
+					<li><a href="#"><span>关注</span><span>0</span></a></li>
 				</ul>
 			</div>
 			<div class="col-md-2 col-md-offset-2 user-edit">
@@ -28,7 +28,7 @@
 <!-- 文章展示区 -->
 <div class="container profile-paper">
 	<div class="row">
-		<div class="col-md-7 col-md-offset-2">
+		<div class="user-paper-list col-md-7 col-md-offset-2">
 			<div class="panel">
 				<div class="panel-heading">
 				<h4>吐槽</h4>
@@ -36,21 +36,18 @@
 			</div>
 			<% if(papers){ 
 			papers.forEach(function(paper,index){ %>
-			<div class="panel">
+			<div class=" panel">
 				<div class="panel-heading">
-					<h3>
-						<a href="/paper/<%- paper._id%>">
-							<%= paper.title %></a>
-					</h3> 
+					<a href="/paper/<%- paper._id%>"><%= paper.title %>&nbsp;&nbsp;</a>
 					<!-- <i class="fa fa-user"></i> -->
-					<a href="/user?name=<%= paper.author %>
-						">
-						<img src="/images/headImg.png" alt="" style="width: 40px;height: 40px;">
-						<%= paper.author %></a>
-					<%= paper.time%></div>
+					<span><%= moment(paper.meta.createAt).format('YYYY MM DD HH:mm')%></span>
+				</div>
 				<div class="panel-body">
 					<p>
 						<%- paper.content %></p>
+						<% if(paper.image){ %>
+							<img src="/upload/<%= paper.image %>" alt="<%= paper.image %>" class="img-thumbnail">
+						<% } %>
 					<div class="col-md-4 col-md-offset-2 ">
 						&nbsp;|&nbsp; <i class="fa fa-eye"></i>
 						<%=paper.pv%>
@@ -59,7 +56,7 @@
 							<i class="fa fa-comments"></i>
 						</a>
 						&nbsp;|&nbsp;
-						<a class="uLdelete" data-id="<%- paper._id %>">删除</a>
+						<a class="uPdelete" data-id="<%- paper._id %>">删除</a>
 					</div>
 				</div>
 			</div>
@@ -77,28 +74,131 @@
 	</div>
 	<% include _user_pagination.ejs %>
 </div>
-<script>
-	$(function () {
-		$('.uLdelete').on('click',function (event) {
-			event.preventDefault();
-			var target = $(event.target);
-			var id = target.data('id');
-			console.log(target.parents());
 
-			$.ajax({
-				type:'delete',
-				url:'/user/paper/list?id=' + id
-			})
-			.done(function (result) {
-				if (result.success === 1 && target.tagName === 'DIV') {
+<script type="text/javascript">
+		var blog = {};
 
-					
-					
-					var div = target.tagName.
-					div.remove();
-									
+		// 工具对象
+		blog.tool = {};
+
+		blog.tool.EventUtil = {
+			// 添加事件
+			addEvent:function (element,type,handler) {
+				if (element.addEventListener) {
+					element.addEventListener(type,handler,false);
+				}else if (element.attachEvent) {
+					element.attachEvent('on' + type,handler);
+				}else{
+					element['on' + type] = handler;
+				}
+			},
+			getEvent:function (event) {
+				return window.event || event;
+			},
+			getTarget:function (event) {
+				return event.target || event.srcElement;
+			},
+			delegateEvent:function (element,tag,eventType,handler) {
+				blog.tool.EventUtil.addEvent(element,eventType,function (e) {
+					var event  = blog.tool.EventUtil.getEvent(e),
+						target = blog.tool.EventUtil.getTarget(e);
+					if (target && target.tagName === tag.toUpperCase()) {
+						handler.call(target,event)
+					}
+				})
+			}
+		};
+
+		blog.tool.ajax = function ajax(obj) {
+			var xhr = (function() {
+				/*创建XMLHttpRequest对象*/
+				if (XMLHttpRequest) {
+					// code for IE7+, Firefox, Chrome, Opera, Safari
+					return new XMLHttpRequest();
+				} else if (ActiveXObject) {
+					// code for IE6, IE5
+					var version = [
+						'MSXML2.XMLHttp.6.0',
+						'MSXML2.XMLHttp.3.0',
+						'MSXML2.XMLHttp'
+					];
+					for (var i = 0; version.length; i++) {
+						try {
+							return new ActiveXObject(version[i]);
+						} catch (e) {
+							//跳过
+						}
+					}
+				} else {
+					throw new Error('您的系统或浏览器不支持XHR对象！');
+				}
+			})();
+			// url加随机参数，防止缓存
+			// obj.url = obj.url + '?rand=' + Math.random();
+			// 请求参数格式化，encodeURIComponent编码参数可以出现&
+			obj.data = (function(data) {
+				var arr = [];
+				for(var i in data) {
+					arr.push(encodeURIComponent(i) + '=' + encodeURIComponent(data[i]));
+				}
+				return arr.join('&');
+			})(obj.data);
+			if (obj.method === 'get' || obj.method === 'delete' )
+				obj.url += obj.url.indexOf('?') == -1 ? '?' + obj.data : '&' + obj.data;
+			if (obj.async === true) {
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState == 4) {
+						callback();
+					}
+				};
+			}
+			xhr.open(obj.method, obj.url, obj.async);
+			if (obj.method === 'post') {
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhr.send(obj.data);
+			} else {
+				xhr.send(null);
+			}
+			if (obj.async === false) {
+				callback();
+			}
+
+			function callback() {
+				if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+					obj.success(xhr.responseText); // 回调传递参数
+				} else {
+					alert('获取数据错误！错误代号：' + xhr.status + '，错误信息：' + xhr.statusText);
+				}
+			}
+		}
+
+		blog.ui = {};
+
+		blog.app = {};
+
+		blog.app.userDelete = (function () {
+			var paperList = document.querySelector('.user-paper-list');
+			blog.tool.EventUtil.addEvent(paperList,'click',function (event) {
+				// event.preventDefault();
+				var event     = window.event || event;
+				var target    = event.target || event.srcElement;
+				var id        = target.getAttribute('data-id');
+
+				if (target.className === 'uPdelete') {
+					blog.tool.ajax({
+						url:'/user/paper/list?id='+ id,
+						method:'delete',
+						async:true,
+						success:function (results) {
+							var data = JSON.parse(results);
+							
+							if (data.success === 1) {
+								
+								paperList.removeChild(target.parentNode.parentNode.parentNode)
+							}
+						}
+					})
 				}
 			})
-		})
-	})
+		})()
 </script>

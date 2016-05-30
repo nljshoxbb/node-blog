@@ -1,18 +1,23 @@
 var mongoose = require('mongoose'),
+	config   = require('../../config'),
 	User 	 = mongoose.model('User'),
 	Paper 	 = mongoose.model('Paper'),
-	Notice 	 = mongoose.model('Notice')
-	
-// 首页控制器
+	Notice 	 = mongoose.model('Notice');	
+/**
+ * 首页控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.showIndex = function (req,res) {
 	var totalpaper = 0;
 
 	// 获取所有文章数
 	Paper.find({}).sort('-meta.createAt').exec(function (err,papers) {
-		if (papers.length % 7 !=0 ) {
-			totalpaper = parseInt(papers.length / 7)+1;
+		if (papers.length % config.index_paper_count !=0 ) {
+			totalpaper = parseInt(papers.length / config.index_paper_count)+1;
 		}else{
-			totalpaper = parseInt(papers.length / 7);
+			totalpaper = parseInt(papers.length / config.index_paper_count);
 		}
 	})
 	var page = 1;
@@ -22,19 +27,20 @@ exports.showIndex = function (req,res) {
 	page = parseInt(page);
 	var papers;
 	// 每一页显示的文章数
-	Paper.find({},null,{skip:(page-1)*7,limit:7}).sort('-meta.createAt').exec(function (err,papers) {
+	Paper.find({},null,{skip:(page-1)*config.index_paper_count,limit:config.index_paper_count}).sort('-meta.createAt').exec(function (err,papers) {
 		if (err) {
 			papers = [];
 			return;
 		}
-		console.log(papers)
 		var notices;
 		Notice.find({},function (err,notices) {
 			if (err) {
 				notices = [];
 			}
 			res.render('./combine/index',{
-			title:'Nljshoxbb',
+			title:config.index_title,
+			description:config.description,
+			keywords:config.keywords,
 			user:req.session.user,
 			papers:papers,
 			total:totalpaper,
@@ -42,6 +48,7 @@ exports.showIndex = function (req,res) {
 			isLast:page == totalpaper,
 			pagenow:page,
 			notices:notices
+
 			})
 		})
 	})

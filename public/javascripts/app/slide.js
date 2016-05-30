@@ -1,27 +1,4 @@
 (function (window) {
-    /**
-     * Slider
-     * A simple slider plugin
-     * @Author Heby
-     *
-     * @param {Object}          opts                    参数集
-     * @param {Element}         opts.dom                外层元素
-     * @param {String}          opts.titCell            分页元素类名
-     * @param {String}          opts.mainCell           滑块元素类名
-     * @param {Number}          opts.duration           滑动间隔时间，单位为毫秒
-     * @param {Number}          opts.speed              滑动速度
-     * @param {String}          opts.effect             滑动效果
-     * @param {Boolean}         opts.isLooping          是否循环滑动
-     * @param {Boolean}         opts.isAutoPlay         是否自动切换
-     * @param {String}          opts.trigger            触发分页的事件名
-     * @param {Boolean}         opts.pagination         是否自动分页
-     * @param {Boolean}         opts.navigation         是否需要上下页导航
-     * @param {Boolean}         opts.pauseOnHover       鼠标移动到元素上时是否暂停切换
-     *
-     * @class
-     */
-
-
     'use strict';
 
     var Slider;
@@ -334,8 +311,40 @@
                     };
 
                     this.slideBoxUl.addEventListener(transitionEndEventName(), moveToLeft, false);
-                    
+
                     break;
+                case 'top':
+                    var offsetTop = 0;
+                    offsetTop = parseInt(_this.utils.getStyle(_this.slideBoxUl,'transform').replace(/[^0-9\-]/ig,'')) + offset;
+                    this.utils.setStyle(this.slideBoxUl,{
+                        'transition':_this.speed + 'ms',
+                        'transform':'translateY(' + offsetTop + 'px)'
+                    });
+                    var moveToTop = function () {
+                        if (offsetTop > -_this.slideHeight) {
+                            _this.utils.setStyle(_this.slideBoxUl,{
+                                'transition':'0ms',
+                                'transform':'translateY(' + -_this.slideHeight * _this.slideItemLen + 'px)'
+                            });
+                        }
+                        if (offsetTop < (-_this.slideHeight * _this.slideItemLen)) {
+                            _this.utils.setStyle(_this.slideBoxUl,{
+                                'transition':'0ms',
+                                'transform':'translateY(' + -_this.slideHeight + 'px)'
+                            });
+                        }
+
+                        _this.animated = false;
+                        _this.slideBoxUl.removeEventListener(transitionEndEventName(),moveToTop,false);
+                    };
+                    this.slideBoxUl.addEventListener(transitionEndEventName(),moveToTop,false);
+                    break;
+                case 'fade':
+                    for(var i = 0; i < _this.slideItemLen;i++){
+                        if (parseInt(_this.utils.getStyle(_this.slideItem[i],'z-index')) === 1) {
+                            _this.utils.
+                        }
+                    }
             }
         },
         showButton: function () {

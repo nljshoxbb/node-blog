@@ -5,18 +5,24 @@ var mongoose    = require('mongoose'),
     fs          = require('fs'),
     path        = require('path'),
     _           = require('underscore'),
+    config      = require('../../config'),
     service_qq  = require('../email_services/qq_active'),
     service_163 = require('../email_services/163_active');
-    // config = require('config');
 
-// 用户主页
+
+/**
+ * 获取用户文章列表控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.getUser = function function_name(req,res) {
     var totalpaper = 0;
     Paper.find({author:req.session.user.name},function (err,papers) {
-      if (papers.length % 5 != 0) {
-        totalpaper = parseInt(papers.length / 5)+1;
+      if (papers.length % config.user_paper_count != 0) {
+        totalpaper = parseInt(papers.length / config.user_paper_count)+1;
       }else{
-        totalpaper = parseInt(papers.length / 5);
+        totalpaper = parseInt(papers.length / config.user_paper_count);
       }
     })
     var page = 1;
@@ -25,7 +31,7 @@ exports.getUser = function function_name(req,res) {
     }
     page = parseInt(page);
     var papers;
-    Paper.find({author:req.session.user.name},null,{skip:(page-1)*5,limit:5},function (err,papers) {
+    Paper.find({author:req.session.user.name},null,{skip:(page-1)*config.user_paper_count,limit:config.user_paper_count},function (err,papers) {
       if (err) {
         papers = [];
         return;
@@ -43,14 +49,24 @@ exports.getUser = function function_name(req,res) {
 
 }
 
-// 用户注册页面渲染控制器
+/**
+ * 用户注册页面渲染控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.showSignup = function(req, res) {
   res.render('./combine/signin', {
     title: '注册页面'
   });
 };
 
-// 用户注册控制器
+/**
+ * 用户注册控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.signup = function(req, res) {
   var _user = req.body.user;
   var url = 'http://localhost:3000/active?username=' + _user.name;
@@ -96,14 +112,24 @@ exports.signup = function(req, res) {
   });
 };
 
-// 用户登录页面渲染控制器
+/**
+ * 用户登录页面渲染控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.showSignin = function(req, res) {
   res.render('./combine/signin', {
     title: 'nljshoxbb | 登录'
   });
 };
 
-// 用户登录控制器
+/**
+ * 用户登录控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.signin = function(req, res) {
   var _user = req.body.user;
   User.findOne({
@@ -141,14 +167,25 @@ exports.signin = function(req, res) {
   });
 };
 
-// 用户登出控制器
+/**
+ * 用户登出控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.logout = function(req, res) {
   delete req.session.user;
   res.redirect('/')
 };
 
 
-// 判断用户是否登录
+/**
+ * 判断用户是否登录中间件
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 exports.signinRequired = function(req, res, next) {
   var user = req.session.user;
   if (!user) {
@@ -157,6 +194,13 @@ exports.signinRequired = function(req, res, next) {
   next();
 };
 
+
+/**
+ * 用户设置页面渲染控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.showSetting = function (req,res) {
   console.log(req.session.user._id);
     User.find({},function (err,avatar) {
@@ -172,7 +216,13 @@ exports.showSetting = function (req,res) {
 }
 
 
-// 保存头像
+/**
+ * 保存用户头像控制器
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 exports.saveAvatar = function(req, res, next) {
   // 如果有文件上传通过connect-multiparty中间件生成临时文件并通过req.files进行访问
   // 并且当提交表单中有文件上传请求时表单要使用enctype="multipart/form-data"编码格式
@@ -209,7 +259,12 @@ exports.saveAvatar = function(req, res, next) {
 };
 
 
-// 用户设置
+/**
+ * 用户信息设置控制器
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 exports.setting = function (req,res) {
   var settingObj = req.body.user;
   if (req.avatar) {
