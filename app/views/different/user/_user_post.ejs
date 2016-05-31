@@ -1,4 +1,3 @@
-
 <div class="user-post container">
 	<form class="form-horizontal" method="post" enctype="multipart/form-data">
 		<% if(paper._id){ %>
@@ -21,7 +20,22 @@
 		</div>
 		<div class="col-md-2 col-md-offset-8">
 			<br>
-			<button type="submit" class="col-md-6 btn">发布</button>
+			<button id="savePaper" type="submit" class="col-md-6 btn">发布</button>
 		</div>
 	</form>
+</div>
+
+<div class="popuper fadeout">
+	<div class="pop-wrap fadeout">
+		<header class="pop-header">
+			<h3>提醒</h3>
+		</header>
+		<section class="pop-content">
+			<p>标题重复，请换一条标题</p>
+		</section>
+		<section class="pop-control">
+			<input type="button" class="confirm" value="确定">
+			<input type="button" class="cancel" value="取消">
+		</section>
+	</div>
 </div>

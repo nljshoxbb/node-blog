@@ -9,18 +9,6 @@
 })(this,function () {
 
 	var Utils = {};
-	/**
-	 * 检测是否为dom元素
-	 * @param  {Object}  o [description]
-	 * @return {Boolean}   [description]
-	 */
-	// Utils.isElement = function (o) {
-	// 	if (o && (typeof HTMLElement === 'function' || typeof HTMLElement 'object') && o instanceof HTMLElement) {
-	// 		return true;
-	// 	}else{
-	// 		return (o && o.nodeType && o.nodeType === 1) ? true : false;
-	// 	}
-	// }
 
 	/**
 	 * 检测是否为String
@@ -64,24 +52,22 @@
 	 * @return {[type]}      [description]
 	 */
 	Utils.getVendorPropertyName = function (name) {
-		var div 	= document.createElement('div'),
-			style   = div.style,
-			vendors = ['o','ms','Moz','webkit'],
-			_prop;
+		var div = document.createElement('div');
+        var style = div.style;
+        var _prop;
+        var vendors = ['o', 'ms', 'Moz', 'webkit'];
 
-		if (name in style) {
-			return name;
-		}
-		// 获取属性名
-		_prop = name.chartAt(0).toUpperCase() + name.substr(1);
-		for(var i = vendors.length; i--;){
-			var v 		   = vendors[i],
-			// 添加前缀
-				vendorProp = v + _prop;
-			if (vendorProp in style) {
-				return vendorProp;
-			}
-		}
+        if (name in style) {
+            return name;
+        }
+        _prop = name.charAt(0).toUpperCase() + name.substr(1);
+        for (var i = vendors.length; i--;) {
+            var v = vendors[i];
+            var vendorProp = v + _prop;
+            if (vendorProp in style) {
+                return vendorProp;
+            }
+        }
 	}
 
 	/**

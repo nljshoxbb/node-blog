@@ -104,5 +104,13 @@
 				color: rgb(136, 153, 166);
 			}
 		}
+		.panel-body{
+			a{
+				color: $main-color;
+			}
+		}
+		.uPdelete{
+			cursor: pointer;
+		}
 	}
 }

@@ -20,10 +20,32 @@ require.config({
 	}
 })
 
-require(['jquery','bootstrap','validate','moment','utils','app/comment','app/slider','app/login','kindeditor/kindeditor-all-min'],
-	function ($,bootstrap,moment,utils,comment,Slider,kindeditor) {
+require(['jquery',
+	'bootstrap',
+	'validate',
+	'utils',
+	'kindeditor/kindeditor-all-min',
+	'app/comment',
+	'app/login',
+	'app/poper',
+	'app/confirm',
+	'app/slider'
+	     ],
+	function ($,
+		bootstrap,
+		validate,
+		Utils,
+		kindeditor,
+		comment,
+		popuper,
+		confirm,
+		slider
+		) {
+		/**
+		 * 配置富文本编辑器
+		 */
 		var editor;
-		window.editor = KindEditor.create('textarea', {
+		window.KindEditor.create('textarea', {
 			themeType:'simple',
 			allowImageUpload : false,
 			resizeType:1,
@@ -37,9 +59,13 @@ require(['jquery','bootstrap','validate','moment','utils','app/comment','app/sli
         	'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
         	'anchor', 'link']
 		});
-		
+
+		/**
+		 * 配置登录页面背景轮播控制器
+		 * @type {[type]}
+		 */
 		var slideWrap = document.getElementById('slide');
-		var slide = new Slider({
+		var slide = Slider({
 		    dom: slideWrap,
 		    duration: 5000,
 		    speed: 600,
@@ -48,6 +74,6 @@ require(['jquery','bootstrap','validate','moment','utils','app/comment','app/sli
 		    trigger: 'click',
 		    pagination: false,
 		    navigation: false,
-		    pauseOnHover: true
+		    pauseOnHover: false
 		});
 	})

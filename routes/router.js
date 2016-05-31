@@ -40,7 +40,7 @@ module.exports = function (app) {
 	app.get('/edit',User.signinRequired,Paper.edit);
 	app.post('/edit',User.signinRequired,Paper.saveEdit);
 
-	// //删除
+	// 删除
 	app.get('/user/paper/delete',User.signinRequired,Paper.delete);
 
 	app.delete('/comment/:id',User.signinRequired,Comment.deleteComment);
@@ -48,20 +48,20 @@ module.exports = function (app) {
 	// 在用户列表中删除文章
 	app.delete('/user/paper/list',User.signinRequired,Paper.userDelete);
 
-	// // 提交评论
+	// 提交评论
 	app.post('/comment',User.signinRequired,Comment.saveComment);
 
-	// //转载文章
+	//转载文章
 	app.get('/reprint',User.signinRequired,Paper.reprint);
-	//
-	 // 获取个人主页
+
+	// 获取个人主页
 	app.get('/user',User.signinRequired,User.getUser);
 
 	// 用户设置页面
 	app.get('/user/setting',User.signinRequired,User.showSetting);
 	app.post('/user/setting',multipartMiddleware,User.signinRequired,User.saveAvatar,User.setting);
 
-	// // 获取文章具体内容
+	// 获取文章具体内容
 	app.get('/paper/:id',User.signinRequired,Paper.getPaper);
 
 	// 搜索

@@ -328,7 +328,7 @@ exports.post = function(req,res) {
       }
       if (_paper) {
         console.log('文章标题已存在');
-        res.redirect('/post');
+        res.json({success:1});
       }else {
         // 创建一个新文章数据
         var newPaper = new Paper(paperObj);

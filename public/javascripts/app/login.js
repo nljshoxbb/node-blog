@@ -1,3 +1,11 @@
+/**
+ * 登录模块
+ * @param  {[type]} jquery    [description]
+ * @param  {[type]} validate  
+ * @return {[type]}           [description]
+ */
+
+
 define(['jquery','validate'],function (jquery,validate) {
 	$.support.cors = true;
 	// 表单验证

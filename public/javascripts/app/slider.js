@@ -1,33 +1,11 @@
-;(function (root,factory) {
-    if (typeof define === 'function' && define.amd) {
-        define(factory);
-    }else if (typeof exports === 'object') {
-        module.exports = factory;
-    }else{
-        root.Slider = factory();
-    }
-})(this,function () {
-    // (function (window) {
+define(['utils'],function (Utils) {
+    (function (window,document) {
         'use strict';
         var Slider;
-        Slider = function (opts) {
-            this.dom = opts.dom;
-            this.duration = opts.duration || 5000;
-            this.speed = opts.speed || 400;
-            this.effect = opts.effect || 'left';
-            this.isAutoPlay = opts.isAutoPlay || false;
-            this.trigger = opts.trigger || 'click';
-            this.pagination = opts.pagination || false;
-            this.navigation = opts.navigation || false;
-            this.pauseOnHover = opts.pauseOnHover || false;
 
-            this.index = 1;
-            this.timer = null;
-            this.animated = false;
-
-            this.init();
-
-        };
+        function Slider(param) {
+            return new Slider.prototype.init(param);
+        }
 
         Slider.prototype = {
             utils: {
@@ -645,8 +623,22 @@
                     }
                 }
             },
-            init: function () {
+            init: function (param) {
+                this.dom = param.dom;
+                this.duration = param.duration || 5000;
+                this.speed = param.speed || 400;
+                this.effect = param.effect || 'left';
+                this.isAutoPlay = param.isAutoPlay || false;
+                this.trigger = param.trigger || 'click';
+                this.pagination = param.pagination || false;
+                this.navigation = param.navigation || false;
+                this.pauseOnHover = param.pauseOnHover || false;
+
+                this.index = 1;
+                this.timer = null;
+                this.animated = false;
                 this.build();
+
                 if (this.isAutoPlay) {
                     this.play();
                 }
@@ -658,9 +650,15 @@
                 }
             }
         };
-        return Slider;
-    // })(window);
+        
+        Slider.prototype.init.prototype = Slider.prototype;
+
+        window.Slider = Slider;
+
+    })(window,document);
 })
+    
+
     
 
 
