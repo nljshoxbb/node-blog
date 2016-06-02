@@ -10,20 +10,20 @@ var multipart = require('connect-multiparty'),											  // 处理文件上传
 
 module.exports = function (app) {
 	app.use(function (req,res,next) {
-		app.locals.user=req.session.user;
+		app.locals.user = req.session.user;
 		next();
 	});
 
 	//首页
-	app.get('/index',Index.showIndex);
+	app.get('/',Index.showIndex);
 
 //**********************用户操作********************
 	// 用户注册
-	app.get('/',User.showSignup);
+	app.get('/login',User.showSignup);
 	app.post('/signup',User.signup);
 
 	// 用户登录
-	app.get('/',User.showSignin);
+	app.get('/login',User.showSignin);
 	app.post('/signin',User.signin);
 
 	// 用户登出
@@ -35,6 +35,8 @@ module.exports = function (app) {
 	// 发表文章
 	app.get('/post',User.signinRequired,Paper.showPost);
 	app.post('/post',multipartMiddleware,User.signinRequired,Paper.saveImage,Paper.post);
+	// 首页ajax发表文章
+	app.post('/indexPost',User.signinRequired,Paper.indexPost);
 
 	// 修改功能
 	app.get('/edit',User.signinRequired,Paper.edit);
@@ -51,7 +53,7 @@ module.exports = function (app) {
 	// 提交评论
 	app.post('/comment',User.signinRequired,Comment.saveComment);
 
-	//转载文章
+	// 转载文章
 	app.get('/reprint',User.signinRequired,Paper.reprint);
 
 	// 获取个人主页

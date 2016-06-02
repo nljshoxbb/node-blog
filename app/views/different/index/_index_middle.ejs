@@ -1,13 +1,16 @@
+<div class="middle">
+	<% if(user){ %>
+		<button type="submit" id="postArticle" class="btn btn-primary">去吐槽</button>
+	<% } %>
 <% if(papers){
 papers.forEach(function(paper,index) { %>
-<div class="middle">
 	<div class="panel">
 		<div class="panel-heading">
 			<a href="/user?name=<%= paper.author %>">
 				<img src="/images/headImg.png" alt="" style="width: 40px;height: 40px;">
 				@<%= paper.author %>&nbsp;&nbsp;
 			</a>
-			<a href="/paper/<%- paper._id%>" class="middle-title shake shake-rotate">
+			<a href="/paper/<%- paper._id%>" class="title middle-title shake shake-rotate">
 				<%= paper.title %>&nbsp;&nbsp;</a>
 			<span class="middle-title"><%= moment(paper.meta.createAt).format('YYYY-MM-DD HH:mm') %></span>
 		</div>
@@ -15,16 +18,38 @@ papers.forEach(function(paper,index) { %>
 			<p><%- paper.content %></p>
 			<% if(paper.image){ %>
 				<img src="/upload/<%= paper.image %>" alt="<%= paper.image %>" class="img-thumbnail">
-			<% } %>					
-		</div>
-		<div class="panel-footer">	
-			&nbsp;&nbsp; <i class="fa fa-eye"></i>
-			<%= paper.pv %>
-			&nbsp;&nbsp;
-			<a href="/paper/<%- paper._id%>/#comments"><i class="fa fa-comments"></i><%= paper.comments %></a>
-
+			<% } %>
+			<p>&nbsp;&nbsp; <i class="fa fa-eye"></i>&nbsp;<%= paper.pv %>&nbsp;&nbsp;<a href="/paper/<%- paper._id%>/#comments"><i class="fa fa-comments"></i><%= paper.comments %></a></p>				
 		</div>
 	</div>
-</div>
+
 <% })} %>
 <% include _index_pagination.ejs %>
+</div>
+
+<div class="popuper">
+	<div class="pop-wrap">
+		<header class="pop-header">
+			<h3>吐槽</h3>
+		</header>
+		<section class="pop-content">
+			<div class="user-post">
+				<div class="row">
+					<form action="post" action="/indexPost">
+					<div class="col-md-3 col-md-offset-1">
+						<input type="text" name="title" class="input-title form-control" id="inputTitle" placeholder="标题请勿重复" required>
+					</div>
+					<br>
+					<div class="col-md-10 col-md-offset-1">
+						<textarea id="inputContent" rows="10" name="content" class="form-control"></textarea>
+					</div>
+					</form>
+				</div>
+			</div>
+		</section>
+		<section class="pop-control">
+			<input type="button" class="confirm" value="确定">
+			<input type="button" class="cancel" value="取消">
+		</section>
+	</div>
+</div>

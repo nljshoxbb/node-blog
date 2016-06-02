@@ -17,10 +17,10 @@
       </form> -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li class="shake shake-little" ><a href="/index"><i class="fa fa-home"></i>主页</a></li>
+          <li class="shake shake-little" ><a href="/"><i class="fa fa-home"></i>主页</a></li>
           <!-- 用户登录后才显示发表和上传菜单 -->
           <% if(user) { %>
-            <li class="shake shake-rotate"><a href="/post"><i class="fa fa-pencil-square-o"></i>吐槽</a></li>
+            <li id="" class="shake shake-rotate"><a href="/post"><i class="fa fa-pencil-square-o"></i>吐槽</a></li>
             <!-- <li><a href="/upload">上传</a></li> -->
             <li class="shake shake-rotate" ><a href="#"><i class="fa fa-envelope-o"></i>通知</a></li>
             <li class="shake shake-crazy"><a href="/logout">退出</a></li>
@@ -30,7 +30,7 @@
           <% } %>
           <!-- 用户未登录才显示的登录和注册菜单 -->
           <% if(!user) { %>
-            <li><a href="/">登录</a></li>
+            <li><a href="/login">登录</a></li>
           <% } %>
         </ul>
       

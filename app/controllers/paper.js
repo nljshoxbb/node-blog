@@ -65,7 +65,7 @@ exports.saveEdit=function(req,res){
 			return;
 		}
 		if(paper){
-			res.redirect('/index')
+			res.redirect('/')
 		}
 	})
 }
@@ -227,7 +227,7 @@ exports.reprint=function(req,res){
 						console.log(err)
 						return;
 					}
-					res.redirect('/index')
+					res.redirect('/')
 				})
 			}
 			else{
@@ -273,6 +273,7 @@ exports.search = function (req,res) {
 exports.saveImage = function(req, res, next) {
   // 如果有文件上传通过connect-multiparty中间件生成临时文件并通过req.files进行访问
   // 并且当提交表单中有文件上传请求时表单要使用enctype="multipart/form-data"编码格式
+  	console.log(req.files.uploadImage)
   var imageData        = req.files.uploadImage,                    // 上传文件
       filePath         = imageData.path,                             // 文件路径
       originalFilename = imageData.originalFilename;         // 原始名字
@@ -285,7 +286,7 @@ exports.saveImage = function(req, res, next) {
       }
       var timestamp = Date.now(),                             // 获取时间
           type      = imageData.type.split('/')[1],               // 获取图片类型 如jpg png
-          image     = timestamp + '.' + type,                    // 上传海报新名字
+          image     = timestamp + '.' + type,                    // 上传图片新名字
           // 将新创建的图片存储到/public/upload 文件夹下
           newPath = path.join(__dirname,'../../','/public/upload/' + image);
       // 写入文件
@@ -299,7 +300,7 @@ exports.saveImage = function(req, res, next) {
       });
     });
   }else {
-    // 没有自定义上传海报
+    // 没有自定义上传图片
     next();
   }
 };
@@ -315,7 +316,7 @@ exports.post = function(req,res) {
   	  user     		  = req.session.user;
 
   paperObj.author  = user.name;
-  // 如果有自定义上传海报  将paperObj中的海报地址改成自定义上传海报的地址
+  // 如果有自定义上传图片  将paperObj中的图片地址改成自定义上传图片的地址
   if(req.image) {
     paperObj.image = req.image;
   }
@@ -337,7 +338,7 @@ exports.post = function(req,res) {
             console.log(err);
             return;
           }
-            res.redirect('/index');
+            res.redirect('/');
         });
       }
     });
@@ -345,3 +346,34 @@ exports.post = function(req,res) {
     res.redirect('/post');
   }
 };
+
+exports.indexPost = function (req,res) {
+	var paper  = req.body.paper,
+		user   = req.session.user;
+
+	paper.author = user.name;
+	console.log(paper)
+	if (paper.title) {
+		Paper.findOne({title:paper.title},function (err,_paper) {
+			if (err) {
+				console.log(err);
+				return;
+			}
+			if (_paper) {
+				console.log('文章标题已存在');
+				res.json({fail:1})
+			}else{
+				var newPaper = new Paper(paper);
+				newPaper.save(function (err,_newPaper) {
+					if (err) {
+						console.log(err);
+						return;
+					}
+					res.json({success:1});
+				})
+			}
+		})
+	}else{
+		res.redirect('/');
+	}
+}

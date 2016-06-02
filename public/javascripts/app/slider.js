@@ -405,10 +405,8 @@ define(['utils'],function (Utils) {
                     case 'left':
                         var offsetLeft = 0;
 
-
-
                         if (this.utils.supportTransition()) {
-                            offsetLeft = parseInt(_this.utils.getStyle(_this.slideBoxUl, 'transform').replace(/[^0-9\-]/ig, '')) + offset;
+                            offsetLeft = parseInt(Utils.getStyle(_this.slideBoxUl, 'transform').replace(/[^0-9\-]/ig, '')) + offset;
 
                             this.utils.setStyle(this.slideBoxUl, {
                                 'transition': _this.speed + 'ms',

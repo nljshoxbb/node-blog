@@ -32,10 +32,11 @@
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.0.1",
+    "gulp-ejs": "^2.1.1",
     "gulp-jade": "^1.1.0",
     "gulp-nodemon": "^2.0.4",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
-    "gulp-ejs": "^2.1.1"
+    "serve-favicon": "^2.3.0"
   }
 }

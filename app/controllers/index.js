@@ -47,7 +47,8 @@ exports.showIndex = function (req,res) {
 			isFirst:(page-1) == 0,
 			isLast:page == totalpaper,
 			pagenow:page,
-			notices:notices
+			notices:notices,
+			paper:{}
 
 			})
 		})

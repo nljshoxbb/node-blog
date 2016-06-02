@@ -1,6 +1,10 @@
+/**
+ * 配置启动项
+ * @type {Object}
+ */
 var config = {
 
-
+	cookie_maxAge:1000 * 60 * 60 * 24 * 30,
 	// 设置连接数据库url
 	dbUrl:'mongodb://localhost/blog',
 	session_secret:'nljshoxbb',

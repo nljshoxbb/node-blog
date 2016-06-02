@@ -54,13 +54,6 @@
 				display: table;
 				margin: 0 auto;
 			}
-		}
-		&:hover{
-			border-top: 1px solid $sm-color;
-		}
-		.panel-footer{
-			border-top: none;
-			background-color: #fff;
 			a{
 				color: $main-color;
 				@include trans(.2s);
@@ -69,5 +62,18 @@
 				}
 			}
 		}
+
+		.panel-footer{
+			border-top: none;
+			background-color: #fff;
+			
+		}
+
+		&:hover{
+			border-top: 1px solid $sm-color;
+			cursor: pointer;
+			background-color: #f5f8fa;
+		}
 	}
+
 }

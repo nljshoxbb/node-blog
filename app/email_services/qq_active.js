@@ -1,7 +1,7 @@
 module.exports = function (options) {
 
 	var nodemailer    = require('nodemailer'),
-		config     	  = require('config'),
+		config     	  = require('../../config'),
 		smtpTransport = nodemailer.createTransport("SMTP",{
 		host:config.mail_opt.mailqq.host,
 		auth:{

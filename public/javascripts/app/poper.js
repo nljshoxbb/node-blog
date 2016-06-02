@@ -3,74 +3,102 @@ define(['utils'],function (Utils) {
 
         'use strict';
 
-        function Popuper(param) {
-            return new Popuper.prototype.init(param);
+        function Popuper(config) {
+            return new Popuper.prototype.init(config);
         }
 
         Popuper.prototype = {
 
             constructor: Popuper,
-            container: null,
-            wrap: null,
-            header: null,
-            status: false,
-            width: 0,
-            height: 0,
 
-            init: function (param) {
+            init: function (config) {
 
-                this.container = param.wrap || null;
-                this.wrap = this.container.querySelector('.pop-wrap') || null;
-                this.header = this.container.querySelector('.pop-header') || null;
+                this.container  = config.wrap || null;
+                this.wrap       = this.container.querySelector('.pop-wrap') || null;
+                this.header     = this.container.querySelector('.pop-header') || null;
+                this.effect     = config.effect || 'top'; //出现方向
+                this.speed      = config.speed  || '.4s';  //动画时间
+
 
                 if (!this.container || !this.wrap || !this.header) {
                     console.warn('HTML格式不符');
                     return;
                 }
 
-                // this.type = param.type || info;
-
-                //设置提示框类型
-                // this.container.className += ' ' + this.type;
-
                 var _this = this,
                     confirm = this.container.querySelector('.confirm'),
                     cancel = this.container.querySelector('.cancel');
 
+                this.build();
+
                 //绑定确定按钮事件
                 if (!!confirm) {
-                    confirm.addEventListener('click', function () {
-                        param.confirm();
+                    // 只执行一次
+                    confirm.onclick = function () {
+                        config.confirm();
                         _this.hide();
-                    }, false);
+                    }
                 }
 
                 //绑定取消按钮事件
                 if (!!cancel) {
-                    cancel.addEventListener('click', function () {
-                        param.cancel();
-                        _this.hide();
-                    }, false);
-                }
-
-                this.container.addEventListener('click', function (event) {
-                    event = event || window.event;
-                    if (event.target.className === _this.container.className) {
+                    cancel.onclick = function () {
+                        config.cancel();
                         _this.hide();
                     }
+                }
 
-                }, true);
+                // 点击提示框外的部分关闭提示框
+                Utils.addEvent(this.container,'click',function (event) {
+                    event = event || window.event;
+                    if (event.target.className === _this.container.className) {
+                        config.cancel();
+                        _this.hide();                     
+                    }
+                })
 
+                this.toggle();
                 return this;
             },
             build:function () {
-                  
+                Utils.setStyle(this.container,{
+                  'transition-duration':this.speed,
+                  'opacity':'0',
+                  'filter': 'alpha(opacity=0)'
+                })
+                Utils.setStyle(this.wrap,{
+                    'transition-duration':this.speed,
+                    'opacity':'0',
+                    'filter': 'alpha(opacity=0)'
+                })
+                switch(this.effect){
+                    case 'top':
+                        Utils.setStyle(this.wrap,{
+                          'transform':'translate(0,-25%)'
+                        })
+                        break;
+                    case 'bottom':
+                        Utils.setStyle(this.wrap,{
+                          'transform':'translate(0,25%)'
+                        })
+                        break;
+                    case 'left':
+                        Utils.setStyle(this.wrap,{
+                          'transform':'translate(-25%,0)'
+                        })
+                        break;
+                    case 'right':
+                        Utils.setStyle(this.wrap,{
+                          'transform':'translate(25%,0)'
+                        })
+                }
             },
 
             show: function () {
                 var _this = this;
                 Utils.setStyle(this.container,{
                     'opacity':'1',
+                    'filter': 'alpha(opacity=100)',
                     'display':'block'
                 })
                 this.status = true;
@@ -79,7 +107,7 @@ define(['utils'],function (Utils) {
                 Utils.setStyle(this.wrap,{
                     'transform':'translate(0,0)',
                     'opacity':'1',
-                    'transition':'all .3s ease-out-in'
+                    'filter': 'alpha(opacity=100)' 
                 })
                 //禁止页面滚动，不支持火狐
                 window.addEventListener('mousewheel', _stopScroll, false);
@@ -88,17 +116,18 @@ define(['utils'],function (Utils) {
             },
 
             hide: function () {
-
-                // this.container.className = this.container.className.replace(/show/g, '').trim();
-                this.wrap.style.cssText = '';
                 Utils.setStyle(this.container,{
                     'display':'none',
-                    'opacity':'0'
+                    'opacity':'0',
+                    'filter': 'alpha(opacity=0)',
+                    'transition-duration':'0.3s'
                 })
-                // Utils.setStyle(this.wrap,{
-                //     'transform':'translate(0,-25%)',
-                //     'opacity':'0'
-                // })
+                Utils.setStyle(this.wrap,{
+                    'transform':'translate(0,-25%)',
+                    'filter': 'alpha(opacity=0)',
+                    'opacity':'0',
+                    'transition-duration':'0.3s'
+                })
                 this.status = false;
                 window.removeEventListener('mousewheel', _stopScroll, false);
 

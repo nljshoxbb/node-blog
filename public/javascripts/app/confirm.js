@@ -6,7 +6,7 @@
  * @return {[type]}          [description]
  */
 
-define(['Utils','app/poper'],function (Utils,popuper) {
+define(['utils','app/poper'],function (Utils,popuper) {
 	
 	// 删除文章弹窗
 	if (document.querySelector('.user-paper-list')) {
@@ -35,10 +35,8 @@ define(['Utils','app/poper'],function (Utils,popuper) {
 								})
 							},
 							cancel:function () {
-								pop.toggle();
 							}
 						});
-				pop.toggle()
 			}
 		})
 	}
@@ -60,16 +58,56 @@ define(['Utils','app/poper'],function (Utils,popuper) {
 						var pop = Popuper({
 							wrap:cover,
 							confirm:function () {
-								pop.toggle();
 							}
 						})
 					}
-					pop.toggle;
 				}
 			})
 		})
 	}
 
-
 	// 写文章弹窗
+	if (document.getElementById('postArticle')) {
+		var postArticle = document.getElementById('postArticle');
+		var cover = document.querySelector('.popuper');
+		Utils.addEvent(postArticle,'click',function (event) {
+			event.preventDefault();
+			var event  = window.event || event,
+				target = event.target || event.srcElement; 
+			var pop = Popuper({
+				wrap:cover,
+				effect:'top',
+				confirm:function () {
+					var title  = document.getElementById('inputTitle').value;
+					var content= document.getElementById('inputContent').value;
+					var data ={
+						'paper[title]':title,
+						'paper[content]':content
+					}
+					console.log(data);
+					Utils.ajax({
+						url:'/indexPost',
+						method:'post',
+						data:data,
+						async:true,
+						success:function (results) {
+							console.log(results)
+							var data = JSON.parse(results).success;
+							if (data.success === 1) {
+								var middle = document.querySelector('.middle');
+								var middleNodes = middle.childNodes;
+								for(var i = 0;i < middleNodes.length; i++){
+									if (middleNodes[i].className === 'panel' && middleNodes[i].nodeType === 1) {
+										console.log(middleNodes[i])
+									}
+								}
+							}
+						}
+					})
+				},
+				cancel:function () {
+				}
+			})
+		})
+	}
 })

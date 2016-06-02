@@ -1,41 +1,42 @@
 <div class="paper-detail container">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-		<!-- 显示文章内容 -->
-		<% if(paper){ %>
-			<div class="panel">
-			  <div class="panel-heading">
-				  <h3 class="text-center"><%= paper.title %></h3>
-			  </div>
-			  <div class="panel-body">
-			    <p><%- paper.content%></p>
-			    <% if(paper.image){ %>
-			    <img src="/upload/<%= paper.image %>" alt="<%= paper.image %>" class="img-thumbnail">
-			    <% } %>
-			  </div>
-			  <div class="panel-footer">
-			  	<% if(user){ %>
-			  	  <% if(user.name == paper.author){ %>
-			  	  	<a href="/edit?author=<%= paper.author %>&title=<%= paper.title %>"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>&nbsp;&nbsp;
-			  	  	<a href="/user/paper/delete?author=<%= paper.author %>&title=<%= paper.title %>"  title="删除"><i class="fa fa-trash"></i>&nbsp;删除</a>
-			  	  <% }else{ %>
-			  	  	 <a href="/reprint?title=<%=paper.title%>&author=<%=paper.author%>"><i class="fa fa-share"></i>分享</a>
-			  	  <% } %>
-			  	<% }else{ %>
-			  		作者：<a href='/user?name=<%=paper.author%>'><%=paper.author%></a>
-			  	  	<span class="badge">
-			  	  		<%=paper.time%>&nbsp;|&nbsp;阅读：<%=paper.pv%>&nbsp;|&nbsp;评论：<%=comments.length%>
-			  	  	</span>
-			  	<% } %>
-			  </div>
-			</div>			
-		<% } %>
-		
-	<!-- 评论区 -->
-	
+			<!-- 显示文章内容 -->
+			<% if(paper){ %>
+				<div class="panel">
+				  <div class="panel-heading">
+					  <h3 class="text-center"><%= paper.title %></h3>
+				  </div>
+				  <div class="panel-body">
+				    <p><%- paper.content%></p>
+				    <% if(paper.image){ %>
+				    <img src="/upload/<%= paper.image %>" alt="<%= paper.image %>" class="img-thumbnail">
+				    <% } %>
+				  </div>
+				  <div class="panel-footer">
+				  	<% if(user){ %>
+				  	  <% if(user.name == paper.author){ %>
+				  	  	<a href="/edit?author=<%= paper.author %>&title=<%= paper.title %>"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>&nbsp;&nbsp;
+				  	  	<a href="/user/paper/delete?author=<%= paper.author %>&title=<%= paper.title %>"  title="删除"><i class="fa fa-trash"></i>&nbsp;删除</a>
+				  	  <% }else{ %>
+				  	  	 <a href="/reprint?title=<%=paper.title%>&author=<%=paper.author%>"><i class="fa fa-share"></i>分享</a>
+				  	  <% } %>
+				  	<% }else{ %>
+				  		作者：<a href='/user?name=<%=paper.author%>'><%=paper.author%></a>
+				  	  	<span class="badge">
+				  	  		<%=paper.time%>&nbsp;|&nbsp;阅读：<%=paper.pv%>&nbsp;|&nbsp;评论：<%=comments.length%>
+				  	  	</span>
+				  	<% } %>
+				  </div>
+				</div>			
+			<% } %>		
+			<!-- 评论区 -->
 			<div class="detaile-content">
 				<!-- head -->
-				<div class="panel">		
+				<div class="panel">
+					<div class="panel-heading">
+						<button type="submit" id="openComment" class="btn btn-primary">评论</button>
+					</div>				
 					<!-- 评论显示区 -->
 					<div class="panel-body">
 						<ul class="media-list" id="mediaList">
@@ -83,24 +84,50 @@
 							<% }) %>
 						</ul>
 					</div><!-- 评论显示区 -->		
+					
 					<!-- 输入评论区 -->
-					<div class="panel-heading">
-						<h4>评论区</h4>
-						<div id="comments">
-							<% if(paper){ %>
-								<form method="POST" action="/comment" id="commentForm">
-									<input  type="hidden" name="comment[paper]" value="<%= paper._id %>">
-									<!-- <% if(user){ %> -->
+				</div>
+			</div>
+			<!-- 输入弹出层 -->
+			<div class="popuper">
+				<div class="pop-wrap">
+					<header class="pop-header">
+						<h3>评论</h3>
+					</header>
+					<section class="pop-content">
+						<div class="panel-heading">
+							<div id="comments">
+								<% if(paper){ %>
+									<form method="POST" action="/comment" id="commentForm">
+										<input  type="hidden" name="comment[paper]" value="<%= paper._id %>">
 										<input  type="hidden" name="comment[from]" value="<%= user._id %>">
-									<!-- <% } %> -->
-									<div class="form-group">
-										<textarea id="commentContent" name="comment[content]" class="form-control"></textarea>
-									</div>
-									<button class="btn" type="submit">提交</button>
-								</form>
-							<% } %>
-						</div>
-					</div><!-- 输入评论区 -->
+										<div class="form-group">
+											<textarea id="commentContent" name="comment[content]" class="form-control"></textarea>
+										</div>
+									</form>
+								<% } %>
+							</div>
+						</div><!-- 输入评论区 -->
+					</section>
+					<section class="pop-control">
+						<input type="button" class="confirm" value="确定">
+						<input type="button" class="cancel" value="取消">
+					</section>
+				</div>
+			</div>
+			<!-- 删除弹出层 -->
+			<div id="deletePopuper" class="popuper">
+				<div class="pop-wrap">
+					<header class="pop-header">
+						<h3>警告</h3>
+					</header>
+					<section class="pop-content">
+						<p>确定要删除此条吐槽吗</p>
+					</section>
+					<section class="pop-control">
+						<input type="button" class="confirm" value="确定">
+						<input type="button" class="cancel" value="取消">
+					</section>
 				</div>
 			</div>
 		</div>

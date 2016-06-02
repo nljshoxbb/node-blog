@@ -313,6 +313,89 @@
 		},timeout)
 	}
 
+	Utils.serialize = function (form) {
+		var parts = [],
+			field = null,
+			i,
+			len,
+			j,
+			optLen,
+			option,
+			optValue;
+		// 迭代每个表单字段
+		for(i = 0,len = form.elements.length; i < len;i++){
+			field = form.elements[i];
+			// 检测type属性
+			switch(field.type){
+				case 'select-one':
+				case 'select-multiplle':
+					if (field.name.length) {
+						for(j = 0, optLen = field.options.length;j < optLen;j++){
+							// 单选框
+							option = field.options[j];
+							// 多选框
+							if (option.selected) {
+								optValue = '';
+								if (option.hasAttribute) {
+									// 
+									optValue = (option.hasAttribute('value') ? option.value : option.text)
+								}else{
+									// ie specified
+									optValue = (option.attributes['value'].specified ? option.value : option.text);
+								}
+								parts.push(encodeURIComponent(field.name) + '=' + encodeURIComponent(optValue));
+							}
+						}
+					}
+				break;
+				case undefined:
+				case 'file':
+				case 'submit':
+				case 'reset':
+				case 'button':
+					break;
+				case 'radio':
+				case 'checkbox':
+					if (!field.checked) {
+						break;
+					}
+				default:
+				// 不包含没有名字的表单字段
+					if (field.name.length) {
+						parts.push(encodeURIComponent(field.name) + '=' + encodeURIComponent(field.value));
+					}
+			}
+		}
+		return parts.join('&');
+	}
+
+	Utils.serializeObject = function () {
+		var a,o,h,i,e;
+		a = this.serialize();
+		o = {};
+		h = o.hasOwnProperty;
+		for(i = 0;i < a.length;i++){
+			e = a[i];
+			if (!h.call(o,e.name)) {
+				o[e.name] = e.value;
+			}
+		}
+		return o;
+	}
+
+	Utils.cleanWhitespace = function (element) {
+		var i,
+			len = element.childNodes.length;
+		for (i = 0 ;i < len;i++) {
+			var node = element.childNodes[i];
+			if (node.nodeType == 3 && !/\S/.test(node.nodeValue)) {
+				node.parentNode.removeChild(node);
+			}
+		}
+	}
+
+
+
 	return Utils;
 
 });

@@ -10,7 +10,7 @@ var mongoose = require('mongoose'),
  */
 exports.saveComment = function(req,res) {
   var _comment = req.body.comment;        					 // 获取post发送的数据
-   
+   console.log(_comment);
   // console.log(_comment);
   // 如果存在cid说明是对评论人进行回复
   if(_comment.cid) {

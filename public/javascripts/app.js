@@ -64,16 +64,51 @@ require(['jquery',
 		 * 配置登录页面背景轮播控制器
 		 * @type {[type]}
 		 */
-		var slideWrap = document.getElementById('slide');
-		var slide = Slider({
-		    dom: slideWrap,
-		    duration: 5000,
-		    speed: 600,
-		    effect: 'fade',
-		    isAutoPlay: true,
-		    trigger: 'click',
-		    pagination: false,
-		    navigation: false,
-		    pauseOnHover: false
-		});
+		if (document.getElementById('slide')) {
+			var slideWrap = document.getElementById('slide');
+			var slide = Slider({
+			    dom: slideWrap,
+			    duration: 5000,
+			    speed: 600,
+			    effect: 'fade',
+			    isAutoPlay: true,
+			    trigger: 'click',
+			    pagination: false,
+			    navigation: false,
+			    pauseOnHover: false
+			});
+		}
+
+		/**
+		 * 设置首页点击文章跳转到文章详细页面
+		 */
+		if (document.querySelector('.middle')) {
+			var middle = document.querySelector('.middle');
+			Utils.addEvent(middle,'click',function (event) {
+				var event  = window.event || event;
+				var target = event.target || event.srcElement;
+				
+				if ((target.nodeType === 1) && (target.className === 'panel-heading')) {
+					var panelNode = target.childNodes;
+					var len       = panelNode.length;
+					for(var i = 0;i < len;i++ ){
+						if (panelNode[i].nodeType === 1 ) {
+							panelNode[i].click();
+							
+						}
+					}
+				}else if (target.tagName.toUpperCase() === 'P') {
+					var panel = target.parentNode.parentNode;
+					var pHeading = panel.firstChild.nextSibling;
+					console.log(pHeading)
+					for(var i = 0; i < pHeading.childNodes.length;i++){
+						if (pHeading.childNodes[i].nodeType === 1) {
+							pHeading.childNodes[i].click();
+						}
+					}
+					
+				}
+			})
+		}
+		
 	})

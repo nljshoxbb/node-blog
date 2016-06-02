@@ -159,6 +159,7 @@ exports.signin = function(req, res) {
           }       
         });
       } else {
+        // 没有邮箱激活
         return res.json({data: 2})
       }
 
@@ -175,7 +176,7 @@ exports.signin = function(req, res) {
  */
 exports.logout = function(req, res) {
   delete req.session.user;
-  res.redirect('/')
+  res.redirect('/login')
 };
 
 
@@ -189,7 +190,7 @@ exports.logout = function(req, res) {
 exports.signinRequired = function(req, res, next) {
   var user = req.session.user;
   if (!user) {
-    return res.redirect('/');
+    return res.redirect('/login');
   }
   next();
 };

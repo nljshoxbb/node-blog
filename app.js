@@ -23,8 +23,10 @@ app.set('view engine', 'ejs');
 app.engine('html',require('ejs').renderFile);
 app.set('views', path.join(__dirname, './app/views/'));
 
+
 // use
 app.use(logger('dev'));
+app.use(favicon(__dirname + '/public/images/favicon.ico'));
 // 对application/x-www-form-urlencoded格式内容进行解析
 app.use(bodyParser.urlencoded({extended:true}));
 // 对application/json格式进行解析
@@ -37,9 +39,10 @@ app.locals.moment = require('moment');  // 引入moment模块并设置为app.loc
 app.use(session({
   secret:config.session_secret,
   // 指每次请求都重新设置session cookie，假设你的cookie是10分钟过期，每次请求都会再设置10分钟
-  resave: false,
+  resave: true,
   // 是指无论有没有session cookie，每次请求都设置个session cookie ，默认给个标示为 connect.sid
   saveUninitialized: true,
+  cookie:{maxAge: config.cookie_maxAge},
   // 使用mongo对session进行持久化，将session存储进数据库中
   store: new mongoStore({
     url: dbUrl,

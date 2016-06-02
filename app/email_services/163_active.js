@@ -1,6 +1,6 @@
 module.exports = function (options) {
 
-	var config 		  = require('config')
+	var config 		  = require('../../config')
 	var nodemailer 	  = require('nodemailer'),
 		smtpTransport = nodemailer.createTransport("SMTP",{
 		host:config.mail_opt.mail163.host,
