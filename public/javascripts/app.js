@@ -126,19 +126,17 @@ require(['jquery',
 			})
 		}
 		
-		// 
+		// fixed 发布按钮
 		if (document.getElementById('postArticle')) {
 			window.onscroll = function () {
 				var postArticle = document.getElementById('postArticle');
 				var top = document.documentElement.scrollTop || document.body.scrollTop,
 					offsetTop = postArticle.offsetTop,
-					height = postArticle.offsetHeight,
-					left = postArticle.offsetLeft;
+					height = document.body.offsetHeight;
 
 				if (top>offsetTop && top<offsetTop+height) {
 					postArticle.style.position = 'fixed';
 					postArticle.style.top='0px';
-					// postArticle.style.left = left + 'px';
 				}else{
 					postArticle.style.position = 'relative';
 				}
