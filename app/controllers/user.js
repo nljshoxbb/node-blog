@@ -18,12 +18,14 @@ var mongoose    = require('mongoose'),
  */
 exports.getUser = function function_name(req,res) {
     var totalpaper = 0;
+    var paperCount = 0;
     Paper.find({author:req.session.user.name},function (err,papers) {
       if (papers.length % config.user_paper_count != 0) {
         totalpaper = parseInt(papers.length / config.user_paper_count)+1;
       }else{
         totalpaper = parseInt(papers.length / config.user_paper_count);
       }
+      paperCount = parseInt(papers.length)
     })
     var page = 1;
     if (req.query.page) {
@@ -43,7 +45,8 @@ exports.getUser = function function_name(req,res) {
         total:totalpaper,
         isFirst:(page-1) == 0,
         isLast:page == totalpaper,
-        pagenow:page
+        pagenow:page,
+        paperCount:paperCount
       })
     })
 

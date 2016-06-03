@@ -3,7 +3,7 @@
  * @type {Object}
  */
 var config = {
-
+	// 设置cookie时间，为30天
 	cookie_maxAge:1000 * 60 * 60 * 24 * 30,
 	// 设置连接数据库url
 	dbUrl:'mongodb://localhost/blog',
@@ -29,7 +29,7 @@ var config = {
 	},
 
 	// 设置首页显示文章数
-	index_paper_count:4,
+	index_paper_count:10,
 	// 设置个人页显示的文章数
 	user_paper_count:7,
 
@@ -37,9 +37,9 @@ var config = {
 	index_title:'Nljshoxbb',
 	
 	//网站描述
-	description:'nljshoxbb:来吐槽吧',
+	description:'nljshoxbb',
 	// 
-	keywords:'吐槽,node,前端'
+	keywords:'node,前端'
 
 };
 

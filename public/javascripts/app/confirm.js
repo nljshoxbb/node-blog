@@ -6,7 +6,7 @@
  * @return {[type]}          [description]
  */
 
-define(['utils','app/poper'],function (Utils,popuper) {
+define(['utils','app/poper','moment'],function (Utils,popuper,moment) {
 	
 	// 删除文章弹窗
 	if (document.querySelector('.user-paper-list')) {
@@ -42,15 +42,15 @@ define(['utils','app/poper'],function (Utils,popuper) {
 	}
 
 	// 标题重复弹窗
-	if (document.getElementById('savePaper')) {
-		var btn = document.getElementById('savePaper');
+	if (document.getElementById('inputTitle')) {
+		var inputTitle = document.getElementById('inputTitle');
 
-		Utils.addEvent(btn,'click',function (event) {
-			
-			var event = window.event || event.srcElement;
+		Utils.addEvent(inputTitle,'onkeyup',function (event) {
+			var data = {title:inputTitle.value}
 			Utils.ajax({
-				url:'/post',
-				method:'get',
+				url:'/searchTitle',
+				method:'post',
+				data:data,
 				async:true,
 				success:function (results) {
 					var data = JSON.parse(results);
@@ -58,6 +58,9 @@ define(['utils','app/poper'],function (Utils,popuper) {
 						var pop = Popuper({
 							wrap:cover,
 							confirm:function () {
+							},
+							cancel:function () {
+								
 							}
 						})
 					}
@@ -84,24 +87,46 @@ define(['utils','app/poper'],function (Utils,popuper) {
 						'paper[title]':title,
 						'paper[content]':content
 					}
-					console.log(data);
+					
 					Utils.ajax({
 						url:'/indexPost',
 						method:'post',
 						data:data,
 						async:true,
 						success:function (results) {
-							console.log(results)
-							var data = JSON.parse(results).success;
-							if (data.success === 1) {
+							var data = JSON.parse(results).data || {};
+							console.log(data);
+							if (data._id) {
 								var middle = document.querySelector('.middle');
 								var middleNodes = middle.childNodes;
-								for(var i = 0;i < middleNodes.length; i++){
+								var panels = [];
+								for(var i = 0;i < middleNodes.length; i++){										
 									if (middleNodes[i].className === 'panel' && middleNodes[i].nodeType === 1) {
-										console.log(middleNodes[i])
+										panels.push(middleNodes[i]);
 									}
 								}
+								var panel = document.createElement('DIV');
+								panel.className = 'panel'
+								panel.innerHTML = '<div class="panel-heading"><a href="/user?name=' + data.author +'"><img src="/images/headImg.png" alt="" style="width: 40px;height: 40px;">@'+ data.author +'&nbsp;&nbsp;</a><a href="/paper/'+ data._id +'" class="title middle-title shake shake-rotate">'+ data.title +'&nbsp;&nbsp;</a><span class="middle-title">'+ moment(new Date()).format('YYYY-MM-DD HH:mm')+'</span></div><div class="panel-body"><p>'+ data.content +'</p><p>&nbsp;&nbsp; <i class="fa fa-eye"></i>&nbsp;&nbsp;&nbsp;<a href="/paper/'+ data._id +'/#comments"><i class="fa fa-comments"></i></a></p></div>'
+								// 转换类数组对象为数组
+								var panelsArray = Array.prototype.slice.call(panels);
+								middle.insertBefore(panel,panelsArray[0])
+									// console.log(panelsArray[0])
+							}else if (data === 1) {
+								var titleError = document.getElementById('titleError');
+								// 标题重复弹窗
+								var popFail = Popuper({
+									wrap:titleError,
+									effect:'bottom',
+									confirm:function () {
+										
+									},
+									cancel:function () {
+										
+									}
+								})
 							}
+							
 						}
 					})
 				},

@@ -1,3 +1,4 @@
+
 <% if(notices){notices.forEach(function(notice,index){%>  
 <div class="panel panel-default ">
   <div class="panel-body">
@@ -12,8 +13,15 @@
 <% })} %>  
 <div class="panel panel-default">
   <div class="panel-body">
-    <h1>广告</h1>
-    Panel content
+    <div class="ad-slide" id="adSlide">
+        <div class="ad-slide-bd">
+            <ul>
+                <li><a href="#1"><img src="images/a1.png" alt=""/></a></li>
+                <li><a href="#2"><img src="images/a2.png" alt=""/></a></li>
+                <li><a href="#3"><img src="images/a3.png" alt=""/></a></li>
+            </ul>
+        </div>
+    </div>
   </div>
   <div class="panel-footer">在nljshoxbb上投放广告</div>
 </div>

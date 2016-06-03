@@ -20,8 +20,7 @@
           <li class="shake shake-little" ><a href="/"><i class="fa fa-home"></i>主页</a></li>
           <!-- 用户登录后才显示发表和上传菜单 -->
           <% if(user) { %>
-            <li id="" class="shake shake-rotate"><a href="/post"><i class="fa fa-pencil-square-o"></i>吐槽</a></li>
-            <!-- <li><a href="/upload">上传</a></li> -->
+            <li id="" class="shake shake-rotate"><a href="/post"><i class="fa fa-pencil-square-o"></i>写文章</a></li>
             <li class="shake shake-rotate" ><a href="#"><i class="fa fa-envelope-o"></i>通知</a></li>
             <li class="shake shake-crazy"><a href="/logout">退出</a></li>
             <% if(user.role>=50){%>

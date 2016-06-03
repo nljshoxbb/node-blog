@@ -8,7 +8,7 @@
 	<div class="dashboard-bg"></div>
 	<div class="dashboard-content">
 		<div class="dashboard-avatar">
-			<a href="javascript:;"><img src="/images/headImg.png" alt=""></a>
+			<a href="/user?name=<%=user.name%>"><img src="/images/headImg.png" alt=""></a>
 		</div>
 		<div class="dashboard-username">
 			<a href="/user?name=<%=user.name%>"><%=user.name %></a>
@@ -16,8 +16,8 @@
 		<ul class="dashboard-user-detail">
 			<li>
 				<a href="#">
-					<span>吐槽数</span>
-					<span class="dashboard-user-detail-n">0</span>
+					<span>文章数</span>
+					<span class="dashboard-user-detail-n"><%= paperCount %></span>
 				</a>
 			</li>
 			<li>

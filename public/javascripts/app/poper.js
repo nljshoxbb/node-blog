@@ -25,9 +25,9 @@ define(['utils'],function (Utils) {
                     return;
                 }
 
-                var _this = this,
+                var _this   = this,
                     confirm = this.container.querySelector('.confirm'),
-                    cancel = this.container.querySelector('.cancel');
+                    cancel  = this.container.querySelector('.cancel');
 
                 this.build();
 
@@ -60,6 +60,7 @@ define(['utils'],function (Utils) {
                 this.toggle();
                 return this;
             },
+            // 初始化构建
             build:function () {
                 Utils.setStyle(this.container,{
                   'transition-duration':this.speed,
@@ -93,7 +94,7 @@ define(['utils'],function (Utils) {
                         })
                 }
             },
-
+            // 显示控制
             show: function () {
                 var _this = this;
                 Utils.setStyle(this.container,{
@@ -102,7 +103,7 @@ define(['utils'],function (Utils) {
                     'display':'block'
                 })
                 this.status = true;
-                this.width = this.wrap.clientWidth;
+                this.width  = this.wrap.clientWidth;
                 this.height = this.wrap.clientHeight;
                 Utils.setStyle(this.wrap,{
                     'transform':'translate(0,0)',
@@ -114,7 +115,7 @@ define(['utils'],function (Utils) {
 
                 return this;
             },
-
+            // 隐藏控制
             hide: function () {
                 Utils.setStyle(this.container,{
                     'display':'none',

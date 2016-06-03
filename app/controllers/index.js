@@ -11,7 +11,6 @@ var mongoose = require('mongoose'),
  */
 exports.showIndex = function (req,res) {
 	var totalpaper = 0;
-
 	// 获取所有文章数
 	Paper.find({}).sort('-meta.createAt').exec(function (err,papers) {
 		if (papers.length % config.index_paper_count !=0 ) {
@@ -19,6 +18,17 @@ exports.showIndex = function (req,res) {
 		}else{
 			totalpaper = parseInt(papers.length / config.index_paper_count);
 		}
+	})
+	var userTotopaper = 0;
+	var paperCount = 0;
+	// 获取个人文章数
+	Paper.find({author:req.session.user.name},function (err,papers) {
+	  if (papers.length % config.user_paper_count != 0) {
+	    userTotopaper = parseInt(papers.length / config.user_paper_count)+1;
+	  }else{
+	    userTotopaper = parseInt(papers.length / config.user_paper_count);
+	  }
+	  paperCount = parseInt(papers.length)
 	})
 	var page = 1;
 	if (req.query.page) {
@@ -48,7 +58,8 @@ exports.showIndex = function (req,res) {
 			isLast:page == totalpaper,
 			pagenow:page,
 			notices:notices,
-			paper:{}
+			paper:{},
+			paperCount:paperCount
 
 			})
 		})

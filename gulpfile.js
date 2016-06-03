@@ -1,16 +1,17 @@
 'use strict';
 
-var gulp = require('gulp');
+var gulp        = require('gulp');
 var browserSync = require('browser-sync');
-var reload = browserSync.reload;
-var sass = require('gulp-sass');
-var prefix = require('gulp-autoprefixer');
-var nodemon = require('gulp-nodemon');
-var sourcemaps = require('gulp-sourcemaps');
-var ejs = require('gulp-ejs');
-// var stylus = require('gulp-stylus');
-// var rename = require('gulp-rename');
-var del = require('del');
+var reload      = browserSync.reload;
+var sass        = require('gulp-sass');
+var prefix      = require('gulp-autoprefixer');
+var nodemon     = require('gulp-nodemon');
+var sourcemaps  = require('gulp-sourcemaps');
+var ejs         = require('gulp-ejs');
+var uglify      =require('gulp-uglify');
+var cssmin      =require('gulp-minify-css');
+var rename      = require('gulp-rename');
+var del         = require('del');
 
 //dev task start
 //DONE can not compile the sass or less file
@@ -22,8 +23,18 @@ gulp.task('sass', function () {
     .pipe(prefix('last 2 versions', '> 1%', 'ie 8', 'Android 2'))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./public/css'))
+    .pipe(cssmin())
+    // .pipe(rename({suffix:'.min'}))
+    .pipe(gulp.dest('./public/dist/css'))
     .pipe(reload({stream: true}));
 });
+
+gulp.task('jsmin',function () {
+  gulp.src('./public/javascripts/**/*.js')
+  .pipe(uglify())
+  // .pipe(rename({suffix:'.min'}))
+  .pipe(gulp.dest('./public/dist/js'))
+})
 
 gulp.task('browser-sync', ['nodemon'], function () {
   browserSync.init(null, {
@@ -81,6 +92,6 @@ gulp.task('ejs', function () {
 
 gulp.task('dist', ['clean', 'copy', 'ejs']);
 
-gulp.task('default', ['browser-sync', 'sass', 'movesub'], function () {
+gulp.task('default', ['browser-sync','jsmin','sass', 'movesub'], function () {
   gulp.watch(['public/sass/**/*.*'], ['sass']);
 });

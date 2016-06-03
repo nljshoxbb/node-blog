@@ -3,4 +3,23 @@
 		color: $title-color;
 		margin-top: 0px;
 	}
+	.ad-slide{
+	    position: relative;
+	    height:150px;
+	    width: 250px;
+	    margin: 0 auto;
+	    .ad-slide-bd ul{
+	    	list-style: none;	
+	    	padding: 0;
+	    }
+		.ad-slide-bd li{
+			float: left;
+			cursor: none;
+			list-style: none;
+			img{
+				width: 250px;
+				height: 150px;
+			}
+		}
+	}
 }

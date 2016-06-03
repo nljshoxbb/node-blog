@@ -13,6 +13,7 @@ require.config({
 			deps:['jquery'],
 			exports:'bootstrap'
 		},
+		// 插件依赖
 		validate:{
 			deps:['jquery'],
 			exports:'validate'
@@ -52,16 +53,14 @@ require(['jquery',
 			width:'100%',
 			afterBlur: function(){this.sync();},
 			items : [
-			'source', '|', 'undo', 'redo', '|', 'preview', 'code', 'cut', 'copy', 'paste','plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright','justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
-        	'superscript', 'clearhtml', 'selectall', '|', 'fullscreen', '/',
+			'undo', 'redo', '|', 'preview', 'code', 'cut', '|', 'justifyleft', 'justifycenter', 'justifyright','justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', '|', 'fullscreen', '/',
         	'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
         	'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 
-        	'insertfile', 'table', 'hr', 'emoticons', 'baidumap', 'pagebreak',
-        	'anchor', 'link']
+        	'insertfile', 'table', 'hr', 'emoticons', 'baidumap']
 		});
 
 		/**
-		 * 配置登录页面背景轮播控制器
+		 * 轮播控制器
 		 * @type {[type]}
 		 */
 		if (document.getElementById('slide')) {
@@ -71,6 +70,22 @@ require(['jquery',
 			    duration: 5000,
 			    speed: 600,
 			    effect: 'fade',
+			    isAutoPlay: true,
+			    trigger: 'click',
+			    pagination: false,
+			    navigation: false,
+			    pauseOnHover: false
+			});
+		}
+
+		if (document.getElementById('adSlide')) {
+			var adSlide = document.getElementById('adSlide');
+			console.log(adSlide)
+			var ad = Slider({
+			    dom: adSlide,
+			    duration: 5000,
+			    speed: 600,
+			    effect: 'left',
 			    isAutoPlay: true,
 			    trigger: 'click',
 			    pagination: false,
@@ -97,7 +112,7 @@ require(['jquery',
 							
 						}
 					}
-				}else if (target.tagName.toUpperCase() === 'P') {
+				}else if (target.tagName.toUpperCase() === 'P'|| target.className === 'panel-body') {
 					var panel = target.parentNode.parentNode;
 					var pHeading = panel.firstChild.nextSibling;
 					console.log(pHeading)
@@ -109,6 +124,25 @@ require(['jquery',
 					
 				}
 			})
+		}
+		
+		// 
+		if (document.getElementById('postArticle')) {
+			window.onscroll = function () {
+				var postArticle = document.getElementById('postArticle');
+				var top = document.documentElement.scrollTop || document.body.scrollTop,
+					offsetTop = postArticle.offsetTop,
+					height = postArticle.offsetHeight,
+					left = postArticle.offsetLeft;
+
+				if (top>offsetTop && top<offsetTop+height) {
+					postArticle.style.position = 'fixed';
+					postArticle.style.top='0px';
+					// postArticle.style.left = left + 'px';
+				}else{
+					postArticle.style.position = 'relative';
+				}
+			}
 		}
 		
 	})

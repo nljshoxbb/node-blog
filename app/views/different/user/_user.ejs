@@ -9,7 +9,7 @@
 		<div class="col-md-1 profile-name">@<%= user.name %></div>
 			<div class="col-md-4 profile-navbar-items">
 				<ul>
-					<li><a href="#"><span>吐槽</span><span>0</span></a></li>
+					<li><a href="#"><span>文章</span><span><%= paperCount %></span></a></li>
 					<li><a href="#"><span>喜欢</span><span>0</span></a></li>
 					<li><a href="#"><span>关注</span><span>0</span></a></li>
 				</ul>
@@ -26,7 +26,7 @@
 		<div class="user-paper-list col-md-7 col-md-offset-2">
 			<div class="panel">
 				<div class="panel-heading">
-				<h4>吐槽记录</h4>
+				<h4>个人发表文章记录</h4>
 				</div>
 			</div>
 			<% if(papers){ 
@@ -76,7 +76,7 @@
 			<h3>警告</h3>
 		</header>
 		<section class="pop-content">
-			<p>确定要删除此条吐槽吗</p>
+			<p>确定要删除此文章吗</p>
 		</section>
 		<section class="pop-control">
 			<input type="button" class="confirm" value="确定">

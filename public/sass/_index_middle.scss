@@ -3,12 +3,21 @@
 	position: relative;
 }
 .middle{
+	.postArticle{
+		background-color: $main-color;
+		color: #fff;
+		@include trans(.3s);
+		&:hover{
+			background-color: $sm-color;
+		}
+	}
 	.panel{
 		border: 1px solid $border-color;
 		border-bottom: none;
 		border-radius: 5px;
 		margin-bottom: 0;
 		@include trans(.4s);
+		
 		.panel-heading{
 			border-bottom: none;
 			a{
@@ -24,6 +33,7 @@
 			.middle-title{
 				font-size: 14px;
 				color: rgb(136, 153, 166);
+
 
 			}
 		}
@@ -68,7 +78,7 @@
 			background-color: #fff;
 			
 		}
-
+		
 		&:hover{
 			border-top: 1px solid $sm-color;
 			cursor: pointer;

@@ -108,7 +108,8 @@
 			// 遍历出每一个元素获取相应样式
 			this.each(elem,function (e) {
 				_this.setStyle(e,styleName,styleValue);
-			})
+			});
+			return;
 		}
 		// 如果styleName传入为对象
 		if (this.isObject(styleName)) {
@@ -125,7 +126,7 @@
 			}
 			return;
 		}
-		if (this,isString(styleName)) {
+		if (this.isString(styleName)) {
 			styleName = this.getVendorPropertyName(styleName);
 			// 赋值给相应的样式
 			elem.style[styleName] = styleValue;
@@ -392,6 +393,71 @@
 				node.parentNode.removeChild(node);
 			}
 		}
+	}
+
+	Utils.text = function (element,text) {
+		if (this.isString(text)) {
+			if (typeof element.textContent == 'string') {
+				// ie
+				element.textContent = text;
+			}else{
+				element.innerText = text;
+			}
+		}
+	}
+
+	Utils.animate = function (obj, json, times, fx, fn) {
+	    var tween = {
+	        linear: function (t, b, c, d) {  //匀速
+	            return c * t / d + b;
+	        },
+	        easeIn: function (t, b, c, d) {  //加速曲线
+	            return c * (t /= d) * t + b;
+	        },
+	        easeOut: function (t, b, c, d) {  //减速曲线
+	            return -c * (t /= d) * (t - 2) + b;
+	        }
+	    };
+	    var This = this;
+	    var iCur = {};
+	    var startTime = now();
+
+	    for (var attr in json) {
+	        iCur[attr] = 0;
+	        if (attr == 'opacity') {
+	            iCur[attr] = Math.round(Utils.getStyle(obj, attr) * 100);
+	        }
+	        else {
+	            iCur[attr] = parseInt(Utils.getStyle(obj, attr));
+	        }
+	    }
+	    clearInterval(obj.timer);
+	    obj.timer = setInterval(function () {
+	        var changeTime = now();
+	        var scale = 1 - Math.max(0, startTime - changeTime + times) / times; //1000 - 0  ->  1 - 0  -> 0 - 1
+
+	        for (var attr in json) {
+	            var value = tween[fx](scale * times, iCur[attr], json[attr] - iCur[attr], times);
+
+	            if (attr == 'opacity') {
+	                obj.style.filter = 'alpha(opacity=' + value + ')';
+	                obj.style.opacity = value / 100;
+	            }
+	            else {
+	                obj.style[attr] = value + 'px';
+	            }
+	        }
+
+	        if (scale == 1) {
+	            clearInterval(obj.timer);
+	            if (fn) {
+	                fn.call(obj);
+	            }
+	        }
+	    }, 13);
+	    function now() {
+	        return (new Date()).getTime();
+	    }
 	}
 
 

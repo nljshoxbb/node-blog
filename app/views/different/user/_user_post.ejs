@@ -1,16 +1,13 @@
 <div class="user-post container">
 	<form class="form-horizontal" method="post" enctype="multipart/form-data">
-		<% if(paper._id){ %>
-		<input type="hidden" name="paper[_id]" class="form-control" value=paper._id>
-		<% } %>
 		<div class="form-group">
-			<label for="inputTitle" class="col-md-1 col-sm-6 col-md-offset-2 control-label">槽点</label>
+			<label for="inputTitle" class="col-md-1 col-md-offset-2 control-label">标题</label>
 			<div class="col-md-3">
-				<input type="text" name="paper[title]" class="input-title form-control" id="inputTitle" placeholder="请吐槽" required>
+				<input type="text" name="paper[title]" class="input-title form-control" id="inputTitle" placeholder="标题请勿重复" required>
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="uploadImage" class="col-md-1 col-sm-6 col-md-offset-2 control-label"></label>
+			<label for="uploadImage" class="col-md-1  col-md-offset-2 control-label"></label>
 			<div class="col-md-2">
 			<a class="upload-image" href="#">图片上传<input type="file" id="uploadImage"  name="uploadImage"></a>
 			</div>

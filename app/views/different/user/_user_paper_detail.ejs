@@ -16,7 +16,7 @@
 				  <div class="panel-footer">
 				  	<% if(user){ %>
 				  	  <% if(user.name == paper.author){ %>
-				  	  	<a href="/edit?author=<%= paper.author %>&title=<%= paper.title %>"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>&nbsp;&nbsp;
+				  	  	<!-- <a href="/edit?author=<%= paper.author %>&title=<%= paper.title %>"><i class="fa fa-pencil-square-o"></i>&nbsp;编辑</a>&nbsp;&nbsp; -->
 				  	  	<a href="/user/paper/delete?author=<%= paper.author %>&title=<%= paper.title %>"  title="删除"><i class="fa fa-trash"></i>&nbsp;删除</a>
 				  	  <% }else{ %>
 				  	  	 <a href="/reprint?title=<%=paper.title%>&author=<%=paper.author%>"><i class="fa fa-share"></i>分享</a>
@@ -122,7 +122,7 @@
 						<h3>警告</h3>
 					</header>
 					<section class="pop-content">
-						<p>确定要删除此条吐槽吗</p>
+						<p>确定要删除此文章吗</p>
 					</section>
 					<section class="pop-control">
 						<input type="button" class="confirm" value="确定">

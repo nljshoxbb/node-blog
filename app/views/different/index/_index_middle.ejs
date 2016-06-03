@@ -1,7 +1,8 @@
 <div class="middle">
-	<% if(user){ %>
-		<button type="submit" id="postArticle" class="btn btn-primary">去吐槽</button>
-	<% } %>
+
+<% if(user){ %>
+  <p><button type="submit" id="postArticle" class=" postArticle btn">快速发布</button></p>
+<% } %>
 <% if(papers){
 papers.forEach(function(paper,index) { %>
 	<div class="panel">
@@ -30,7 +31,7 @@ papers.forEach(function(paper,index) { %>
 <div class="popuper">
 	<div class="pop-wrap">
 		<header class="pop-header">
-			<h3>吐槽</h3>
+			<h3>发布文章(暂不支持图片上传)</h3>
 		</header>
 		<section class="pop-content">
 			<div class="user-post">
@@ -46,6 +47,20 @@ papers.forEach(function(paper,index) { %>
 					</form>
 				</div>
 			</div>
+		</section>
+		<section class="pop-control">
+			<input type="button" class="confirm" value="确定">
+			<input type="button" class="cancel" value="取消">
+		</section>
+	</div>
+</div>
+<div id="titleError" class="popuper">
+	<div class="pop-wrap">
+		<header class="pop-header">
+			<h3>警告</h3>
+		</header>
+		<section class="pop-content">
+			<p>标题重复</p>
 		</section>
 		<section class="pop-control">
 			<input type="button" class="confirm" value="确定">

@@ -329,7 +329,7 @@ exports.post = function(req,res) {
       }
       if (_paper) {
         console.log('文章标题已存在');
-        res.json({success:1});
+        res.json({fail:1});
       }else {
         // 创建一个新文章数据
         var newPaper = new Paper(paperObj);
@@ -348,28 +348,30 @@ exports.post = function(req,res) {
 };
 
 exports.indexPost = function (req,res) {
-	var paper  = req.body.paper,
+	var _paper  = req.body.paper,
 		user   = req.session.user;
 
-	paper.author = user.name;
-	console.log(paper)
-	if (paper.title) {
-		Paper.findOne({title:paper.title},function (err,_paper) {
+	_paper.author = user.name;
+	console.log(_paper)
+	if (_paper.title) {
+		Paper.findOne({title:_paper.title},function (err,papers) {
 			if (err) {
 				console.log(err);
 				return;
 			}
-			if (_paper) {
+			if (papers) {
 				console.log('文章标题已存在');
-				res.json({fail:1})
+				res.json({data:1})
 			}else{
-				var newPaper = new Paper(paper);
-				newPaper.save(function (err,_newPaper) {
+				var newPaper = new Paper(_paper);
+				newPaper.save(function (err,paper) {
 					if (err) {
 						console.log(err);
 						return;
 					}
-					res.json({success:1});
+					Paper.findOne({_id:paper._id}).exec(function (err,paper) {
+						res.json({data:paper})
+					})
 				})
 			}
 		})

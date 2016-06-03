@@ -33,7 +33,9 @@ $bg-color:#f5f8fa;
 $title-color:#66757f;
 $border-color:#dddddd;
 
-
+body{
+	background-color: $bg-color;
+}
 
 // ==========     ==========//
 .fl{
