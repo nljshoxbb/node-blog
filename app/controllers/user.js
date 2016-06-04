@@ -144,7 +144,7 @@ exports.signin = function(req, res) {
     if (!user) {
       return res.json({data: 0}); // 用户不存在
     } else {
-      if (!user.active) {
+      if (user.active) {
         // 使用user实例方法对用户名密码进行比较
         user.comparePassword(_user.password, function(err, isMatch) {
           if (err) {

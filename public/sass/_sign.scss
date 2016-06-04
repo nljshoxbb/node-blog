@@ -76,7 +76,10 @@
 			background-color: $sm-color;
 		}
 	}
-
+	.signin-msg{
+		position: absolute;
+		top: 125px;
+	}
 }
 .form-signup{
 	position: absolute;

@@ -22,14 +22,17 @@ exports.showIndex = function (req,res) {
 	var userTotopaper = 0;
 	var paperCount = 0;
 	// 获取个人文章数
-	Paper.find({author:req.session.user.name},function (err,papers) {
-	  if (papers.length % config.user_paper_count != 0) {
-	    userTotopaper = parseInt(papers.length / config.user_paper_count)+1;
-	  }else{
-	    userTotopaper = parseInt(papers.length / config.user_paper_count);
-	  }
-	  paperCount = parseInt(papers.length)
-	})
+	if (req.session.user) {
+		Paper.find({author:req.session.user.name},function (err,papers) {
+		  if (papers.length % config.user_paper_count != 0) {
+		    userTotopaper = parseInt(papers.length / config.user_paper_count)+1;
+		  }else{
+		    userTotopaper = parseInt(papers.length / config.user_paper_count);
+		  }
+		  paperCount = parseInt(papers.length)
+		})
+	}
+	
 	var page = 1;
 	if (req.query.page) {
 		page = req.query.page;

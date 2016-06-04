@@ -5,13 +5,14 @@
 		}else{
 			url = 'imgs/logo.jpg';
 		}%>
+
 	<div class="dashboard-bg"></div>
 	<div class="dashboard-content">
 		<div class="dashboard-avatar">
 			<a href="/user?name=<%=user.name%>"><img src="/images/headImg.png" alt=""></a>
 		</div>
 		<div class="dashboard-username">
-			<a href="/user?name=<%=user.name%>"><%=user.name %></a>
+			<a href="/user?name=<%= user.name %>"><%=user.name %></a>
 		</div>
 		<ul class="dashboard-user-detail">
 			<li>

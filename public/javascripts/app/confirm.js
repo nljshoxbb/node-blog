@@ -6,7 +6,7 @@
  * @return {[type]}          [description]
  */
 
-define(['utils','app/poper','moment'],function (Utils,popuper,moment) {
+define(['utils','app/poper','moment','kindeditor/kindeditor-all-min'],function (Utils,popuper,moment,kindeditor) {
 	
 	// 删除文章弹窗
 	if (document.querySelector('.user-paper-list')) {
@@ -87,7 +87,8 @@ define(['utils','app/poper','moment'],function (Utils,popuper,moment) {
 						'paper[title]':title,
 						'paper[content]':content
 					}
-					
+					title = '';
+					KindEditor.instances[0].html("");
 					Utils.ajax({
 						url:'/indexPost',
 						method:'post',
