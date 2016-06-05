@@ -3,18 +3,25 @@
 	.panel{
 		border: 1px solid $border-color;
 		border-radius: 3px;
-	}
-	.panel-footer{
-		background-color: $main-color;
-		a{
-			color: #fff;
-			text-decoration: none;
-			@include trans(.2s);
-			&:hover{
-				color: $sm-color;
+		.panel-body{
+			.img-thumbnail{
+				display: table;
+				margin: 0 auto;
+			}
+		}
+		.panel-footer{
+			background-color: $main-color;
+			a{
+				color: #fff;
+				text-decoration: none;
+				@include trans(.2s);
+				&:hover{
+					color: $sm-color;
+				}
 			}
 		}
 	}
+	// 评论内容
 	.detaile-content{
 		a{
 			color:$main-color;
@@ -30,5 +37,6 @@
 				}
 			}
 		}
+
 	}
 }

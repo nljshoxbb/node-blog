@@ -21,5 +21,24 @@
 				height: 150px;
 			}
 		}
+		.slide-prev-btn,
+		.slide-next-btn{
+			position: absolute;
+			top: 40%;
+			width: 40px;
+			height: 25px;
+			background-color: rgba(0,0,0,.6);
+			color: #fff;
+			text-align: center;
+			line-height: 25px;
+			cursor: pointer;
+			z-index: 10;
+		}
+		.slide-prev-btn{
+		    left: 0;
+		}
+		.slide-next-btn{
+		    right: 0;
+		}
 	}
 }

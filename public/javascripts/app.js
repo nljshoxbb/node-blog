@@ -53,7 +53,7 @@ require(['jquery',
 			width:'100%',
 			afterBlur: function(){this.sync();},
 			items : [
-			'undo', 'redo', '|', 'preview', 'code', 'cut', '|', 'justifyleft', 'justifycenter', 'justifyright','justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', '|', 'fullscreen', '/',
+			'undo', 'redo', '|', 'preview', 'code', 'cut', '|', 'justifyleft', 'justifycenter', 'justifyright','justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', '|', 'fullscreen', 
         	'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
         	'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 
         	'insertfile', 'table', 'hr', 'emoticons', 'baidumap']
@@ -89,20 +89,20 @@ require(['jquery',
 			    isAutoPlay: true,
 			    trigger: 'click',
 			    pagination: false,
-			    navigation: false,
-			    pauseOnHover: false
+			    navigation: true,
+			    pauseOnHover: true
 			});
 		}
 
 		/**
 		 * 设置首页点击文章跳转到文章详细页面
 		 */
-		if (document.querySelector('.middle')) {
-			var middle = document.querySelector('.middle');
+
+		function clickInto(class) {
+			var middle = document.querySelector(class);
 			Utils.addEvent(middle,'click',function (event) {
 				var event  = window.event || event;
 				var target = event.target || event.srcElement;
-				
 				if ((target.nodeType === 1) && (target.className === 'panel-heading')) {
 					var panelNode = target.childNodes;
 					var len       = panelNode.length;
@@ -123,24 +123,31 @@ require(['jquery',
 					}
 					
 				}
+
 			})
 		}
-		
-		// fixed 发布按钮
-		if (document.getElementById('postArticle')) {
-			window.onscroll = function () {
-				var postArticle = document.getElementById('postArticle');
-				var top = document.documentElement.scrollTop || document.body.scrollTop,
-					offsetTop = postArticle.offsetTop,
-					height = document.body.offsetHeight;
+		clickInto('.middle');
 
-				if (top>offsetTop && top<offsetTop+height) {
-					postArticle.style.position = 'fixed';
-					postArticle.style.top='0px';
-				}else{
-					postArticle.style.position = 'relative';
-				}
-			}
+		
+		function menuFixed(id){
+		    var obj = document.getElementById(id);
+		    var _getHeight = obj.offsetTop;
+		    
+		    window.onscroll = function(){
+		        changePos(id,_getHeight);
+		    }
 		}
+		function changePos(id,height){
+		    var obj = document.getElementById(id);
+		    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+		    if(scrollTop < height){
+		        obj.style.position = 'relative';
+		        obj.style.opacity = 0;
+		    }else{
+		        obj.style.position = 'fixed';
+		        obj.style.opacity = 1;
+		    }
+		}
+		menuFixed('postArticle');
 		
 	})

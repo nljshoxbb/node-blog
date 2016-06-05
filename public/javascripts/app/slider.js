@@ -1,7 +1,7 @@
 /**
  * 轮播插件
  * 依赖utils模块
- * 不兼容ie8以下
+ * 
  */
 define(['utils'],function (Utils) {
     (function (window,document) {
@@ -36,12 +36,6 @@ define(['utils'],function (Utils) {
                 var lastElem = this.slideItem[this.slideItemLen - 1].cloneNode(true);
 
                 switch (this.effect) {
-                    case 'toggle':
-                        Utils.setStyle(this.slideBox, {
-                            'width': this.slideWidth + 'px',
-                            'height': this.slideHeight + 'px'
-                        });
-                        break;
                     case 'left':
                         // 第一个li前插入
                         this.slideBoxUl.insertBefore(lastElem, this.slideBoxUl.children[0]);
@@ -99,9 +93,9 @@ define(['utils'],function (Utils) {
                     var nextBtn = document.createElement('div');
 
                     prevBtn.className = 'slide-prev-btn';
-                    this.utils.text(prevBtn, 'prev');
+                    Utils.text(prevBtn, 'prev');
                     nextBtn.className = 'slide-next-btn';
-                    this.utils.text(nextBtn, 'next');
+                    Utils.text(nextBtn, 'next');
 
                     Utils.setStyle([prevBtn, nextBtn], {
                         'display': 'none'
@@ -165,13 +159,6 @@ define(['utils'],function (Utils) {
                 };
 
                 switch (this.effect) {
-                    case 'toggle':
-                        Utils.each(this.slideItem, function (item) {
-                            item.style.display = 'none';
-                        });
-                        this.slideItem[offset - 1].style.display = 'block';
-                        this.animated = false;
-                        break;
                     case 'left':
                         var offsetLeft = 0;
                         offsetLeft = parseInt(Utils.getStyle(_this.slideBoxUl, 'transform').replace(/[^0-9\-]/ig, '')) + offset;
@@ -240,9 +227,6 @@ define(['utils'],function (Utils) {
                 }
 
                 switch (this.effect) {
-                    case 'toggle':
-                        this.goTo(this.index);
-                        break;
                     case 'left':
                         this.goTo(-this.slideWidth);
                         break;
@@ -266,9 +250,6 @@ define(['utils'],function (Utils) {
                 }
 
                 switch (this.effect) {
-                    case 'toggle':
-                        this.goTo(this.index);
-                        break;
                     case 'left':
                         this.goTo(this.slideWidth);
                         break;
@@ -306,9 +287,6 @@ define(['utils'],function (Utils) {
                         var offset = 0;
 
                         switch (_this.effect) {
-                            case 'toggle':
-                                offset = myIndex;
-                                break;
                             case 'left':
                                 offset = -_this.slideWidth * (myIndex - _this.index);
                                 break;

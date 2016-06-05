@@ -32,24 +32,24 @@ define(['jquery','validate'],function (jquery,validate) {
 				rules:{
 					'name':{
 						required:true,
-						minlength:6,
+						minlength:3,
 						maxlength:12
 					},
 					'password':{
 						required:true,
-						minlength:6,
+						minlength:3,
 						maxlength:15
 					}
 				},
 				messages:{
 					'name':{
 						required:'必须填写用户名',
-						minlength:'用户名最小6位',
+						minlength:'用户名最小3位',
 						maxlength:'用户名最大12位'
 					},
 					'password':{
 						required:'必须填写密码',
-						minlength:'密码最小6位',
+						minlength:'密码最小3位',
 						maxlength:'密码最大15位'
 					}
 				},
@@ -95,12 +95,12 @@ define(['jquery','validate'],function (jquery,validate) {
 				rules:{
 					'name':{
 						required:true,
-						minlength:6,
+						minlength:3,
 						maxlength:12
 					},
 					'password':{
 						required:true,
-						minlength:6,
+						minlength:3,
 						maxlength:15
 					},
 					'confirm-password':{
@@ -111,12 +111,12 @@ define(['jquery','validate'],function (jquery,validate) {
 				messages:{
 					'name':{
 						required:'必须填写用户名',
-						minlength:'用户名最小6位',
+						minlength:'用户名最小3位',
 						maxlength:'用户名最大12位'
 					},
 					'password':{
 						required:'必须填写密码',
-						minlength:'密码最小6位',
+						minlength:'密码最小3位',
 						maxlength:'密码最大15位'
 					},
 					'confirm-password':'两次输入的密码不相同',

@@ -2,21 +2,27 @@
 	margin-top: 20px;
 	position: relative;
 }
-.middle{
-	.postArticle{
-		background-color: $main-color;
+.postArticle{
+	opacity: 0;
+	margin: 0 5px;
+	top: 0;
+	z-index: 5;
+	background-color: $main-color;
+	color: #fff;
+	@include trans(.3s);
+	&:hover{
 		color: #fff;
-		@include trans(.3s);
-		&:hover{
-			background-color: $sm-color;
-		}
+		background-color: $sm-color;
 	}
+}
+.middle{
+
 	.panel{
 		border: 1px solid $border-color;
 		border-bottom: none;
 		border-radius: 5px;
 		margin-bottom: 0;
-		@include trans(.4s);
+		@include trans(.2s);
 		
 		.panel-heading{
 			border-bottom: none;

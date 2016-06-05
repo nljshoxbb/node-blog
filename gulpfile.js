@@ -30,10 +30,11 @@ gulp.task('sass', function () {
 });
 
 gulp.task('jsmin',function () {
-  gulp.src('./public/javascripts/**/*.js')
+  return gulp.src('./public/javascripts/**/*.js')
   .pipe(uglify())
   // .pipe(rename({suffix:'.min'}))
   .pipe(gulp.dest('./public/dist/js'))
+  .pipe(reload({stream: true}));
 })
 
 gulp.task('browser-sync', ['nodemon'], function () {

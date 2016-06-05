@@ -11,7 +11,7 @@
 			padding-top: 20px;
 		}
 		&:nth-of-type(2){
-			font-size: 25px;	
+			font-size: 25px;
 			margin-bottom: 0;
 			a{
 				color: #fff;
@@ -26,7 +26,10 @@
 		text-align: center;
 		p{
 			font-size: 16px;
-			color: $sm-color;
+			color: #fff;
+			b{
+				color: #99be4f;
+			}
 		}
 	}
 }
