@@ -183,7 +183,7 @@ define(['utils', 'moment', 'app/poper', 'kindeditor/kindeditor-all-min'], functi
               var media = document.createElement('LI');
               var m     = media.nextSbiling;
               media.setAttribute('class', 'media');
-              media.innerHTML = '<div class="media-left"><img src="/images/headImg.png" style="width:40px;height:40px;"/></div><div class="media-body"><h4 class="media-heading">' + data.from.name + '</h4><p>' + data.content + '</p><span class="createAt">' + moment(new Date()).format('MM-DD HH:mm') + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<a class="comment" href="#comments" data-cid=' + data._id + ' data-tid=' + data.from._id + '>回复</a>&nbsp;|&nbsp;<a class="comment-del" href="javascript:;" data-cid=' + data._id + '><i class="fa fa-trash"></i>&nbsp;删除</a></div><hr>'
+              media.innerHTML = '<hr><div class="media-left"><img src="/images/headImg.png" style="width:40px;height:40px;"/></div><div class="media-body"><h4 class="media-heading">' + data.from.name + '</h4><p>' + data.content + '</p><span class="createAt">' + moment(new Date()).format('MM-DD HH:mm') + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<a class="comment" href="#comments" data-cid=' + data._id + ' data-tid=' + data.from._id + '>回复</a>&nbsp;|&nbsp;<a class="comment-del" href="javascript:;" data-cid=' + data._id + '><i class="fa fa-trash"></i>&nbsp;删除</a></div>'
               mediaList.appendChild(media);
               content.value = '';
               KindEditor.instances[0].html("")

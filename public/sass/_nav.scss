@@ -6,9 +6,9 @@
 		margin-top: 0;
 		.navbar-brand{
 			font:italic bold 40px/20px Arial;
-			color: $main-color;
+			color: $logo-color;
 			span{
-				color: $sm-color;
+				color: $logo-span-color;
 			}
 		}
 		.navbar-collapse{

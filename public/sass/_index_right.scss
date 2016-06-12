@@ -1,3 +1,4 @@
+/* 右侧样式 */
 .panel{
 	h3{
 		color: $title-color;
@@ -40,5 +41,9 @@
 		.slide-next-btn{
 		    right: 0;
 		}
+	}
+	.panel-footer{
+		background-color: $main-color;
+		color: #fff;
 	}
 }

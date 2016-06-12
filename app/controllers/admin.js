@@ -74,17 +74,35 @@ exports.noticeList = function (req,res) {
 }
 
 // 删除公告
-exports.deleteNotice=function(req,res){
-  Notice.findOneAndRemove({
-    title:req.query.title,
-  },function(err,notice){
-    if(err){
-      return;
-    }
-    if(notice){
-      res.redirect('/admin')
-    }
-  })
+// exports.deleteNotice=function(req,res){
+//   Notice.findOneAndRemove({
+//     title:req.query.title,
+//   },function(err,notice){
+//     if(err){
+//       return;
+//     }
+//     if(notice){
+//       res.redirect('/admin')
+//     }
+//   })
+// }
+// 删除公告
+exports.deleteNotice = function(req, res) {
+  // 获取客户端ajax发送的url值中的id
+  var id = req.query.id
+  if (id) {
+    // 如果id存在则服务器中将该条数据删除并返回删除成功的json数据
+    Notice.remove({
+      _id: id
+    }, function(err) {
+      if (err) {
+        console.log(err);
+      }
+      res.json({
+        success: 1
+      }); //删除成功
+    })
+  }
 }
 
 // 删除全部文章

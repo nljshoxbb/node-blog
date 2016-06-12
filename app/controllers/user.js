@@ -33,7 +33,7 @@ exports.getUser = function function_name(req,res) {
     }
     page = parseInt(page);
     var papers;
-    Paper.find({author:req.session.user.name},null,{skip:(page-1)*config.user_paper_count,limit:config.user_paper_count},function (err,papers) {
+    Paper.find({author:req.session.user.name},null,{skip:(page-1)*config.user_paper_count,limit:config.user_paper_count}).sort('-meta.createAt').exec(function (err,papers) {
       if (err) {
         papers = [];
         return;

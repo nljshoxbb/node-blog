@@ -1,3 +1,4 @@
+/* 弹窗样式设置 */
 .popuper{
 	position: fixed;
 	overflow: hidden;
@@ -19,7 +20,7 @@
 	overflow: hidden;
 	z-index: 20;
 	.pop-header{
-		background-color: $sm-color;
+		background-color: $pop-color;
 		color: #fff;
 		padding: 10px;
 		h3{
@@ -31,11 +32,12 @@
 		padding: 10px 10px;
 		min-height: 100px;
 		p{
-			color: #66757f;
+			color: $logo-span-color;
 			font-size: 20px;
 			font-weight: blod;
 		}
 	}
+
 	.pop-control{
 		width: 100%;
 		text-align: right;

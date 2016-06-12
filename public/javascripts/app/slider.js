@@ -31,7 +31,7 @@ define(['utils'],function (Utils) {
                     'overflow': 'hidden'
                 });
                 
-                // 设置为 true，如果您需要克隆节点及其属性，以及后代
+                // 设置为 true,克隆节点及其属性，以及后代
                 var firstElem = this.slideItem[0].cloneNode(true);
                 var lastElem = this.slideItem[this.slideItemLen - 1].cloneNode(true);
 
@@ -336,8 +336,3 @@ define(['utils'],function (Utils) {
 
     })(window,document);
 })
-    
-
-    
-
-

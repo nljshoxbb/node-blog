@@ -14,7 +14,9 @@ var moment          = require('moment');
 var app             = express();
 var port            = config.port;
 var dbUrl           = config.dbUrl;
-
+// 反向代理
+// var httpProxy       = require('./proxy');
+// require('./proxy');
 // 连接数据库
 mongoose.connect(dbUrl);
 

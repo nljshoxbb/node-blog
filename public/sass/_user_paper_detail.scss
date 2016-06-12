@@ -23,20 +23,30 @@
 	}
 	// 评论内容
 	.detaile-content{
+		
+		background:url(images/silk_white_bg.gif) center 0 repeat;
 		a{
 			color:$main-color;
 			text-decoration: none;
 		}
-		.panel-heading{
-			button{
-				background-color: $main-color;
-				color: #fff;
-				@include trans(.2s);
-				&:hover{
-					background-color:$sm-color;
+		.panel{
+			background-color: rgba(255,255,255,0);
+
+			.panel-heading{
+				button{
+					background-color: $main-color;
+					border: none;
+					color: #fff;
+					@include trans(.2s);
+					&:hover{
+						background-color:$sm-color;
+					}
 				}
 			}
+			hr{
+				height: 1px;
+				border-top:2px dashed $dashed-color;
+			}
 		}
-
 	}
 }

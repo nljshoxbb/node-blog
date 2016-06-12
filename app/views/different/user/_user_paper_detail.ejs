@@ -43,10 +43,12 @@
 							<% if(comments) 
 								comments.forEach(function(comment){%>
 									<% if(comment.from){ %>
+										<hr>
 										<li class="media">
 											<div class="media-left">
 												<img src="/images/headImg.png" alt="" class="media-object" style="width: 40px;height: 40px;">
 											</div>
+
 											<div class="media-body">
 												<h4 class="media-heading"><%= comment.from.name %></h4>
 												<p><%- comment.content %></p>
@@ -78,7 +80,7 @@
 														</div>
 												<% }) %>
 											</div>
-										<hr>
+										
 										</li>
 									<% } %>
 							<% }) %>

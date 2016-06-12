@@ -43,7 +43,7 @@
 						<% if(paper.image){ %>
 							<img src="/upload/<%= paper.image %>" alt="<%= paper.image %>" class="img-thumbnail">
 						<% } %>
-					<div class="col-md-4 col-md-offset-2 ">
+					<p>
 						&nbsp;&nbsp; <i class="fa fa-eye"></i>
 						<%=paper.pv%>
 						&nbsp;&nbsp;
@@ -52,7 +52,7 @@
 						</a>
 						&nbsp;&nbsp;
 						<a class="uPdelete" data-id="<%- paper._id %>">删除</a>
-					</div>
+					</p>
 				</div>
 			</div>
 			<% })} %>
